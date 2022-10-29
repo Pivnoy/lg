@@ -12,6 +12,17 @@ type projectRouter struct {
 	p usecase.ProjectContract
 }
 
+type projectListResponse struct {
+	Projects []entity.Project `json:"projects"`
+}
+
+type projectRequest struct {
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	Link         string `json:"link"`
+	Presentation string `json:"presentation"`
+}
+
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	pr := &projectRouter{p: p}
 	handler.GET("/project", pr.getAllProjects)
@@ -24,11 +35,11 @@ func (pr *projectRouter) getAllProjects(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	var response []entity.Project
+	var response projectListResponse
 	if projectList != nil {
-		response = projectList
+		response.Projects = projectList
 	} else {
-		response = make([]entity.Project, 0)
+		response.Projects = make([]entity.Project, 0)
 	}
 	c.JSON(http.StatusOK, response)
 }
@@ -45,13 +56,6 @@ func (pr *projectRouter) getProjectByName(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, project)
-}
-
-type projectRequest struct {
-	Name         string `json:"name"`
-	Description  string `json:"description"`
-	Link         string `json:"link"`
-	Presentation string `json:"presentation"`
 }
 
 func (pr *projectRouter) createProject(c *gin.Context) {
