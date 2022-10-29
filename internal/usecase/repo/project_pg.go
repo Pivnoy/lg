@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -22,7 +23,7 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 
 	rows, err := p.Pool.Query(ctx, query)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
 	var projectList []entity.Project
@@ -36,7 +37,7 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 			&project.PresentationLink,
 		)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error in parsing project: %w", err)
 		}
 	}
 	return projectList, nil
@@ -47,7 +48,7 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 
 	rows, err := p.Pool.Query(ctx, query, name)
 	if err != nil {
-		return entity.Project{}, err
+		return entity.Project{}, fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
 	project := entity.Project{}
@@ -60,7 +61,7 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 			&project.PresentationLink,
 		)
 		if err != nil {
-			return entity.Project{}, err
+			return entity.Project{}, fmt.Errorf("error in parsing project: %w", err)
 		}
 	}
 	return project, nil
@@ -71,14 +72,14 @@ func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project)
 
 	rows, err := p.Pool.Query(ctx, query, project.ID, project.Name, project.Description, project.ProjectLink, project.PresentationLink)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
 	var name string
 	for rows.Next() {
 		err = rows.Scan(&name)
 		if err != nil {
-			return "", err
+			return "", fmt.Errorf("error in parsing name of project: %w", err)
 		}
 	}
 	return name, nil
@@ -89,7 +90,7 @@ func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project)
 
 	rows, err := p.Pool.Query(ctx, query, project.Description, project.ProjectLink, project.PresentationLink, project.Name)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
 	return nil
@@ -100,7 +101,7 @@ func (p *ProjectRepo) DeleteProject(ctx context.Context, name string) error {
 
 	rows, err := p.Pool.Query(ctx, query, name)
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
 	return nil
