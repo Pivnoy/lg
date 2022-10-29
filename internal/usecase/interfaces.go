@@ -15,4 +15,12 @@ type (
 		GetUser(context.Context, string) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
 	}
+
+	ProjectRp interface {
+		GetProjectByName(context.Context, string) (entity.Project, error)
+	}
+
+	ProjectContract interface {
+		GetProjectByName(context.Context, string) (entity.Project, error)
+	}
 )
