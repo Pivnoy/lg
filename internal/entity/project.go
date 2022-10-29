@@ -6,4 +6,5 @@ type Project struct {
 	Description      string `json:"description"`
 	ProjectLink      string `json:"link"`
 	PresentationLink string `json:"presentation"`
+	CreatorID        int64  `json:"creator_id"`
 }

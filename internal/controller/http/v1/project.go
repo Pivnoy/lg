@@ -17,16 +17,20 @@ type projectListResponse struct {
 }
 
 type projectRequest struct {
-	Name         string `json:"name"`
-	Description  string `json:"description"`
-	Link         string `json:"link"`
-	Presentation string `json:"presentation"`
+	Name             string `json:"name"`
+	Description      string `json:"description"`
+	ProjectLink      string `json:"link"`
+	PresentationLink string `json:"presentation"`
+	CreatorID        int64  `json:"creator_id"`
 }
 
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	pr := &projectRouter{p: p}
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:name", pr.getProjectByName)
+	handler.POST("/project", pr.createProject)
+	handler.PUT("/project/:name", pr.updateProject)
+	handler.DELETE("/project/:name", pr.deleteProject)
 }
 
 func (pr *projectRouter) getAllProjects(c *gin.Context) {
@@ -67,8 +71,9 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 	name, err := pr.p.CreateProject(c.Request.Context(), entity.Project{
 		Name:             req.Name,
 		Description:      req.Description,
-		ProjectLink:      req.Link,
-		PresentationLink: req.Presentation,
+		ProjectLink:      req.ProjectLink,
+		PresentationLink: req.PresentationLink,
+		CreatorID:        req.CreatorID,
 	})
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
@@ -87,8 +92,9 @@ func (pr *projectRouter) updateProject(c *gin.Context) {
 	err := pr.p.UpdateProject(c.Request.Context(), entity.Project{
 		Name:             req.Name,
 		Description:      req.Description,
-		ProjectLink:      req.Link,
-		PresentationLink: req.Presentation,
+		ProjectLink:      req.ProjectLink,
+		PresentationLink: req.PresentationLink,
+		CreatorID:        req.CreatorID,
 	})
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())

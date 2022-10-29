@@ -35,6 +35,7 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 			&project.Description,
 			&project.ProjectLink,
 			&project.PresentationLink,
+			&project.CreatorID,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("error in parsing project: %w", err)
@@ -59,6 +60,7 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 			&project.Description,
 			&project.ProjectLink,
 			&project.PresentationLink,
+			&project.CreatorID,
 		)
 		if err != nil {
 			return entity.Project{}, fmt.Errorf("error in parsing project: %w", err)
@@ -68,9 +70,9 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 }
 
 func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (string, error) {
-	query := `INSERT INTO project (id, name, description, link, presentation) VALUES ($1, $2, $3, $4, $5) RETURNING name`
+	query := `INSERT INTO project (id, name, description, project_link, presentation_link, creator_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING name`
 
-	rows, err := p.Pool.Query(ctx, query, project.ID, project.Name, project.Description, project.ProjectLink, project.PresentationLink)
+	rows, err := p.Pool.Query(ctx, query, project.ID, project.Name, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID)
 	if err != nil {
 		return "", fmt.Errorf("cannot execute query: %w", err)
 	}
@@ -86,9 +88,9 @@ func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project)
 }
 
 func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project) error {
-	query := `UPDATE project SET description=$1, link=$2, presentation=$3 where name = $4`
+	query := `UPDATE project SET description=$1, project_link=$2, presentation_link=$3, creator_id=$4 where name = $5`
 
-	rows, err := p.Pool.Query(ctx, query, project.Description, project.ProjectLink, project.PresentationLink, project.Name)
+	rows, err := p.Pool.Query(ctx, query, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID, project.Name)
 	if err != nil {
 		return fmt.Errorf("cannot execute query: %w", err)
 	}
