@@ -31,8 +31,19 @@ func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Proje
 	switch {
 	case err != nil:
 		return "", err
-	case projectOld == entity.Project{}:
+	case projectOld != entity.Project{}:
 		return "", fmt.Errorf("project with that name already exists")
 	}
 	return p.repo.CreateProject(ctx, project)
+}
+
+func (p *ProjectUseCase) UpdateProject(ctx context.Context, project entity.Project) error {
+	projectOld, err := p.repo.GetProjectByName(ctx, project.Name)
+	switch {
+	case err != nil:
+		return err
+	case projectOld == entity.Project{}:
+		return fmt.Errorf("there is no project with this name")
+	}
+	return p.repo.UpdateProject(ctx, project)
 }

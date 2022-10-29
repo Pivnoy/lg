@@ -83,3 +83,14 @@ func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project)
 	}
 	return name, nil
 }
+
+func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project) error {
+	query := `UPDATE project SET description=$1, link=$2, presentation=$3 where name = $4`
+
+	rows, err := p.Pool.Query(ctx, query, project.Description, project.Link, project.Presentation, project.Name)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	return nil
+}

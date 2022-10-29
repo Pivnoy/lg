@@ -77,3 +77,22 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 	c.Header("location", fmt.Sprintf("/api/v1/project/%s", name))
 	c.JSON(http.StatusCreated, nil)
 }
+
+func (pr *projectRouter) updateProject(c *gin.Context) {
+	req := new(projectRequest)
+	if err := c.ShouldBindJSON(req); err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	err := pr.p.UpdateProject(c.Request.Context(), entity.Project{
+		Name:         req.Name,
+		Description:  req.Description,
+		Link:         req.Link,
+		Presentation: req.Presentation,
+	})
+	if err != nil {
+		errorResponse(c, http.StatusNotFound, err.Error())
+		return
+	}
+	c.JSON(http.StatusNoContent, nil)
+}
