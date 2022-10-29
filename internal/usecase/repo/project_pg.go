@@ -17,6 +17,31 @@ func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
 	return &ProjectRepo{pg}
 }
 
+func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
+	query := `SELECT * FROM project`
+
+	rows, err := p.Pool.Query(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var projectList []entity.Project
+	for rows.Next() {
+		project := entity.Project{}
+		err = rows.Scan(
+			&project.ID,
+			&project.Name,
+			&project.Description,
+			&project.Link,
+			&project.Presentation,
+		)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return projectList, nil
+}
+
 func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
 	query := `SELECT * FROM project WHERE name = $1`
 
@@ -24,6 +49,7 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 	if err != nil {
 		return entity.Project{}, err
 	}
+	defer rows.Close()
 	project := entity.Project{}
 	for rows.Next() {
 		err = rows.Scan(

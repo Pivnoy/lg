@@ -17,6 +17,10 @@ func NewProjectUseCase(repo ProjectRp) *ProjectUseCase {
 	}
 }
 
+func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
+	return p.repo.GetAllProjects(ctx)
+}
+
 func (p *ProjectUseCase) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
 	return p.repo.GetProjectByName(ctx, name)
 }
