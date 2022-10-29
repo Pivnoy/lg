@@ -40,6 +40,7 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 		if err != nil {
 			return nil, fmt.Errorf("error in parsing project: %w", err)
 		}
+		projectList = append(projectList, project)
 	}
 	return projectList, nil
 }
@@ -70,9 +71,9 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 }
 
 func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (string, error) {
-	query := `INSERT INTO project (id, name, description, project_link, presentation_link, creator_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING name`
+	query := `INSERT INTO project (name, description, project_link, presentation_link, creator_id) VALUES ($1, $2, $3, $4, $5) RETURNING name`
 
-	rows, err := p.Pool.Query(ctx, query, project.ID, project.Name, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID)
+	rows, err := p.Pool.Query(ctx, query, project.Name, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID)
 	if err != nil {
 		return "", fmt.Errorf("cannot execute query: %w", err)
 	}

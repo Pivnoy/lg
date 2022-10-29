@@ -111,10 +111,8 @@ func (pr *projectRouter) deleteProject(c *gin.Context) {
 	}
 	err := pr.p.DeleteProject(c.Request.Context(), name)
 	if err != nil {
-		if err != nil {
-			errorResponse(c, http.StatusNotFound, err.Error())
-			return
-		}
+		errorResponse(c, http.StatusNotFound, err.Error())
+		return
 	}
 	c.JSON(http.StatusNoContent, nil)
 }

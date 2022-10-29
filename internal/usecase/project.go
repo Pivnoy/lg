@@ -23,7 +23,11 @@ func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, 
 }
 
 func (p *ProjectUseCase) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
-	return p.repo.GetProjectByName(ctx, name)
+	project, err := p.repo.GetProjectByName(ctx, name)
+	if (err == nil) && (project == entity.Project{}) {
+		return project, fmt.Errorf("there is no project with this name")
+	}
+	return project, err
 }
 
 func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (string, error) {
@@ -38,23 +42,17 @@ func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Proje
 }
 
 func (p *ProjectUseCase) UpdateProject(ctx context.Context, project entity.Project) error {
-	projectOld, err := p.repo.GetProjectByName(ctx, project.Name)
-	switch {
-	case err != nil:
+	_, err := p.GetProjectByName(ctx, project.Name)
+	if err != nil {
 		return err
-	case projectOld == entity.Project{}:
-		return fmt.Errorf("there is no project with this name")
 	}
 	return p.repo.UpdateProject(ctx, project)
 }
 
 func (p *ProjectUseCase) DeleteProject(ctx context.Context, name string) error {
-	projectOld, err := p.repo.GetProjectByName(ctx, name)
-	switch {
-	case err != nil:
+	_, err := p.GetProjectByName(ctx, name)
+	if err != nil {
 		return err
-	case projectOld == entity.Project{}:
-		return fmt.Errorf("there is no project with this name")
 	}
 	return p.repo.DeleteProject(ctx, name)
 }
