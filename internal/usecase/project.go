@@ -47,3 +47,14 @@ func (p *ProjectUseCase) UpdateProject(ctx context.Context, project entity.Proje
 	}
 	return p.repo.UpdateProject(ctx, project)
 }
+
+func (p *ProjectUseCase) DeleteProject(ctx context.Context, name string) error {
+	projectOld, err := p.repo.GetProjectByName(ctx, name)
+	switch {
+	case err != nil:
+		return err
+	case projectOld == entity.Project{}:
+		return fmt.Errorf("there is no project with this name")
+	}
+	return p.repo.DeleteProject(ctx, name)
+}

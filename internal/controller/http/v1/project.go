@@ -96,3 +96,19 @@ func (pr *projectRouter) updateProject(c *gin.Context) {
 	}
 	c.JSON(http.StatusNoContent, nil)
 }
+
+func (pr *projectRouter) deleteProject(c *gin.Context) {
+	name := c.Param("name")
+	if name == "" {
+		errorResponse(c, http.StatusBadRequest, "Project name cannot be empty")
+		return
+	}
+	err := pr.p.DeleteProject(c.Request.Context(), name)
+	if err != nil {
+		if err != nil {
+			errorResponse(c, http.StatusNotFound, err.Error())
+			return
+		}
+	}
+	c.JSON(http.StatusNoContent, nil)
+}

@@ -20,13 +20,15 @@ type (
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByName(context.Context, string) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (string, error)
-		UpdateProject(ctx context.Context, project entity.Project) error
+		UpdateProject(context.Context, entity.Project) error
+		DeleteProject(context.Context, string) error
 	}
 
 	ProjectContract interface {
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByName(context.Context, string) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (string, error)
-		UpdateProject(ctx context.Context, project entity.Project) error
+		UpdateProject(context.Context, entity.Project) error
+		DeleteProject(context.Context, string) error
 	}
 )

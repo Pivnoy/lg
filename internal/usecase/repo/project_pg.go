@@ -94,3 +94,14 @@ func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project)
 	defer rows.Close()
 	return nil
 }
+
+func (p *ProjectRepo) DeleteProject(ctx context.Context, name string) error {
+	query := `DELETE FROM project WHERE name=$1`
+
+	rows, err := p.Pool.Query(ctx, query, name)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	return nil
+}
