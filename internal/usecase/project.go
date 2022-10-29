@@ -24,3 +24,7 @@ func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, 
 func (p *ProjectUseCase) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
 	return p.repo.GetProjectByName(ctx, name)
 }
+
+func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (string, error) {
+	return p.repo.CreateProject(ctx, project)
+}

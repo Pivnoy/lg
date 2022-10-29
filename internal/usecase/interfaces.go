@@ -19,10 +19,12 @@ type (
 	ProjectRp interface {
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByName(context.Context, string) (entity.Project, error)
+		CreateProject(context.Context, entity.Project) (string, error)
 	}
 
 	ProjectContract interface {
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByName(context.Context, string) (entity.Project, error)
+		CreateProject(context.Context, entity.Project) (string, error)
 	}
 )
