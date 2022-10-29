@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"lg/internal/entity"
 )
 
@@ -26,5 +27,12 @@ func (p *ProjectUseCase) GetProjectByName(ctx context.Context, name string) (ent
 }
 
 func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (string, error) {
+	projectOld, err := p.repo.GetProjectByName(ctx, project.Name)
+	switch {
+	case err != nil:
+		return "", err
+	case projectOld == entity.Project{}:
+		return "", fmt.Errorf("project with that name already exists")
+	}
 	return p.repo.CreateProject(ctx, project)
 }
