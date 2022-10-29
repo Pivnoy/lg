@@ -65,10 +65,10 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 		return
 	}
 	name, err := pr.p.CreateProject(c.Request.Context(), entity.Project{
-		Name:         req.Name,
-		Description:  req.Description,
-		Link:         req.Link,
-		Presentation: req.Presentation,
+		Name:             req.Name,
+		Description:      req.Description,
+		ProjectLink:      req.Link,
+		PresentationLink: req.Presentation,
 	})
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
@@ -85,10 +85,10 @@ func (pr *projectRouter) updateProject(c *gin.Context) {
 		return
 	}
 	err := pr.p.UpdateProject(c.Request.Context(), entity.Project{
-		Name:         req.Name,
-		Description:  req.Description,
-		Link:         req.Link,
-		Presentation: req.Presentation,
+		Name:             req.Name,
+		Description:      req.Description,
+		ProjectLink:      req.Link,
+		PresentationLink: req.Presentation,
 	})
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
