@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
 	"lg/internal/usecase"
@@ -14,6 +13,10 @@ type projectRouter struct {
 
 type projectListResponse struct {
 	Projects []projectDTO `json:"projects"`
+}
+
+type responseUUID struct {
+	UUID uuid.UUID `json:"uuid"`
 }
 
 type projectDTO struct {
@@ -67,13 +70,12 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	name, err := pr.p.CreateProject(c.Request.Context(), projectToEntity(*req))
+	projectKey, err := pr.p.CreateProject(c.Request.Context(), projectToEntity(*req))
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.Header("location", fmt.Sprintf("/api/v1/project/%s", name))
-	c.JSON(http.StatusCreated, nil)
+	c.JSON(http.StatusCreated, responseUUID{UUID: projectKey})
 }
 
 func (pr *projectRouter) updateProject(c *gin.Context) {
