@@ -54,12 +54,12 @@
 			"response": []
 		},
 		{
-			"name": "getProjectByName",
+			"name": "getProjectByUUID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/v1/project/{{project_name}}",
+					"raw": "{{base_url}}/api/v1/project/{{uuid}}",
 					"host": [
 						"{{base_url}}"
 					],
@@ -67,19 +67,19 @@
 						"api",
 						"v1",
 						"project",
-						"{{project_name}}"
+						"{{uuid}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "deleteProjectByName",
+			"name": "deleteProjectByUUID",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/v1/project/{{project_name}}",
+					"raw": "{{base_url}}/api/v1/project/{{uuid}}",
 					"host": [
 						"{{base_url}}"
 					],
@@ -87,14 +87,14 @@
 						"api",
 						"v1",
 						"project",
-						"{{project_name}}"
+						"{{uuid}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "updateProjectByName",
+			"name": "updateProjectByUUID",
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -108,7 +108,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/project/{{project_name}}",
+					"raw": "{{base_url}}/api/v1/project/{{uuid}}",
 					"host": [
 						"{{base_url}}"
 					],
@@ -116,7 +116,7 @@
 						"api",
 						"v1",
 						"project",
-						"{{project_name}}"
+						"{{uuid}}"
 					]
 				}
 			},
@@ -141,6 +141,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "uuid",
+			"value": "78ada4fe-cb45-4a54-b20c-7dd90a63afb3"
 		}
 	]
 }

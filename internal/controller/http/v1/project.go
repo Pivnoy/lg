@@ -3,6 +3,7 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gofrs/uuid"
 	"lg/internal/usecase"
 	"net/http"
 )
@@ -16,20 +17,21 @@ type projectListResponse struct {
 }
 
 type projectDTO struct {
-	Name             string `json:"name"`
-	Description      string `json:"description"`
-	ProjectLink      string `json:"link"`
-	PresentationLink string `json:"presentation"`
-	CreatorID        int64  `json:"creator_id"`
+	UUID             uuid.UUID `json:"uuid"`
+	Name             string    `json:"name"`
+	Description      string    `json:"description"`
+	ProjectLink      string    `json:"link"`
+	PresentationLink string    `json:"presentation"`
+	CreatorID        int64     `json:"creator_id"`
 }
 
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	pr := &projectRouter{p: p}
 	handler.GET("/project", pr.getAllProjects)
-	handler.GET("/project/:name", pr.getProjectByName)
+	handler.GET("/project/:uuid", pr.getProjectByName)
 	handler.POST("/project", pr.createProject)
-	handler.PUT("/project/:name", pr.updateProject)
-	handler.DELETE("/project/:name", pr.deleteProject)
+	handler.PUT("/project/:uuid", pr.updateProject)
+	handler.DELETE("/project/:uuid", pr.deleteProject)
 }
 
 func (pr *projectRouter) getAllProjects(c *gin.Context) {
@@ -46,12 +48,12 @@ func (pr *projectRouter) getAllProjects(c *gin.Context) {
 }
 
 func (pr *projectRouter) getProjectByName(c *gin.Context) {
-	name := c.Param("name")
-	if name == "" {
-		errorResponse(c, http.StatusBadRequest, "Project name cannot be empty")
+	projectKey, err := uuid.FromString(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	project, err := pr.p.GetProjectByName(c.Request.Context(), name)
+	project, err := pr.p.GetProjectByUUID(c.Request.Context(), projectKey)
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return
@@ -75,18 +77,19 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 }
 
 func (pr *projectRouter) updateProject(c *gin.Context) {
+	projectKey, err := uuid.FromString(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 	req := new(projectDTO)
-	name := c.Param("name")
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 	projectEntity := projectToEntity(*req)
-	if name != req.Name {
-		errorResponse(c, http.StatusBadRequest, "name cannot be changed")
-		return
-	}
-	err := pr.p.UpdateProject(c.Request.Context(), projectEntity)
+	projectEntity.UUID = projectKey
+	err = pr.p.UpdateProjectByUUID(c.Request.Context(), projectEntity)
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return
@@ -95,12 +98,12 @@ func (pr *projectRouter) updateProject(c *gin.Context) {
 }
 
 func (pr *projectRouter) deleteProject(c *gin.Context) {
-	name := c.Param("name")
-	if name == "" {
-		errorResponse(c, http.StatusBadRequest, "Project name cannot be empty")
+	projectKey, err := uuid.FromString(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err := pr.p.DeleteProject(c.Request.Context(), name)
+	err = pr.p.DeleteProjectByUUID(c.Request.Context(), projectKey)
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return

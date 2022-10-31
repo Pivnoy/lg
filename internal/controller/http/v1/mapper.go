@@ -4,6 +4,7 @@ import "lg/internal/entity"
 
 func projectToDTO(project entity.Project) projectDTO {
 	return projectDTO{
+		UUID:             project.UUID,
 		Name:             project.Name,
 		Description:      project.Description,
 		ProjectLink:      project.ProjectLink,
@@ -14,6 +15,7 @@ func projectToDTO(project entity.Project) projectDTO {
 
 func projectToEntity(dto projectDTO) entity.Project {
 	return entity.Project{
+		UUID:             dto.UUID,
 		Name:             dto.Name,
 		Description:      dto.Description,
 		ProjectLink:      dto.ProjectLink,
