@@ -5,11 +5,6 @@ import (
 	"lg/internal/usecase"
 )
 
-//signin
-//login
-//logout
-//profile
-
 func NewRouter(handler *gin.Engine,
 	p usecase.ProjectContract,
 ) {
