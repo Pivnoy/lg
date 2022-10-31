@@ -5,13 +5,13 @@ services:
     image: postgres
     container_name: 'psql'
     volumes:
-      - ./migrations/all.sql:/docker-entrypoint-initdb.d/all.sql:ro
+      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=cars
+      - POSTGRES_DB=postgres
 
   app:
     container_name: 'lg'
