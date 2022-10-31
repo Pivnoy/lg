@@ -3,7 +3,6 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"lg/internal/entity"
 	"lg/internal/usecase"
 	"net/http"
 )
@@ -13,10 +12,10 @@ type projectRouter struct {
 }
 
 type projectListResponse struct {
-	Projects []entity.Project `json:"projects"`
+	Projects []projectDTO `json:"projects"`
 }
 
-type projectRequest struct {
+type projectDTO struct {
 	Name             string `json:"name"`
 	Description      string `json:"description"`
 	ProjectLink      string `json:"link"`
@@ -39,13 +38,11 @@ func (pr *projectRouter) getAllProjects(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	var response projectListResponse
-	if projectList != nil {
-		response.Projects = projectList
-	} else {
-		response.Projects = make([]entity.Project, 0)
+	var responseList []projectDTO
+	for _, v := range projectList {
+		responseList = append(responseList, projectToDTO(v))
 	}
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, projectListResponse{responseList})
 }
 
 func (pr *projectRouter) getProjectByName(c *gin.Context) {
@@ -59,22 +56,16 @@ func (pr *projectRouter) getProjectByName(c *gin.Context) {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, project)
+	c.JSON(http.StatusOK, projectToDTO(project))
 }
 
 func (pr *projectRouter) createProject(c *gin.Context) {
-	req := new(projectRequest)
+	req := new(projectDTO)
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	name, err := pr.p.CreateProject(c.Request.Context(), entity.Project{
-		Name:             req.Name,
-		Description:      req.Description,
-		ProjectLink:      req.ProjectLink,
-		PresentationLink: req.PresentationLink,
-		CreatorID:        req.CreatorID,
-	})
+	name, err := pr.p.CreateProject(c.Request.Context(), projectToEntity(*req))
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -84,18 +75,12 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 }
 
 func (pr *projectRouter) updateProject(c *gin.Context) {
-	req := new(projectRequest)
+	req := new(projectDTO)
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err := pr.p.UpdateProject(c.Request.Context(), entity.Project{
-		Name:             req.Name,
-		Description:      req.Description,
-		ProjectLink:      req.ProjectLink,
-		PresentationLink: req.PresentationLink,
-		CreatorID:        req.CreatorID,
-	})
+	err := pr.p.UpdateProject(c.Request.Context(), projectToEntity(*req))
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return
