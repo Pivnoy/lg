@@ -76,11 +76,17 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 
 func (pr *projectRouter) updateProject(c *gin.Context) {
 	req := new(projectDTO)
+	name := c.Param("name")
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err := pr.p.UpdateProject(c.Request.Context(), projectToEntity(*req))
+	projectEntity := projectToEntity(*req)
+	if name != req.Name {
+		errorResponse(c, http.StatusBadRequest, "name cannot be changed")
+		return
+	}
+	err := pr.p.UpdateProject(c.Request.Context(), projectEntity)
 	if err != nil {
 		errorResponse(c, http.StatusNotFound, err.Error())
 		return
