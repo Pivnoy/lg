@@ -17,13 +17,15 @@ import (
 )
 
 func Run(cfg *config.Config) {
-	//	lg := logger.New(cfg.LogLevel)
 	pg, err := postgres.New(cfg)
 
 	if err != nil {
 		log.Fatal("Error in creating postgres instance")
 	}
 	projectUseCase := usecase.NewProjectUseCase(repo.NewProjectRepo(pg))
+	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
+	signInUseCase := usecase.NewSignInUseCase(userUseCase)
+	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
 
 	handler := gin.New()
 
@@ -36,7 +38,10 @@ func Run(cfg *config.Config) {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	v1.NewRouter(handler, projectUseCase)
+	v1.NewRouter(handler,
+		projectUseCase,
+		signInUseCase,
+		jwtUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)

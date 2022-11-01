@@ -14,6 +14,7 @@ type (
 	UserContract interface {
 		GetUser(context.Context, string) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
+		CheckUserExistence(context.Context, string) (bool, error)
 	}
 
 	JwtContract interface {
@@ -22,7 +23,7 @@ type (
 		CheckToken(token string) (string, error)
 	}
 
-	SignInContract interface {
+	RegisterContract interface {
 		CreateNewUser(context.Context, string, string) error
 	}
 

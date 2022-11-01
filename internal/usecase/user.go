@@ -24,3 +24,14 @@ func (u *UserUseCase) GetUser(ctx context.Context, email string) (entity.User, e
 func (u *UserUseCase) StoreUser(ctx context.Context, user entity.User) error {
 	return u.repo.StoreUser(ctx, user)
 }
+
+func (u *UserUseCase) CheckUserExistence(ctx context.Context, email string) (bool, error) {
+	us, err := u.repo.GetUserByEmail(ctx, email)
+	if err != nil {
+		return true, err
+	}
+	if len(us.Email) > 0 || len(us.Password) > 0 {
+		return true, nil
+	}
+	return false, nil
+}
