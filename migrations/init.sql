@@ -6,9 +6,9 @@ drop table if exists "user", administrator, country, city, citizenship,
 
 create table if not exists "user" (
     id serial primary key,
-    email varchar(255) not null,
-    "password" text not null
-    );
+    email varchar(255) unique not null,
+    password varchar(255) not null
+);
 
 create table if not exists administrator (
     user_id bigint not null references "user"(id),

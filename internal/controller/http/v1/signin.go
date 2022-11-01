@@ -6,28 +6,28 @@ import (
 	"net/http"
 )
 
-type signInRoutes struct {
-	s usecase.SignInContract
+type registerContract struct {
+	s usecase.RegisterContract
 }
 
-func newSignInRoutes(handler *gin.RouterGroup, si usecase.SignInContract) {
-	s := signInRoutes{s: si}
+func newRegisterRoutes(handler *gin.RouterGroup, si usecase.RegisterContract) {
+	s := registerContract{s: si}
 
-	handler.POST("/signin", s.SignIn)
+	handler.POST("/register", s.SignIn)
 }
 
-type signInRequest struct {
-	Username string `json:"username"`
+type registerRequest struct {
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-func (s *signInRoutes) SignIn(c *gin.Context) {
-	var request signInRequest
+func (s *registerContract) SignIn(c *gin.Context) {
+	var request registerRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err := s.s.CreateNewUser(c.Request.Context(), request.Username, request.Password)
+	err := s.s.CreateNewUser(c.Request.Context(), request.Email, request.Password)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
