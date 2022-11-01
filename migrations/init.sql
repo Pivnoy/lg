@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 create table users (
     id serial primary key,
     email varchar(255) unique not null,
@@ -6,6 +8,7 @@ create table users (
 
 create table project (
     id serial primary key,
+    uuid uuid DEFAULT uuid_generate_v4(),
     name varchar(255) not null,
     description text not null,
     project_link varchar(255),

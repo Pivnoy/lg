@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -31,6 +32,7 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 		project := entity.Project{}
 		err = rows.Scan(
 			&project.ID,
+			&project.UUID,
 			&project.Name,
 			&project.Description,
 			&project.ProjectLink,
@@ -45,10 +47,10 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 	return projectList, nil
 }
 
-func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
-	query := `SELECT * FROM project WHERE name = $1`
+func (p *ProjectRepo) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
+	query := `SELECT * FROM project WHERE uuid = $1`
 
-	rows, err := p.Pool.Query(ctx, query, name)
+	rows, err := p.Pool.Query(ctx, query, projectKey)
 	if err != nil {
 		return entity.Project{}, fmt.Errorf("cannot execute query: %w", err)
 	}
@@ -57,6 +59,7 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 	for rows.Next() {
 		err = rows.Scan(
 			&project.ID,
+			&project.UUID,
 			&project.Name,
 			&project.Description,
 			&project.ProjectLink,
@@ -70,28 +73,28 @@ func (p *ProjectRepo) GetProjectByName(ctx context.Context, name string) (entity
 	return project, nil
 }
 
-func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (string, error) {
-	query := `INSERT INTO project (name, description, project_link, presentation_link, creator_id) VALUES ($1, $2, $3, $4, $5) RETURNING name`
+func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
+	query := `INSERT INTO project (name, description, project_link, presentation_link, creator_id) VALUES ($1, $2, $3, $4, $5) RETURNING uuid`
 
 	rows, err := p.Pool.Query(ctx, query, project.Name, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID)
 	if err != nil {
-		return "", fmt.Errorf("cannot execute query: %w", err)
+		return uuid.Nil, fmt.Errorf("cannot execute query: %w", err)
 	}
 	defer rows.Close()
-	var name string
+	var projectKey uuid.UUID
 	for rows.Next() {
-		err = rows.Scan(&name)
+		err = rows.Scan(&projectKey)
 		if err != nil {
-			return "", fmt.Errorf("error in parsing name of project: %w", err)
+			return uuid.Nil, fmt.Errorf("error in parsing name of project: %w", err)
 		}
 	}
-	return name, nil
+	return projectKey, nil
 }
 
-func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project) error {
-	query := `UPDATE project SET description=$1, project_link=$2, presentation_link=$3, creator_id=$4 where name = $5`
+func (p *ProjectRepo) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
+	query := `UPDATE project SET description=$1, project_link=$2, presentation_link=$3, creator_id=$4 where uuid = $5`
 
-	rows, err := p.Pool.Query(ctx, query, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID, project.Name)
+	rows, err := p.Pool.Query(ctx, query, project.Description, project.ProjectLink, project.PresentationLink, project.CreatorID, project.UUID)
 	if err != nil {
 		return fmt.Errorf("cannot execute query: %w", err)
 	}
@@ -99,10 +102,10 @@ func (p *ProjectRepo) UpdateProject(ctx context.Context, project entity.Project)
 	return nil
 }
 
-func (p *ProjectRepo) DeleteProject(ctx context.Context, name string) error {
-	query := `DELETE FROM project WHERE name=$1`
+func (p *ProjectRepo) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {
+	query := `DELETE FROM project WHERE uuid=$1`
 
-	rows, err := p.Pool.Query(ctx, query, name)
+	rows, err := p.Pool.Query(ctx, query, projectKey)
 	if err != nil {
 		return fmt.Errorf("cannot execute query: %w", err)
 	}
