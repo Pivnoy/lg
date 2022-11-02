@@ -13,7 +13,7 @@ type registerContract struct {
 func newRegisterRoutes(handler *gin.RouterGroup, si usecase.RegisterContract) {
 	s := registerContract{s: si}
 
-	handler.POST("/register", s.SignIn)
+	handler.POST("/register", s.register)
 }
 
 type registerRequest struct {
@@ -21,7 +21,7 @@ type registerRequest struct {
 	Password string `json:"password"`
 }
 
-func (s *registerContract) SignIn(c *gin.Context) {
+func (s *registerContract) register(c *gin.Context) {
 	var request registerRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
