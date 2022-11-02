@@ -19,7 +19,7 @@ func NewUserRepo(pg *postgres.Postgres) *UserRepo {
 }
 
 func (u *UserRepo) GetUserByEmail(ctx context.Context, email string) (entity.User, error) {
-	query := `SELECT * FROM users WHERE email = $1`
+	query := `SELECT * FROM "user" WHERE email = $1`
 
 	rows, err := u.Pool.Query(ctx, query, email)
 	if err != nil {
@@ -29,7 +29,7 @@ func (u *UserRepo) GetUserByEmail(ctx context.Context, email string) (entity.Use
 
 	user := entity.User{}
 	for rows.Next() {
-		err = rows.Scan(&user.ID, &user.Email, &user.Password)
+		err = rows.Scan(&user.ID, &user.UUID, &user.Email, &user.Password)
 		if err != nil {
 			return entity.User{}, err
 		}
@@ -38,7 +38,7 @@ func (u *UserRepo) GetUserByEmail(ctx context.Context, email string) (entity.Use
 }
 
 func (u *UserRepo) StoreUser(ctx context.Context, user entity.User) error {
-	query := `INSERT INTO users (email, password) VALUES($1, $2)`
+	query := `INSERT INTO "user" (email, password) VALUES($1, $2)`
 	rows, err := u.Pool.Query(ctx, query, user.Email, user.Password)
 	if err != nil {
 		return fmt.Errorf("cannot insert value into users: %v", err)
