@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"lg/internal/entity"
 )
 
@@ -22,37 +23,37 @@ func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, 
 	return p.repo.GetAllProjects(ctx)
 }
 
-func (p *ProjectUseCase) GetProjectByName(ctx context.Context, name string) (entity.Project, error) {
-	project, err := p.repo.GetProjectByName(ctx, name)
+func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
+	project, err := p.repo.GetProjectByUUID(ctx, projectKey)
 	if (err == nil) && (project == entity.Project{}) {
 		return project, fmt.Errorf("there is no project with this name")
 	}
 	return project, err
 }
 
-func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (string, error) {
-	projectOld, err := p.repo.GetProjectByName(ctx, project.Name)
+func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
+	projectOld, err := p.repo.GetProjectByUUID(ctx, project.UUID)
 	switch {
 	case err != nil:
-		return "", err
+		return uuid.Nil, err
 	case projectOld != entity.Project{}:
-		return "", fmt.Errorf("project with that name already exists")
+		return uuid.Nil, fmt.Errorf("project with that name already exists")
 	}
 	return p.repo.CreateProject(ctx, project)
 }
 
-func (p *ProjectUseCase) UpdateProject(ctx context.Context, project entity.Project) error {
-	_, err := p.GetProjectByName(ctx, project.Name)
+func (p *ProjectUseCase) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
+	_, err := p.GetProjectByUUID(ctx, project.UUID)
 	if err != nil {
 		return err
 	}
-	return p.repo.UpdateProject(ctx, project)
+	return p.repo.UpdateProjectByUUID(ctx, project)
 }
 
-func (p *ProjectUseCase) DeleteProject(ctx context.Context, name string) error {
-	_, err := p.GetProjectByName(ctx, name)
+func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {
+	_, err := p.GetProjectByUUID(ctx, projectKey)
 	if err != nil {
 		return err
 	}
-	return p.repo.DeleteProject(ctx, name)
+	return p.repo.DeleteProjectByUUID(ctx, projectKey)
 }

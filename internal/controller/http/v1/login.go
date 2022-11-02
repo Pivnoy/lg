@@ -41,5 +41,5 @@ func (l *loginRoutes) login(c *gin.Context) {
 		return
 	}
 	c.SetCookie("access", token, int(120*60), "/", "", false, false)
-	c.JSON(http.StatusOK, token)
+	c.JSON(http.StatusOK, nil)
 }

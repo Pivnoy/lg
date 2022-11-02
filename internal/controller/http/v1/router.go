@@ -7,9 +7,14 @@ import (
 
 func NewRouter(handler *gin.Engine,
 	p usecase.ProjectContract,
+	s usecase.RegisterContract,
+	j usecase.JwtContract,
 ) {
 	h := handler.Group("/api/v1")
 	{
 		newProjectRouter(h, p)
+		newRegisterRoutes(h, s)
+		newLoginRoutes(h, j)
+		newLogoutRouter(h)
 	}
 }
