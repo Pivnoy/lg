@@ -40,7 +40,7 @@ create table if not exists citizenship (
 create table if not exists company (
     id serial primary key,
     "name" varchar(255) not null,
-    inn bigint not null
+    inn varchar(10) not null
     );
 
 create table if not exists skill_category (
