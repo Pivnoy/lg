@@ -38,8 +38,7 @@ func countryToDTO(country entity.Country) countryDTO {
 
 func citizenshipToDTO(citizenship entity.Citizenship) citizenshipDTO {
 	return citizenshipDTO{
-		UUID:        citizenship.UUID.String(),
-		Name:        citizenship.Name,
-		CountryUUID: citizenship.CountryUUID.String(),
+		UUID: citizenship.UUID.String(),
+		Name: citizenship.Name,
 	}
 }

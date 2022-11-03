@@ -11,9 +11,8 @@ type citizenshipRoutes struct {
 }
 
 type citizenshipDTO struct {
-	UUID        string `json:"uuid"`
-	Name        string `json:"name"`
-	CountryUUID string `json:"country_uuid"`
+	UUID string `json:"uuid"`
+	Name string `json:"name"`
 }
 
 type citizenshipListResponse struct {
