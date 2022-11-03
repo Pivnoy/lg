@@ -35,3 +35,11 @@ func countryToDTO(country entity.Country) countryDTO {
 		Code: country.Code,
 	}
 }
+
+func citizenshipToDTO(citizenship entity.Citizenship) citizenshipDTO {
+	return citizenshipDTO{
+		UUID:        citizenship.UUID,
+		Name:        citizenship.Name,
+		CountryUUID: citizenship.CountryUUID,
+	}
+}

@@ -78,4 +78,12 @@ type (
 	CountryContract interface {
 		GetAllCountries(ctx context.Context) ([]entity.Country, error)
 	}
+
+	CitizenshipRp interface {
+		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+	}
+
+	CitizenshipContract interface {
+		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+	}
 )
