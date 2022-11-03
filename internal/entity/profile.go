@@ -1,9 +1,12 @@
 package entity
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 type Profile struct {
-	//ID                 int64     `json:"id"`
+	ID                 int64     `json:"id"`
 	UserUUID           uuid.UUID `json:"user_uuid"`
 	Firstname          string    `json:"firstname"`
 	Lastname           string    `json:"lastname"`
@@ -23,5 +26,5 @@ type Profile struct {
 	TeamUUID           uuid.UUID `json:"team_uuid"`
 	SpecializationUUID uuid.UUID `json:"specialization_uuid"`
 	CompanyUUID        uuid.UUID `json:"company_uuid"`
-	UUID               uuid.UUID `json:"uuid"`
+	CreationDate       time.Time `json:"creation_date"`
 }
