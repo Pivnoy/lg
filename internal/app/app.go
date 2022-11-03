@@ -26,6 +26,7 @@ func Run(cfg *config.Config) {
 	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
+	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg))
 
 	handler := gin.New()
 
@@ -41,7 +42,9 @@ func Run(cfg *config.Config) {
 	v1.NewRouter(handler,
 		projectUseCase,
 		signInUseCase,
-		jwtUseCase)
+		jwtUseCase,
+		userUseCase,
+		profileUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)

@@ -43,4 +43,22 @@ type (
 		UpdateProjectByUUID(context.Context, entity.Project) error
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 	}
+
+	MessageRp interface {
+		StoreMessage(context.Context, entity.Message) (uuid.UUID, error)
+	}
+
+	ChatRp interface {
+		CreateChat(context.Context)
+		AddMessageByChat(context.Context, uuid.UUID, entity.Message) error
+		GetCharHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+	}
+
+	ProfileRp interface {
+		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+	}
+
+	ProfileContract interface {
+		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+	}
 )
