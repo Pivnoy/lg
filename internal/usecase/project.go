@@ -10,9 +10,8 @@ type ProjectUseCase struct {
 	repo ProjectRp
 }
 
-func (p ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
-	//TODO implement me
-	panic("implement me")
+func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
+	return p.repo.GetAllProjects(ctx)
 }
 
 func (p ProjectUseCase) GetProjectByUUID(ctx context.Context, uuid uuid.UUID) (entity.Project, error) {

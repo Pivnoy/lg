@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
@@ -12,27 +13,53 @@ type ProjectRepo struct {
 	*postgres.Postgres
 }
 
-func (p ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
+func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
+	query := `SELECT * FROM project`
+
+	rows, err := p.Pool.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var projectList []entity.Project
+	for rows.Next() {
+		project := entity.Project{}
+		err = rows.Scan(
+			&project.ID,
+			&project.UUID,
+			&project.Name,
+			&project.Description,
+			&project.CategoryUUID,
+			&project.ProjectLink,
+			&project.PresentationLink,
+			&project.CreatorUUID,
+			&project.IsVisible,
+			&project.CreationDate,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error in parsing project: %w", err)
+		}
+		projectList = append(projectList, project)
+	}
+	return projectList, nil
+}
+
+func (p *ProjectRepo) GetProjectByUUID(ctx context.Context, u uuid.UUID) (entity.Project, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p ProjectRepo) GetProjectByUUID(ctx context.Context, u uuid.UUID) (entity.Project, error) {
+func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
+func (p *ProjectRepo) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p ProjectRepo) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (p ProjectRepo) DeleteProjectByUUID(ctx context.Context, u uuid.UUID) error {
+func (p *ProjectRepo) DeleteProjectByUUID(ctx context.Context, u uuid.UUID) error {
 	//TODO implement me
 	panic("implement me")
 }

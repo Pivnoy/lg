@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"lg/internal/usecase"
+	"net/http"
+	"time"
 )
 
 type projectRouter struct {
@@ -18,32 +20,36 @@ type projectDTO struct {
 	UUID             uuid.UUID `json:"uuid"`
 	Name             string    `json:"name"`
 	Description      string    `json:"description"`
+	CategoryUUID     uuid.UUID `json:"categoryUUID"`
 	ProjectLink      string    `json:"link"`
 	PresentationLink string    `json:"presentation"`
-	CreatorID        int64     `json:"creator_id"`
+	CreatorUUID      uuid.UUID `json:"creatorUUID"`
+	IsVisible        string    `json:"isVisible"`
+	CreationDate     time.Time `json:"creationDate"`
 }
 
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
-	//pr := &projectRouter{p: p}
-	//handler.GET("/project", pr.getAllProjects)
+	pr := &projectRouter{p: p}
+	handler.GET("/project", pr.getAllProjects)
 	//handler.GET("/project/:uuid", pr.getProjectByName)
 	//handler.POST("/project", pr.createProject)
 	//handler.PUT("/project/:uuid", pr.updateProject)
 	//handler.DELETE("/project/:uuid", pr.deleteProject)
 }
 
-//func (pr *projectRouter) getAllProjects(c *gin.Context) {
-//	projectList, err := pr.p.GetAllProjects(c.Request.Context())
-//	if err != nil {
-//		errorResponse(c, http.StatusInternalServerError, err.Error())
-//		return
-//	}
-//	var responseList []projectDTO
-//	for _, v := range projectList {
-//		responseList = append(responseList, projectToDTO(v))
-//	}
-//	c.JSON(http.StatusOK, projectListResponse{responseList})
-//}
+func (pr *projectRouter) getAllProjects(c *gin.Context) {
+	projectList, err := pr.p.GetAllProjects(c.Request.Context())
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	var responseList []projectDTO
+	for _, v := range projectList {
+		responseList = append(responseList, projectToDTO(v))
+	}
+	c.JSON(http.StatusOK, projectListResponse{responseList})
+}
+
 //
 //func (pr *projectRouter) getProjectByName(c *gin.Context) {
 //	projectKey, err := uuid.FromString(c.Param("uuid"))
