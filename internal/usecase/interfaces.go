@@ -70,4 +70,12 @@ type (
 	ProfileContract interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
 	}
+
+	CountryRp interface {
+		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+	}
+
+	CountryContract interface {
+		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+	}
 )

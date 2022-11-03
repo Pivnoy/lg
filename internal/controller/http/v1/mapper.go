@@ -27,3 +27,11 @@ func projectToEntity(dto projectDTO) entity.Project {
 		IsVisible:        dto.IsVisible,
 	}
 }
+
+func countryToDTO(country entity.Country) countryDTO {
+	return countryDTO{
+		UUID: country.UUID,
+		Name: country.Name,
+		Code: country.Code,
+	}
+}
