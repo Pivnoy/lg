@@ -94,4 +94,12 @@ type (
 	UniversityContract interface {
 		GetAllUniversities(ctx context.Context) ([]entity.University, error)
 	}
+
+	EduspecialityRp interface {
+		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+	}
+
+	EduspecialityContract interface {
+		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+	}
 )

@@ -49,3 +49,11 @@ func universityToDTO(university entity.University) universityDTO {
 		Name: university.Name,
 	}
 }
+
+func eduspecialityToDTO(eduspeciality entity.Eduspeciality) eduspecialityDTO {
+	return eduspecialityDTO{
+		UUID: eduspeciality.UUID.String(),
+		Name: eduspeciality.Name,
+		Code: eduspeciality.Code,
+	}
+}
