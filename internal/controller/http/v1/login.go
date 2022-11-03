@@ -22,10 +22,18 @@ type loginRequest struct {
 	Password string `json:"password"`
 }
 
+//TODO Patronymic
+type loginResponse struct {
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	UUID      string `json:"uuid"`
+}
+
+//TODO user doesn't exists
 func (l *loginRoutes) login(c *gin.Context) {
 	var lReq loginRequest
 	if err := c.ShouldBindJSON(&lReq); err != nil {
-		errorResponse(c, http.StatusBadRequest, err.Error())
+		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 	err := l.j.CompareUserPassword(c.Request.Context(), entity.User{
@@ -33,13 +41,13 @@ func (l *loginRoutes) login(c *gin.Context) {
 		Password: lReq.Password,
 	})
 	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "Cannot find user in db or cmp psswd")
+		errorResponse(c, http.StatusInternalServerError, "Cannot find user in db or cmp psswd")
 	}
 	token, err := l.j.GenerateToken(lReq.Email)
 	if err != nil {
-		errorResponse(c, http.StatusBadRequest, err.Error())
+		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.SetCookie("access", token, int(120*60), "/", "", false, false)
-	c.JSON(http.StatusOK, nil)
+	c.SetCookie("access", token, 120*60, "/", "", false, true)
+	c.JSON(http.StatusOK, loginResponse{})
 }

@@ -15,6 +15,6 @@ func newLogoutRouter(handler *gin.RouterGroup) {
 }
 
 func (l *logoutRouter) logout(c *gin.Context) {
-	c.SetCookie("access", "", -1, "/", "", false, false)
+	c.SetCookie("access", "", -1, "/", "", false, true)
 	c.JSON(http.StatusOK, nil)
 }
