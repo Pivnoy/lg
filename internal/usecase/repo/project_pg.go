@@ -44,9 +44,33 @@ func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, err
 	return projectList, nil
 }
 
-func (p *ProjectRepo) GetProjectByUUID(ctx context.Context, u uuid.UUID) (entity.Project, error) {
-	//TODO implement me
-	panic("implement me")
+func (p *ProjectRepo) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
+	query := `SELECT * FROM project WHERE uuid = $1`
+
+	rows, err := p.Pool.Query(ctx, query, projectKey)
+	if err != nil {
+		return entity.Project{}, fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	project := entity.Project{}
+	for rows.Next() {
+		err = rows.Scan(
+			&project.ID,
+			&project.UUID,
+			&project.Name,
+			&project.Description,
+			&project.CategoryUUID,
+			&project.ProjectLink,
+			&project.PresentationLink,
+			&project.CreatorUUID,
+			&project.IsVisible,
+			&project.CreationDate,
+		)
+		if err != nil {
+			return entity.Project{}, fmt.Errorf("error in parsing project: %w", err)
+		}
+	}
+	return project, nil
 }
 
 func (p *ProjectRepo) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
@@ -70,34 +94,6 @@ func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
 	return &ProjectRepo{pg}
 }
 
-//
-//func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
-//	query := `SELECT * FROM project`
-//
-//	rows, err := p.Pool.Query(ctx, query)
-//	if err != nil {
-//		return nil, fmt.Errorf("cannot execute query: %w", err)
-//	}
-//	defer rows.Close()
-//	var projectList []entity.Project
-//	for rows.Next() {
-//		project := entity.Project{}
-//		err = rows.Scan(
-//			&project.ID,
-//			&project.UUID,
-//			&project.Name,
-//			&project.Description,
-//			&project.ProjectLink,
-//			&project.PresentationLink,
-//			&project.CreatorID,
-//		)
-//		if err != nil {
-//			return nil, fmt.Errorf("error in parsing project: %w", err)
-//		}
-//		projectList = append(projectList, project)
-//	}
-//	return projectList, nil
-//}
 //
 //func (p *ProjectRepo) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
 //	query := `SELECT * FROM project WHERE uuid = $1`

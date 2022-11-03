@@ -31,7 +31,7 @@ type projectDTO struct {
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	pr := &projectRouter{p: p}
 	handler.GET("/project", pr.getAllProjects)
-	//handler.GET("/project/:uuid", pr.getProjectByName)
+	handler.GET("/project/:uuid", pr.getProjectByUUID)
 	//handler.POST("/project", pr.createProject)
 	//handler.PUT("/project/:uuid", pr.updateProject)
 	//handler.DELETE("/project/:uuid", pr.deleteProject)
@@ -50,20 +50,20 @@ func (pr *projectRouter) getAllProjects(c *gin.Context) {
 	c.JSON(http.StatusOK, projectListResponse{responseList})
 }
 
-//
-//func (pr *projectRouter) getProjectByName(c *gin.Context) {
-//	projectKey, err := uuid.FromString(c.Param("uuid"))
-//	if err != nil {
-//		errorResponse(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//	project, err := pr.p.GetProjectByUUID(c.Request.Context(), projectKey)
-//	if err != nil {
-//		errorResponse(c, http.StatusNotFound, err.Error())
-//		return
-//	}
-//	c.JSON(http.StatusOK, projectToDTO(project))
-//}
+func (pr *projectRouter) getProjectByUUID(c *gin.Context) {
+	projectKey, err := uuid.Parse(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	project, err := pr.p.GetProjectByUUID(c.Request.Context(), projectKey)
+	if err != nil {
+		errorResponse(c, http.StatusNotFound, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, projectToDTO(project))
+}
+
 //
 //func (pr *projectRouter) createProject(c *gin.Context) {
 //	req := new(projectDTO)

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/uuid"
 	"lg/internal/entity"
 )
@@ -14,22 +15,25 @@ func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, 
 	return p.repo.GetAllProjects(ctx)
 }
 
-func (p ProjectUseCase) GetProjectByUUID(ctx context.Context, uuid uuid.UUID) (entity.Project, error) {
+func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
+	project, err := p.repo.GetProjectByUUID(ctx, projectKey)
+	if (err == nil) && (project == entity.Project{}) {
+		return project, fmt.Errorf("there is no project with this name")
+	}
+	return project, err
+}
+
+func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
+func (p *ProjectUseCase) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p ProjectUseCase) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (p ProjectUseCase) DeleteProjectByUUID(ctx context.Context, uuid uuid.UUID) error {
+func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, uuid uuid.UUID) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -42,18 +46,6 @@ func NewProjectUseCase(repo ProjectRp) *ProjectUseCase {
 	}
 }
 
-//
-//func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
-//	return p.repo.GetAllProjects(ctx)
-//}
-//
-//func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {
-//	project, err := p.repo.GetProjectByUUID(ctx, projectKey)
-//	if (err == nil) && (project == entity.Project{}) {
-//		return project, fmt.Errorf("there is no project with this name")
-//	}
-//	return project, err
-//}
 //
 //func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
 //	projectOld, err := p.repo.GetProjectByUUID(ctx, project.UUID)
