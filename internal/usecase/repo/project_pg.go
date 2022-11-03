@@ -14,6 +14,12 @@ type ProjectRepo struct {
 	*postgres.Postgres
 }
 
+var _ usecase.ProjectRp = (*ProjectRepo)(nil)
+
+func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
+	return &ProjectRepo{pg}
+}
+
 func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
 	query := `SELECT * FROM project`
 
@@ -101,10 +107,4 @@ func (p *ProjectRepo) DeleteProjectByUUID(ctx context.Context, projectKey uuid.U
 	}
 	defer rows.Close()
 	return nil
-}
-
-var _ usecase.ProjectRp = (*ProjectRepo)(nil)
-
-func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
-	return &ProjectRepo{pg}
 }
