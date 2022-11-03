@@ -33,8 +33,7 @@ func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
 	//handler.POST("/project", pr.createProject)
-	//handler.PUT("/project/:uuid", pr.updateProject)
-	//handler.DELETE("/project/:uuid", pr.deleteProject)
+	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
 func (pr *projectRouter) getAllProjects(c *gin.Context) {
@@ -100,16 +99,16 @@ func (pr *projectRouter) getProjectByUUID(c *gin.Context) {
 //	c.JSON(http.StatusNoContent, nil)
 //}
 //
-//func (pr *projectRouter) deleteProject(c *gin.Context) {
-//	projectKey, err := uuid.FromString(c.Param("uuid"))
-//	if err != nil {
-//		errorResponse(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//	err = pr.p.DeleteProjectByUUID(c.Request.Context(), projectKey)
-//	if err != nil {
-//		errorResponse(c, http.StatusNotFound, err.Error())
-//		return
-//	}
-//	c.JSON(http.StatusNoContent, nil)
-//}
+func (pr *projectRouter) deleteProjectByUUID(c *gin.Context) {
+	projectKey, err := uuid.Parse(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	err = pr.p.DeleteProjectByUUID(c.Request.Context(), projectKey)
+	if err != nil {
+		errorResponse(c, http.StatusNotFound, err.Error())
+		return
+	}
+	c.JSON(http.StatusNoContent, nil)
+}

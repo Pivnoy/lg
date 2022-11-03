@@ -22,7 +22,8 @@ func Run(cfg *config.Config) {
 	if err != nil {
 		log.Fatal("Error in creating postgres instance")
 	}
-	projectUseCase := usecase.NewProjectUseCase(repo.NewProjectRepo(pg))
+	lineUpUseCase := usecase.NewLineupUseCase(repo.NewLineupRepo(pg))
+	projectUseCase := usecase.NewProjectUseCase(repo.NewProjectRepo(pg), lineUpUseCase)
 	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)

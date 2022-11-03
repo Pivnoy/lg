@@ -9,6 +9,16 @@ import (
 
 type ProjectUseCase struct {
 	repo ProjectRp
+	l    LineupContract
+}
+
+var _ ProjectContract = (*ProjectUseCase)(nil)
+
+func NewProjectUseCase(repo ProjectRp, l LineupContract) *ProjectUseCase {
+	return &ProjectUseCase{
+		repo: repo,
+		l:    l,
+	}
 }
 
 func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
@@ -28,21 +38,31 @@ func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Proje
 	panic("implement me")
 }
 
-func (p *ProjectUseCase) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
-	//TODO implement me
-	panic("implement me")
+func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {
+	err := p.l.DeleteLineupByProjectUUID(ctx, projectKey)
+	if err != nil {
+		return err
+	}
+	exist, err := p.CheckProjectExistenceByProjectUUID(ctx, projectKey)
+	switch {
+	case err != nil:
+		return err
+	case exist:
+		return p.repo.DeleteProjectByUUID(ctx, projectKey)
+	default:
+		return fmt.Errorf("project with project key %s missing", projectKey.String())
+	}
 }
 
-func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, uuid uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-var _ ProjectContract = (*ProjectUseCase)(nil)
-
-func NewProjectUseCase(repo ProjectRp) *ProjectUseCase {
-	return &ProjectUseCase{
-		repo: repo,
+func (p *ProjectUseCase) CheckProjectExistenceByProjectUUID(ctx context.Context, projectKey uuid.UUID) (bool, error) {
+	project, err := p.repo.GetProjectByUUID(ctx, projectKey)
+	switch {
+	case err != nil:
+		return false, err
+	case err == nil && project == entity.Project{}:
+		return false, nil
+	default:
+		return true, nil
 	}
 }
 
@@ -58,18 +78,4 @@ func NewProjectUseCase(repo ProjectRp) *ProjectUseCase {
 //	return p.repo.CreateProject(ctx, project)
 //}
 //
-//func (p *ProjectUseCase) UpdateProjectByUUID(ctx context.Context, project entity.Project) error {
-//	_, err := p.GetProjectByUUID(ctx, project.UUID)
-//	if err != nil {
-//		return err
-//	}
-//	return p.repo.UpdateProjectByUUID(ctx, project)
-//}
 //
-//func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {
-//	_, err := p.GetProjectByUUID(ctx, projectKey)
-//	if err != nil {
-//		return err
-//	}
-//	return p.repo.DeleteProjectByUUID(ctx, projectKey)
-//}
