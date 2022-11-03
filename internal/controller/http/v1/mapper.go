@@ -42,3 +42,10 @@ func citizenshipToDTO(citizenship entity.Citizenship) citizenshipDTO {
 		Name: citizenship.Name,
 	}
 }
+
+func universityToDTO(university entity.University) universityDTO {
+	return universityDTO{
+		UUID: university.UUID.String(),
+		Name: university.Name,
+	}
+}

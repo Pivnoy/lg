@@ -86,4 +86,12 @@ type (
 	CitizenshipContract interface {
 		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
 	}
+
+	UniversityRp interface {
+		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+	}
+
+	UniversityContract interface {
+		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+	}
 )
