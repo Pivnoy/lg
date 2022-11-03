@@ -12,7 +12,6 @@ func projectToDTO(project entity.Project) projectDTO {
 		PresentationLink: project.PresentationLink,
 		CreatorUUID:      project.CreatorUUID,
 		IsVisible:        project.IsVisible,
-		CreationDate:     project.CreationDate,
 	}
 }
 
@@ -26,6 +25,5 @@ func projectToEntity(dto projectDTO) entity.Project {
 		PresentationLink: dto.PresentationLink,
 		CreatorUUID:      dto.CreatorUUID,
 		IsVisible:        dto.IsVisible,
-		CreationDate:     dto.CreationDate,
 	}
 }

@@ -5,7 +5,6 @@ import (
 	"github.com/google/uuid"
 	"lg/internal/usecase"
 	"net/http"
-	"time"
 )
 
 type projectRouter struct {
@@ -16,23 +15,26 @@ type projectListResponse struct {
 	Projects []projectDTO `json:"projects"`
 }
 
+type responseUUID struct {
+	UUID uuid.UUID `json:"uuid"`
+}
+
 type projectDTO struct {
 	UUID             uuid.UUID `json:"uuid"`
 	Name             string    `json:"name"`
 	Description      string    `json:"description"`
-	CategoryUUID     uuid.UUID `json:"categoryUUID"`
-	ProjectLink      string    `json:"link"`
-	PresentationLink string    `json:"presentation"`
-	CreatorUUID      uuid.UUID `json:"creatorUUID"`
-	IsVisible        string    `json:"isVisible"`
-	CreationDate     time.Time `json:"creationDate"`
+	CategoryUUID     uuid.UUID `json:"category_uuid"`
+	ProjectLink      string    `json:"project_link"`
+	PresentationLink string    `json:"presentation_link"`
+	CreatorUUID      uuid.UUID `json:"creator_uuid"`
+	IsVisible        string    `json:"is_visible"`
 }
 
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	pr := &projectRouter{p: p}
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
-	//handler.POST("/project", pr.createProject)
+	handler.POST("/project", pr.createProject)
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
@@ -63,42 +65,20 @@ func (pr *projectRouter) getProjectByUUID(c *gin.Context) {
 	c.JSON(http.StatusOK, projectToDTO(project))
 }
 
-//
-//func (pr *projectRouter) createProject(c *gin.Context) {
-//	req := new(projectDTO)
-//	if err := c.ShouldBindJSON(req); err != nil {
-//		errorResponse(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//	projectKey, err := pr.p.CreateProject(c.Request.Context(), projectToEntity(*req))
-//	if err != nil {
-//		errorResponse(c, http.StatusInternalServerError, err.Error())
-//		return
-//	}
-//	c.JSON(http.StatusCreated, responseUUID{UUID: projectKey})
-//}
-//
-//func (pr *projectRouter) updateProject(c *gin.Context) {
-//	projectKey, err := uuid.FromString(c.Param("uuid"))
-//	if err != nil {
-//		errorResponse(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//	req := new(projectDTO)
-//	if err := c.ShouldBindJSON(req); err != nil {
-//		errorResponse(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//	projectEntity := projectToEntity(*req)
-//	projectEntity.UUID = projectKey
-//	err = pr.p.UpdateProjectByUUID(c.Request.Context(), projectEntity)
-//	if err != nil {
-//		errorResponse(c, http.StatusNotFound, err.Error())
-//		return
-//	}
-//	c.JSON(http.StatusNoContent, nil)
-//}
-//
+func (pr *projectRouter) createProject(c *gin.Context) {
+	req := new(projectDTO)
+	if err := c.ShouldBindJSON(req); err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	projectKey, err := pr.p.CreateProject(c.Request.Context(), projectToEntity(*req))
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusCreated, responseUUID{UUID: projectKey})
+}
+
 func (pr *projectRouter) deleteProjectByUUID(c *gin.Context) {
 	projectKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {

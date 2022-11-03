@@ -34,8 +34,7 @@ func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.U
 }
 
 func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
-	//TODO implement me
-	panic("implement me")
+	return p.repo.CreateProject(ctx, project)
 }
 
 func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {
@@ -65,17 +64,3 @@ func (p *ProjectUseCase) CheckProjectExistenceByProjectUUID(ctx context.Context,
 		return true, nil
 	}
 }
-
-//
-//func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
-//	projectOld, err := p.repo.GetProjectByUUID(ctx, project.UUID)
-//	switch {
-//	case err != nil:
-//		return uuid.Nil, err
-//	case projectOld != entity.Project{}:
-//		return uuid.Nil, fmt.Errorf("project with that name already exists")
-//	}
-//	return p.repo.CreateProject(ctx, project)
-//}
-//
-//
