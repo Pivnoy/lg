@@ -7,9 +7,11 @@ func projectToDTO(project entity.Project) projectDTO {
 		UUID:             project.UUID,
 		Name:             project.Name,
 		Description:      project.Description,
+		CategoryUUID:     project.CategoryUUID,
 		ProjectLink:      project.ProjectLink,
 		PresentationLink: project.PresentationLink,
-		CreatorID:        project.CreatorID,
+		CreatorUUID:      project.CreatorUUID,
+		IsVisible:        project.IsVisible,
 	}
 }
 
@@ -18,8 +20,10 @@ func projectToEntity(dto projectDTO) entity.Project {
 		UUID:             dto.UUID,
 		Name:             dto.Name,
 		Description:      dto.Description,
+		CategoryUUID:     dto.CategoryUUID,
 		ProjectLink:      dto.ProjectLink,
 		PresentationLink: dto.PresentationLink,
-		CreatorID:        dto.CreatorID,
+		CreatorUUID:      dto.CreatorUUID,
+		IsVisible:        dto.IsVisible,
 	}
 }

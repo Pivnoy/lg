@@ -32,7 +32,6 @@ type (
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
-		UpdateProjectByUUID(context.Context, entity.Project) error
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 	}
 
@@ -40,8 +39,18 @@ type (
 		GetAllProjects(context.Context) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
-		UpdateProjectByUUID(context.Context, entity.Project) error
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
+		CheckProjectExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
+	}
+
+	LineupRp interface {
+		GetLineupByProjectUUID(context.Context, uuid.UUID) (entity.Lineup, error)
+		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
+	}
+
+	LineupContract interface {
+		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
+		CheckLineupExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
 	}
 
 	MessageRp interface {
