@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"lg/internal/entity"
 )
@@ -19,24 +20,25 @@ func NewSignInUseCase(u UserContract) *RegisterUseCase {
 	}
 }
 
-func (s *RegisterUseCase) CreateNewUser(ctx context.Context, email string, password string) error {
+func (s *RegisterUseCase) CreateNewUser(ctx context.Context, email string, password string) (uuid.UUID, error) {
 	if len(email) <= 4 || len(password) <= 4 {
-		return fmt.Errorf("invalid format of username or password")
+		return uuid.Nil, fmt.Errorf("invalid format of username or password")
 	}
 	exists, err := s.u.CheckUserExistence(ctx, email)
 	if err != nil {
-		return fmt.Errorf("error in checking user existence: %v", err)
+		return uuid.Nil, fmt.Errorf("error in checking user existence: %v", err)
 	}
 	if !exists {
 		passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 		if err != nil {
-			return fmt.Errorf("error in hashing psswrd: %v", err)
+			return uuid.Nil, fmt.Errorf("error in hashing psswrd: %v", err)
 		}
 		us := entity.User{
 			Email:    email,
+			UUID:     uuid.New(),
 			Password: string(passwordHash),
 		}
-		return s.u.StoreUser(ctx, us)
+		return us.UUID, s.u.StoreUser(ctx, us)
 	}
-	return fmt.Errorf("user already exists")
+	return uuid.Nil, fmt.Errorf("user already exists")
 }

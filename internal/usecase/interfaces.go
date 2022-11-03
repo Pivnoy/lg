@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -25,7 +25,7 @@ type (
 	}
 
 	RegisterContract interface {
-		CreateNewUser(context.Context, string, string) error
+		CreateNewUser(context.Context, string, string) (uuid.UUID, error)
 	}
 
 	ProjectRp interface {

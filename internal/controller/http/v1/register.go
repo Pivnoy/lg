@@ -21,16 +21,20 @@ type registerRequest struct {
 	Password string `json:"password"`
 }
 
+type registerResponse struct {
+	UUID string `json:"uuid"`
+}
+
 func (s *registerContract) register(c *gin.Context) {
 	var request registerRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err := s.s.CreateNewUser(c.Request.Context(), request.Email, request.Password)
+	ud, err := s.s.CreateNewUser(c.Request.Context(), request.Email, request.Password)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, nil)
+	c.JSON(http.StatusOK, registerResponse{ud.String()})
 }
