@@ -156,7 +156,8 @@ create table if not exists project (
                                        project_link text not null,
                                        presentation_link text not null,
                                        creator_uuid uuid not null references "user"(uuid),
-                                       is_visible varchar(9) check ( is_visible in ('visible', 'invisible') ) not null
+                                       is_visible varchar(9) check ( is_visible in ('visible', 'invisible') ) not null,
+                                       creation_date timestamp not null
 );
 
 create table if not exists lineup (
