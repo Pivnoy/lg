@@ -69,3 +69,14 @@ func (u *UserRepo) GetUserByUUID(ctx context.Context, user uuid.UUID) (entity.Us
 	}
 	return usr, nil
 }
+
+func (u *UserRepo) ChangePassword(ctx context.Context, user entity.User) error {
+	query := `UPDATE "user" SET password = $1 WHERE email = $2`
+
+	rows, err := u.Pool.Query(ctx, query, user.Password, user.Email)
+	if err != nil {
+		return fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	return nil
+}

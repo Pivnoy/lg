@@ -13,12 +13,15 @@ type changeRoutes struct {
 	u usecase.UserContract
 }
 
-func newChangeRoutes(handler *gin.RouterGroup) {
+func newChangeRoutes(handler *gin.RouterGroup, j usecase.JwtContract, u usecase.UserContract) {
+	c := changeRoutes{j: j, u: u}
 
+	handler.POST("/change-password", c.changePassword)
 }
 
 type changeRequest struct {
 	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
 }
 
 func (ch *changeRoutes) changePassword(c *gin.Context) {
@@ -49,7 +52,12 @@ func (ch *changeRoutes) changePassword(c *gin.Context) {
 	}
 	err = ch.j.CompareUserPassword(c.Request.Context(), entity.User{
 		Email:    us.Email,
-		Password: us.Password,
+		Password: change.OldPassword,
 	})
-
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	err = ch.u.ChangePassword(c.Request.Context(), us.Email, change.NewPassword)
+	c.JSON(http.StatusOK, nil)
 }
