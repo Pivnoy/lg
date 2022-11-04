@@ -12,8 +12,8 @@ type chatRoutes struct {
 	j usecase.JwtContract
 }
 
-func newChatRoutes(handler *gin.RouterGroup, c usecase.ChatContract) {
-	ch := chatRoutes{c: c}
+func newChatRoutes(handler *gin.RouterGroup, c usecase.ChatContract, j usecase.JwtContract) {
+	ch := chatRoutes{c: c, j: j}
 
 	handler.POST("/chats", ch.getChatList)
 	handler.POST("/history", ch.getChatHistory)

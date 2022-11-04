@@ -11,6 +11,7 @@ func NewRouter(handler *gin.Engine,
 	j usecase.JwtContract,
 	u usecase.UserContract,
 	pr usecase.ProfileContract,
+	c usecase.ChatContract,
 ) {
 	h := handler.Group("/api/v1")
 	{
@@ -18,5 +19,6 @@ func NewRouter(handler *gin.Engine,
 		newRegisterRoutes(h, s)
 		newLoginRoutes(h, j, u, pr)
 		newLogoutRouter(h)
+		newChatRoutes(h, c, j)
 	}
 }

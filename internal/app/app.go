@@ -28,6 +28,8 @@ func Run(cfg *config.Config) {
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
 	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg))
+	messageUseCase := usecase.NewMessageUseCase(repo.NewMessageRepo(pg))
+	chatUseCase := usecase.NewChatUseCase(repo.NewChatRepo(pg), messageUseCase)
 
 	handler := gin.New()
 
@@ -45,7 +47,9 @@ func Run(cfg *config.Config) {
 		signInUseCase,
 		jwtUseCase,
 		userUseCase,
-		profileUseCase)
+		profileUseCase,
+		chatUseCase,
+	)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)
