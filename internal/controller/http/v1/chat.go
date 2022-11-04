@@ -10,10 +10,12 @@ import (
 type chatRoutes struct {
 	c usecase.ChatContract
 	j usecase.JwtContract
+	p usecase.ProfileContract
+	m usecase.MessageContract
 }
 
-func newChatRoutes(handler *gin.RouterGroup, c usecase.ChatContract, j usecase.JwtContract) {
-	ch := chatRoutes{c: c, j: j}
+func newChatRoutes(handler *gin.RouterGroup, c usecase.ChatContract, j usecase.JwtContract, p usecase.ProfileContract, m usecase.MessageContract) {
+	ch := chatRoutes{c: c, j: j, p: p, m: m}
 
 	handler.POST("/chats", ch.getChatList)
 	handler.POST("/history", ch.getChatHistory)
@@ -42,7 +44,17 @@ func (ch *chatRoutes) getChatList(c *gin.Context) {
 	chats, err := ch.c.GetAllChatsByUser(c.Request.Context(), user)
 	var chatsItems []chatItemDTO
 	for _, chat := range chats {
-		chatsItems = append(chatsItems, chatItemToDTO(chat))
+		lastMsg, err := ch.m.GetLastMessageByChat(c.Request.Context(), chat.ChatUUID)
+		if err != nil {
+			errorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+		prf, err := ch.p.GetProfileByUser(c.Request.Context(), lastMsg.AuthorUUID)
+		if err != nil {
+			errorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+		chatsItems = append(chatsItems, chatItemToDTO(chat, lastMsg, userToDTO(prf)))
 	}
 	c.JSON(http.StatusOK, chatItemResponse{chatsItems})
 }
@@ -79,7 +91,13 @@ func (ch *chatRoutes) getChatHistory(c *gin.Context) {
 	}
 	var msgDTO []messageDTO
 	for _, msg := range history {
-		msgDTO = append(msgDTO, messageToDTO(msg))
+		prf, err := ch.p.GetProfileByUser(c.Request.Context(), msg.AuthorUUID)
+		us := userToDTO(prf)
+		if err != nil {
+			errorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+		msgDTO = append(msgDTO, messageToDTO(msg, us))
 	}
 	c.JSON(http.StatusOK, chatHistoryDTO{msgDTO})
 }

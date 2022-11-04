@@ -1,9 +1,9 @@
 package v1
 
 type messageDTO struct {
-	Content string `json:"content"`
-	Sender  string `json:"sender"` //AuthorUUID
-	Date    string `json:"date"`   //createdAt
+	Content string  `json:"content"`
+	Sender  userDTO `json:"sender"` //AuthorUUID
+	Date    string  `json:"date"`   //createdAt
 }
 
 type chatItemDTO struct {
