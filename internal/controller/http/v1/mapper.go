@@ -73,3 +73,10 @@ func specializationToDTO(specialization entity.Specialization) specializationDTO
 		Value: specialization.Value,
 	}
 }
+
+func cityToDTO(city entity.City) cityDTO {
+	return cityDTO{
+		UUID: city.UUID.String(),
+		Name: city.Name,
+	}
+}

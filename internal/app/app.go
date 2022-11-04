@@ -34,6 +34,7 @@ func Run(cfg *config.Config) {
 	employmentUseCase := usecase.NewEmploymentUseCase(repo.NewEmploymentRepo(pg))
 	specializationUseCase := usecase.NewSpecializationUseCase(repo.NewSpecializationRepo(pg))
 	universityUseCase := usecase.NewUniversityUseCase(repo.NewUniversityRepo(pg))
+	cityUseCase := usecase.NewCityUseCase(repo.NewCityRepo(pg))
 
 	handler := gin.New()
 
@@ -57,7 +58,8 @@ func Run(cfg *config.Config) {
 		eduspecialityUseCase,
 		employmentUseCase,
 		specializationUseCase,
-		universityUseCase)
+		universityUseCase,
+		cityUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)
