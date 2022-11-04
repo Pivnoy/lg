@@ -2,7 +2,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 drop table if exists "user", administrator, country, city, citizenship,
     company, skill, skill_category, specialization, "role", team, achievement,
-    employment, eduspeciality, university, profile, profile_skill, lineup, category, project cascade;
+    employment, eduspeciality, university, profile, profile_skill, lineup, category, project,
+    chat, message, chat_member cascade;
 
 create table if not exists "user" (
     id serial primary key,
@@ -173,14 +174,14 @@ create table if not exists lineup (
 create table if not exists chat (
     id serial primary key,
     uuid uuid unique default uuid_generate_v4(),
-    name varchar(60) not null,
+    "name" varchar(60) not null,
     project_uuid uuid references project(uuid)
 );
 
 create table if not exists message (
     id serial primary key,
     author_uuid uuid not null references "user"(uuid),
-    content text not null,
+    "content" text not null,
     creation_date timestamp not null,
     chat_uuid uuid not null references chat(uuid)
 );
