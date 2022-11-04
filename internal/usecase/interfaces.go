@@ -9,11 +9,13 @@ import (
 type (
 	UserRp interface {
 		GetUserByEmail(context.Context, string) (entity.User, error)
+		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
 	}
 
 	UserContract interface {
 		GetUser(context.Context, string) (entity.User, error)
+		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
 		CheckUserExistence(context.Context, string) (bool, error)
 	}

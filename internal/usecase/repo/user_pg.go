@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -45,4 +46,26 @@ func (u *UserRepo) StoreUser(ctx context.Context, user entity.User) error {
 	}
 	defer rows.Close()
 	return nil
+}
+
+func (u *UserRepo) GetUserByUUID(ctx context.Context, user uuid.UUID) (entity.User, error) {
+	query := `SELECT * FROM "user" WHERE uuid = $1`
+
+	rows, err := u.Pool.Query(ctx, query, user)
+	if err != nil {
+		return entity.User{}, fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+
+	var usr entity.User
+	for rows.Next() {
+		err = rows.Scan(&usr.ID,
+			&usr.UUID,
+			&usr.Email,
+			&usr.Password)
+		if err != nil {
+			return entity.User{}, err
+		}
+	}
+	return usr, nil
 }

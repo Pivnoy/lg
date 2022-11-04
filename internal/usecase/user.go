@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -19,6 +20,10 @@ func NewUserUseCase(repo UserRp) *UserUseCase {
 
 func (u *UserUseCase) GetUser(ctx context.Context, email string) (entity.User, error) {
 	return u.repo.GetUserByEmail(ctx, email)
+}
+
+func (u *UserUseCase) GetUserByUUID(ctx context.Context, user uuid.UUID) (entity.User, error) {
+	return u.repo.GetUserByUUID(ctx, user)
 }
 
 func (u *UserUseCase) StoreUser(ctx context.Context, user entity.User) error {
