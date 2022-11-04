@@ -73,6 +73,7 @@ type (
 	ChatContract interface {
 		CreateChat(context.Context, string, []uuid.UUID) error
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
+		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
 	}
 
 	ProfileRp interface {

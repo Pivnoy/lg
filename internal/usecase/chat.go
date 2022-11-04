@@ -56,3 +56,7 @@ func (c *ChatUseCase) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]
 	}
 	return chatItems, nil
 }
+
+func (c *ChatUseCase) GetChatHistory(ctx context.Context, chat uuid.UUID) ([]entity.Message, error) {
+	return c.repo.GetChatHistory(ctx, chat)
+}
