@@ -134,4 +134,13 @@ type (
 	CategoryContract interface {
 		GetAllCategory(context.Context) ([]entity.Category, error)
 	}
+
+	CompanyRp interface {
+		GetCompanyByInn(context.Context, string) (entity.Company, error)
+	}
+
+	CompanyContract interface {
+		CheckCompanyExistenceByInn(context.Context, string) (bool, error)
+		GetCompanyByInn(context.Context, string) (entity.Company, error)
+	}
 )

@@ -19,6 +19,7 @@ func NewRouter(handler *gin.Engine,
 	un usecase.UniversityContract,
 	st usecase.CityContract,
 	c usecase.CategoryContract,
+	cs usecase.CompanyContract,
 ) {
 	h := handler.Group("/api/v1")
 	{
@@ -34,5 +35,6 @@ func NewRouter(handler *gin.Engine,
 		newUniversitiesRoutes(h, un)
 		NewCityRoutes(h, st)
 		NewCategoryRoutes(h, c)
+		NewCompanyRoutes(h, cs)
 	}
 }

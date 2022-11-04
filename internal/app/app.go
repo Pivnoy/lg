@@ -36,7 +36,7 @@ func Run(cfg *config.Config) {
 	universityUseCase := usecase.NewUniversityUseCase(repo.NewUniversityRepo(pg))
 	cityUseCase := usecase.NewCityUseCase(repo.NewCityRepo(pg))
 	categoryUseCase := usecase.NewCategoryUseCase(repo.NewCategoryRepo(pg))
-
+	companyUseCase := usecase.NewCompanyUseCase(repo.NewCompanyRepo(pg))
 	handler := gin.New()
 
 	handler.Use(cors.New(cors.Config{
@@ -61,7 +61,8 @@ func Run(cfg *config.Config) {
 		specializationUseCase,
 		universityUseCase,
 		cityUseCase,
-		categoryUseCase)
+		categoryUseCase,
+		companyUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)
