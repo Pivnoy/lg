@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -27,4 +28,27 @@ func (m *MessageRepo) StoreMessage(ctx context.Context, message entity.Message) 
 	}
 	defer rows.Close()
 	return nil
+}
+
+func (m *MessageRepo) GetLastMessageByChat(ctx context.Context, chat uuid.UUID) (entity.Message, error) {
+	//TODO
+	query := ``
+
+	rows, err := m.Pool.Query(ctx, query, chat)
+	if err != nil {
+		return entity.Message{}, fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	var msg entity.Message
+	for rows.Next() {
+		err = rows.Scan(&msg.ID,
+			&msg.AuthorUUID,
+			&msg.Content,
+			&msg.CreationDate,
+			&msg.ChatUUID)
+		if err != nil {
+			return entity.Message{}, fmt.Errorf("cannot parse into message: %v", err)
+		}
+	}
+	return msg, nil
 }

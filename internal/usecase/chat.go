@@ -8,13 +8,14 @@ import (
 )
 
 type ChatUseCase struct {
-	repo ChatRp
+	repo      ChatRp
+	mContract MessageContract
 }
 
 var _ ChatContract = (*ChatUseCase)(nil)
 
-func NewChatUseCase(repo ChatRp) *ChatUseCase {
-	return &ChatUseCase{repo: repo}
+func NewChatUseCase(repo ChatRp, mContract MessageContract) *ChatUseCase {
+	return &ChatUseCase{repo: repo, mContract: mContract}
 }
 
 func (c *ChatUseCase) CreateChat(ctx context.Context, chatName string, userUUIDs []uuid.UUID) error {
@@ -30,4 +31,28 @@ func (c *ChatUseCase) CreateChat(ctx context.Context, chatName string, userUUIDs
 		}
 	}
 	return nil
+}
+
+func (c *ChatUseCase) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]entity.ChatItem, error) {
+	chats, err := c.repo.GetAllChatsByUser(ctx, user)
+	if err != nil {
+		return nil, fmt.Errorf("eror in getting chat list: %v", err)
+	}
+	var lastMessages []entity.Message
+	for _, chat := range chats {
+		msg, err := c.mContract.GetLastMessageByChat(ctx, chat.UUID)
+		if err != nil {
+			return nil, err
+		}
+		lastMessages = append(lastMessages, msg)
+	}
+	var chatItems []entity.ChatItem
+	for j := 0; j < len(chats); j++ {
+		chatItems = append(chatItems, entity.ChatItem{
+			ChatName:    chats[j].Name,
+			ChatUUID:    chats[j].UUID,
+			LastMessage: lastMessages[j],
+		})
+	}
+	return chatItems, nil
 }

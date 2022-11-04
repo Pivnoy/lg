@@ -55,6 +55,7 @@ type (
 
 	MessageRp interface {
 		StoreMessage(context.Context, entity.Message) error
+		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
 	}
 
 	ChatRp interface {
@@ -64,8 +65,14 @@ type (
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.Chat, error)
 	}
 
+	MessageContract interface {
+		StoreMessage(context.Context, entity.Message) error
+		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+	}
+
 	ChatContract interface {
 		CreateChat(context.Context, string, []uuid.UUID) error
+		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
 	}
 
 	ProfileRp interface {
