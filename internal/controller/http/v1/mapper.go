@@ -30,7 +30,7 @@ func projectToEntity(dto projectDTO) entity.Project {
 
 func countryToDTO(country entity.Country) countryDTO {
 	return countryDTO{
-		UUID: country.UUID,
+		UUID: country.UUID.String(),
 		Name: country.Name,
 		Code: country.Code,
 	}
