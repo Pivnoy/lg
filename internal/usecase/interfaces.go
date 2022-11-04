@@ -118,4 +118,12 @@ type (
 	SpecializationContract interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
 	}
+
+	CityRp interface {
+		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+	}
+
+	CityContract interface {
+		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+	}
 )

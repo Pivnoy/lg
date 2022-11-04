@@ -3,7 +3,7 @@ package entity
 import "github.com/google/uuid"
 
 type Profile struct {
-	//ID                 int64     `json:"id"`
+	ID                 uuid.UUID `json:"id"`
 	UserUUID           uuid.UUID `json:"user_uuid"`
 	Firstname          string    `json:"firstname"`
 	Lastname           string    `json:"lastname"`
