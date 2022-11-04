@@ -54,13 +54,18 @@ type (
 	}
 
 	MessageRp interface {
-		StoreMessage(context.Context, entity.Message) (uuid.UUID, error)
+		StoreMessage(context.Context, entity.Message) error
 	}
 
 	ChatRp interface {
-		CreateChat(context.Context)
-		AddMessageByChat(context.Context, uuid.UUID, entity.Message) error
-		GetCharHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		CreateChat(context.Context, entity.Chat) error
+		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		AddUserIntoChat(context.Context, uuid.UUID, uuid.UUID) error
+		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.Chat, error)
+	}
+
+	ChatContract interface {
+		CreateChat(context.Context, string, []uuid.UUID) error
 	}
 
 	ProfileRp interface {
