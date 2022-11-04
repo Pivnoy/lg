@@ -11,6 +11,7 @@ func NewRouter(handler *gin.Engine,
 	j usecase.JwtContract,
 	u usecase.UserContract,
 	pr usecase.ProfileContract,
+	c usecase.ChatContract,
 	cc usecase.CountryContract,
 	ct usecase.CitizenshipContract,
 	ed usecase.EduspecialityContract,
@@ -24,6 +25,7 @@ func NewRouter(handler *gin.Engine,
 		newRegisterRoutes(h, s)
 		newLoginRoutes(h, j, u, pr)
 		newLogoutRouter(h)
+		newChatRoutes(h, c, j)
 		newCountryRoute(h, cc)
 		newCitizenshipRoutes(h, ct)
 		newEduspecialitiesRoutes(h, ed)

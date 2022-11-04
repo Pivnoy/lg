@@ -28,6 +28,23 @@ func projectToEntity(dto projectDTO) entity.Project {
 	}
 }
 
+func messageToDTO(message entity.Message) messageDTO {
+	return messageDTO{
+		Content: message.Content,
+		Sender:  message.AuthorUUID.String(),
+		Date:    message.CreationDate.String(),
+	}
+}
+
+func chatItemToDTO(chatItem entity.ChatItem) chatItemDTO {
+	return chatItemDTO{
+		ChatName:    chatItem.ChatName,
+		ChatUUID:    chatItem.ChatUUID.String(),
+		LastMessage: messageToDTO(chatItem.LastMessage),
+		ImageURL:    "",
+  }
+}
+
 func countryToDTO(country entity.Country) countryDTO {
 	return countryDTO{
 		UUID: country.UUID.String(),
