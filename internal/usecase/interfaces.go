@@ -110,4 +110,12 @@ type (
 	EmploymentContract interface {
 		GetAllEmployments(ctx context.Context) ([]entity.Employment, error)
 	}
+
+	SpecializationRp interface {
+		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+	}
+
+	SpecializationContract interface {
+		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+	}
 )
