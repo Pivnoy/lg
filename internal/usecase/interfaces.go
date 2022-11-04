@@ -70,4 +70,52 @@ type (
 	ProfileContract interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
 	}
+
+	CountryRp interface {
+		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+	}
+
+	CountryContract interface {
+		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+	}
+
+	CitizenshipRp interface {
+		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+	}
+
+	CitizenshipContract interface {
+		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+	}
+
+	UniversityRp interface {
+		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+	}
+
+	UniversityContract interface {
+		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+	}
+
+	EduspecialityRp interface {
+		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+	}
+
+	EduspecialityContract interface {
+		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+	}
+
+	EmploymentRp interface {
+		GetAllEmployments(ctx context.Context) ([]entity.Employment, error)
+	}
+
+	EmploymentContract interface {
+		GetAllEmployments(ctx context.Context) ([]entity.Employment, error)
+	}
+
+	SpecializationRp interface {
+		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+	}
+
+	SpecializationContract interface {
+		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+	}
 )

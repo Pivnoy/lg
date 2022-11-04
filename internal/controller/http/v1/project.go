@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type projectRouter struct {
+type projectRoutes struct {
 	p usecase.ProjectContract
 }
 
@@ -31,14 +31,14 @@ type projectDTO struct {
 }
 
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
-	pr := &projectRouter{p: p}
+	pr := &projectRoutes{p: p}
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
 	handler.POST("/project", pr.createProject)
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
-func (pr *projectRouter) getAllProjects(c *gin.Context) {
+func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 	projectList, err := pr.p.GetAllProjects(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
@@ -51,7 +51,7 @@ func (pr *projectRouter) getAllProjects(c *gin.Context) {
 	c.JSON(http.StatusOK, projectListResponse{responseList})
 }
 
-func (pr *projectRouter) getProjectByUUID(c *gin.Context) {
+func (pr *projectRoutes) getProjectByUUID(c *gin.Context) {
 	projectKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
@@ -65,7 +65,7 @@ func (pr *projectRouter) getProjectByUUID(c *gin.Context) {
 	c.JSON(http.StatusOK, projectToDTO(project))
 }
 
-func (pr *projectRouter) createProject(c *gin.Context) {
+func (pr *projectRoutes) createProject(c *gin.Context) {
 	req := new(projectDTO)
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
@@ -79,7 +79,7 @@ func (pr *projectRouter) createProject(c *gin.Context) {
 	c.JSON(http.StatusCreated, responseUUID{UUID: projectKey})
 }
 
-func (pr *projectRouter) deleteProjectByUUID(c *gin.Context) {
+func (pr *projectRoutes) deleteProjectByUUID(c *gin.Context) {
 	projectKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
