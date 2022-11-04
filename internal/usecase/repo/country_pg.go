@@ -36,7 +36,7 @@ func (c *CountryRepo) GetAllCountries(ctx context.Context) ([]entity.Country, er
 			&country.Code,
 		)
 		if err != nil {
-			return nil, fmt.Errorf("error in parsing project: %w", err)
+			return nil, fmt.Errorf("error in parsing category: %w", err)
 		}
 		countryList = append(countryList, country)
 	}

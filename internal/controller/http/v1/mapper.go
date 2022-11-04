@@ -80,3 +80,10 @@ func cityToDTO(city entity.City) cityDTO {
 		Name: city.Name,
 	}
 }
+
+func categoryToDTO(category entity.Category) categoryDTO {
+	return categoryDTO{
+		UUID: category.UUID.String(),
+		Name: category.Name,
+	}
+}

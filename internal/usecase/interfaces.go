@@ -126,4 +126,12 @@ type (
 	CityContract interface {
 		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
 	}
+
+	CategoryRp interface {
+		GetAllCategory(context.Context) ([]entity.Category, error)
+	}
+
+	CategoryContract interface {
+		GetAllCategory(context.Context) ([]entity.Category, error)
+	}
 )
