@@ -11,6 +11,7 @@ type (
 		GetUserByEmail(context.Context, string) (entity.User, error)
 		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
+		ChangePassword(context.Context, entity.User) error
 	}
 
 	UserContract interface {
@@ -18,6 +19,7 @@ type (
 		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
 		CheckUserExistence(context.Context, string) (bool, error)
+		ChangePassword(context.Context, string, string) error
 	}
 
 	JwtContract interface {

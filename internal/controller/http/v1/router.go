@@ -32,5 +32,6 @@ func NewRouter(handler *gin.Engine,
 		newEmploymentsRoutes(h, ep)
 		newSpecializationsRoutes(h, sp)
 		newUniversitiesRoutes(h, un)
+		newChangeRoutes(h, j, u)
 	}
 }
