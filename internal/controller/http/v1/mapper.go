@@ -57,3 +57,11 @@ func eduspecialityToDTO(eduspeciality entity.Eduspeciality) eduspecialityDTO {
 		Code: eduspeciality.Code,
 	}
 }
+
+func employmentToDTO(employment entity.Employment) employmentDTO {
+	return employmentDTO{
+		UUID:  employment.UUID.String(),
+		Name:  employment.Name,
+		Value: employment.Value,
+	}
+}

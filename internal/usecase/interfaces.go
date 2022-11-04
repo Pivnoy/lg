@@ -102,4 +102,12 @@ type (
 	EduspecialityContract interface {
 		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
 	}
+
+	EmploymentRp interface {
+		GetAllEmployments(ctx context.Context) ([]entity.Employment, error)
+	}
+
+	EmploymentContract interface {
+		GetAllEmployments(ctx context.Context) ([]entity.Employment, error)
+	}
 )
