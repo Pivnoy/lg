@@ -33,7 +33,7 @@ func (cr *eduspecialityRoutes) getAllEduspecialities(c *gin.Context) {
 	}
 	var responseList []eduspecialityDTO
 	for _, v := range eduspecialityList {
-		responseList = append(responseList, eduspecialityToDTO())
+		responseList = append(responseList, eduspecialityToDTO(v))
 	}
 	c.JSON(http.StatusOK, eduspecialityListResponse{responseList})
 }
