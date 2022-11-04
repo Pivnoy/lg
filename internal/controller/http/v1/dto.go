@@ -31,8 +31,3 @@ type chatDTO struct {
 	ChatType    string         `json:"type"`
 	Users       []userDTO      `json:"users"`
 }
-
-//type messageRequest struct {
-//	Content  string    `json:"content"`
-//	ChatUUID uuid.UUID `json:"chatUUID"`
-//}

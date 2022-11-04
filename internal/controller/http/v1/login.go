@@ -67,6 +67,6 @@ func (l *loginRoutes) login(c *gin.Context) {
 		UUID:       prf.UserUUID.String(),
 		FirstName:  prf.Firstname,
 		LastName:   prf.Lastname,
-		Patronymic: prf.Patronymic,
+		Patronymic: prf.Patronymic.String,
 	})
 }
