@@ -182,7 +182,9 @@ insert into category(uuid, "name") values
 
 insert into project(uuid, "name", description, category_uuid, project_link, presentation_link, creator_uuid, is_visible, creation_date) VALUES
     ('e153b3a7-ca0c-4fc7-b500-efaef1bd73cd', 'Закрытие академов', 'Планируем жесточайше ботать чтобы закрыть все академы и долги', '13dadff0-98f4-438b-a803-65b3c7e4d833', 'https://docs.google.com/document/d/1yTMA8CKSxGP3-H_PPTIxDdm_TnUx87uTLiyKCIYPtik/edit', 'https://miro.com/app/board/uXjVPahvELM=/', '47e94c22-933d-4029-9752-dad3cd53a85b', 'visible', '2022-11-03 04:05:30'),
-    ('fa044ee2-cebd-484d-9697-9f8b25646188', 'Попить пива', 'Предлагаю всем смачно попить пыва на выходных на ветеранах', '45e07768-da80-4681-a01a-80654e40059b', 'https://ru.wikipedia.org/wiki/%D0%9F%D0%B8%D0%B2%D0%BE', 'https://pptcloud.ru/obzh/mify-o-pive', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'visible', '2022-10-10 10:50:15');
+    ('fa044ee2-cebd-484d-9697-9f8b25646188', 'Попить пива', 'Предлагаю всем смачно попить пыва на выходных на ветеранах', '45e07768-da80-4681-a01a-80654e40059b', 'https://ru.wikipedia.org/wiki/%D0%9F%D0%B8%D0%B2%D0%BE', 'https://pptcloud.ru/obzh/mify-o-pive', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'visible', '2022-10-10 10:50:15'),
+    ('b988d772-f58e-410a-bc5f-e0ed5013c9bd', 'ЛИДЕРЫ ЦИФРОВОЙ ТРАНСФОРМАЦИИ', 'Ежегодный конкурс на соискание премий Мэра Москвы по созданию цифровых сервисов и продуктов для города', '13dadff0-98f4-438b-a803-65b3c7e4d833', 'https://leaders2022.innoagency.ru/?utm_source=invite&utm_medium=aim&utm_campaign=leaders2022_team', 'https://img2.reactor.cc/pics/post/full/it-%D1%85%D0%B0%D0%BA%D0%B0%D1%82%D0%BE%D0%BD-%D0%BF%D0%B5%D1%81%D0%BE%D1%87%D0%BD%D0%B8%D1%86%D0%B0-6175205.jpeg', '6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'visible', '2022-10-10 10:32:15')
+
 
 insert into lineup(team_uuid, role_uuid, profile_uuid, project_uuid) VALUES
     ('48c27232-f192-46cb-a76d-a7087c5ff084', '2bf83093-55fd-470d-bae4-ba85785f2dbb', '47e94c22-933d-4029-9752-dad3cd53a85b', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
@@ -192,7 +194,8 @@ insert into lineup(team_uuid, role_uuid, profile_uuid, project_uuid) VALUES
 
 insert into chat(uuid, "name", project_uuid) values
     ('3f3ddd57-bf21-4f2a-9c3c-4163caa705ce', 'buba - закрытие академов', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
-    ('5b1fa731-3604-4aec-9246-520713a69f0c', 'пиво в пятницу 04.11', 'fa044ee2-cebd-484d-9697-9f8b25646188');
+    ('5b1fa731-3604-4aec-9246-520713a69f0c', 'пиво в пятницу 04.11', 'fa044ee2-cebd-484d-9697-9f8b25646188'),
+    ('15cc1ffb-4c58-44d6-91eb-a8c09e099cfb', 'hackaton', 'b988d772-f58e-410a-bc5f-e0ed5013c9bd');
 
 insert into message(author_uuid, "content", creation_date, chat_uuid) VALUES
     ('47e94c22-933d-4029-9752-dad3cd53a85b', 'прив как дела', '2022-11-03 19:00:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
@@ -201,11 +204,21 @@ insert into message(author_uuid, "content", creation_date, chat_uuid) VALUES
     ('753a2846-a6ef-4970-9693-41d66a55210f', 'санечка, брат, есть туалетка? моя кончилась, 3 рулона за 2 пары пиздосссс', '2022-11-03 19:02:35', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
     ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'я купил себе чарон и теперь сижу его парю', '2022-11-03 19:03:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
     ('753a2846-a6ef-4970-9693-41d66a55210f', 'женечек мой брат как дела снюсик будеш', '2022-11-03 20:10:00', '5b1fa731-3604-4aec-9246-520713a69f0c'),
-    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'брат сильно тебе бабаха шлепандухнула', '2022-11-03 20:15:00', '5b1fa731-3604-4aec-9246-520713a69f0c');
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'брат сильно тебе бабаха шлепандухнула', '2022-11-03 20:15:00', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'пацаны надо жестко заботать хакатон', '2022-11-05 20:10:10', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'поддерживаю. спать сегодня не будем?', '2022-11-05 20:10:30', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'рома, брат, запасись туалеткой на ближайшие дни', '2022-11-05 20:11:00', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'принято, брат, как фугас от бабахи в попку', '2022-11-05 20:11:20', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'гришу пофронтить зовем? надо молодого подботать красить кнопки', '2022-11-05 20:12:05', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'здарова пацаны! спасибо что позвали, с меня кофе!', '2022-11-05 20:15:00', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb');
 
 insert into chat_member(user_uuid, chat_uuid) VALUES
     ('47e94c22-933d-4029-9752-dad3cd53a85b', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
     ('753a2846-a6ef-4970-9693-41d66a55210f', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
     ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
     ('753a2846-a6ef-4970-9693-41d66a55210f', '5b1fa731-3604-4aec-9246-520713a69f0c'),
-    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', '5b1fa731-3604-4aec-9246-520713a69f0c');
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb');
