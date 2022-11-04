@@ -67,9 +67,7 @@ func (c *ChatRepo) GetChatHistory(ctx context.Context, chat uuid.UUID) ([]entity
 }
 
 func (c *ChatRepo) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]entity.Chat, error) {
-	query := `select chat.id, chat.uuid, chat.name, chat.project_uuid from chat
-    join chat_member on chat.uuid = chat_member.chat_uuid
-    where chat_member.user_uuid = $1`
+	query := `SELECT chat.id, chat.uuid, chat.name FROM chat_member INNER JOIN chat ON chat_member.chat_uuid = chat.uuid WHERE chat_member.user_uuid = $1`
 
 	rows, err := c.Pool.Query(ctx, query, user)
 	if err != nil {
@@ -81,9 +79,8 @@ func (c *ChatRepo) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]ent
 	for rows.Next() {
 		var chat entity.Chat
 		err = rows.Scan(&chat.ID,
-			&chat.UUID,
 			&chat.Name,
-			&chat.ProjectUUID)
+			&chat.UUID)
 		if err != nil {
 			return nil, fmt.Errorf("cannot parse chat entity: %v", err)
 		}

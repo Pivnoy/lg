@@ -31,7 +31,8 @@ func (m *MessageRepo) StoreMessage(ctx context.Context, message entity.Message) 
 }
 
 func (m *MessageRepo) GetLastMessageByChat(ctx context.Context, chat uuid.UUID) (entity.Message, error) {
-	query := `SELECT * FROM message WHERE chat_uuid = $1`
+	//TODO
+	query := ``
 
 	rows, err := m.Pool.Query(ctx, query, chat)
 	if err != nil {
