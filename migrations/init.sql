@@ -169,3 +169,23 @@ create table if not exists lineup (
     profile_uuid uuid references "user"(uuid),
     project_uuid uuid not null references project(uuid)
 );
+
+create table if not exists chat (
+    id serial primary key,
+    uuid uuid unique default uuid_generate_v4(),
+    name varchar(60) not null
+);
+
+create table if not exists message (
+    id serial primary key,
+    author_uuid uuid not null references "user"(uuid),
+    content text not null,
+    creation_date timestamp not null,
+    chat_uuid uuid not null references chat(uuid)
+);
+
+create table if not exists chat_member (
+    id serial primary key,
+    user_uuid uuid not null references "user"(uuid),
+    chat_uuid uuid not null references chat(uuid)
+);
