@@ -30,6 +30,12 @@ func Run(cfg *config.Config) {
 	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg))
 	messageUseCase := usecase.NewMessageUseCase(repo.NewMessageRepo(pg))
 	chatUseCase := usecase.NewChatUseCase(repo.NewChatRepo(pg), messageUseCase)
+	countryUseCase := usecase.NewCountryUseCase(repo.NewCountryRepo(pg))
+	citizenshipUseCase := usecase.NewCitizenshipUseCase(repo.NewCitizenshipRepo(pg))
+	eduspecialityUseCase := usecase.NewEduspecialityUseCase(repo.NewEduspecialityRepo(pg))
+	employmentUseCase := usecase.NewEmploymentUseCase(repo.NewEmploymentRepo(pg))
+	specializationUseCase := usecase.NewSpecializationUseCase(repo.NewSpecializationRepo(pg))
+	universityUseCase := usecase.NewUniversityUseCase(repo.NewUniversityRepo(pg))
 
 	handler := gin.New()
 
@@ -49,8 +55,13 @@ func Run(cfg *config.Config) {
 		userUseCase,
 		profileUseCase,
 		chatUseCase,
-	)
-
+		countryUseCase,
+		citizenshipUseCase,
+		eduspecialityUseCase,
+		employmentUseCase,
+		specializationUseCase,
+		universityUseCase)
+    
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)
 	signal.Notify(interruption, os.Interrupt, syscall.SIGTERM)
