@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
 	"lg/internal/entity"
@@ -188,11 +189,18 @@ func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 	if err != nil {
 		return entity.Profile{}, fmt.Errorf("error parsing specialization uuid: %w", err)
 	}
+	newPatr := sql.NullString{}
+	if dto.Patronymic != "" {
+		newPatr.String = dto.Patronymic
+		newPatr.Valid = true
+	} else {
+		newPatr.Valid = false
+	}
 	return entity.Profile{
 		UserUUID:           userUUID,
 		Firstname:          dto.Firstname,
 		Lastname:           dto.Lastname,
-		Patronymic:         dto.Patronymic,
+		Patronymic:         newPatr,
 		CountryUUID:        countryUUID,
 		CityUUID:           cityUUID,
 		CitizenshipUUID:    citizenshipUUID,
@@ -215,9 +223,9 @@ func profileToDTO(profile entity.Profile) profileResponseDTO {
 		UUID:       profile.UserUUID.String(),
 		Firstname:  profile.Firstname,
 		Lastname:   profile.Lastname,
-		Patronymic: profile.Patronymic,
-    }
-    }
+		Patronymic: profile.Patronymic.String,
+	}
+}
 func userToDTO(profile entity.Profile) userDTO {
 	return userDTO{
 		UUID:       profile.UserUUID.String(),

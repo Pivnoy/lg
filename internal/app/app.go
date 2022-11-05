@@ -27,7 +27,6 @@ func Run(cfg *config.Config) {
 	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
-	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg))
 	messageUseCase := usecase.NewMessageUseCase(repo.NewMessageRepo(pg))
 	chatUseCase := usecase.NewChatUseCase(repo.NewChatRepo(pg), messageUseCase)
 	countryUseCase := usecase.NewCountryUseCase(repo.NewCountryRepo(pg))
@@ -66,7 +65,7 @@ func Run(cfg *config.Config) {
 		universityUseCase,
 		cityUseCase,
 		categoryUseCase,
-		companyUseCase)
+		companyUseCase,
 		messageUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))

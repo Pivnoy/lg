@@ -21,7 +21,7 @@ func NewRouter(handler *gin.Engine,
 	sp usecase.SpecializationContract,
 	un usecase.UniversityContract,
 	st usecase.CityContract,
-	c usecase.CategoryContract,
+	ccc usecase.CategoryContract,
 	cs usecase.CompanyContract,
 	mg usecase.MessageContract,
 ) {
@@ -41,7 +41,7 @@ func NewRouter(handler *gin.Engine,
 		newSpecializationsRoutes(h, sp)
 		newUniversitiesRoutes(h, un)
 		newCityRoutes(h, st)
-		newCategoryRoutes(h, c)
+		newCategoryRoutes(h, ccc)
 		newCompanyRoutes(h, cs)
 		newProfileRoutes(h, pr)
 		newChangeRoutes(h, j, u)
