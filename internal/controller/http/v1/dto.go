@@ -5,10 +5,12 @@ type messageDTO struct {
 	Sender  userDTO `json:"sender"` //AuthorUUID
 	Date    string  `json:"date"`   //createdAt
 }
+
 type chatItemDTO struct {
 	ChatName    string     `json:"chatName"`
 	ChatUUID    string     `json:"chatUUID"`
 	LastMessage messageDTO `json:"lastMessage"`
+	ProjectUUID string     `json:"projectUUID"`
 	ImageURL    string     `json:"imageURL"`
 }
 
@@ -23,10 +25,10 @@ type userDTO struct {
 	Patronymic string `json:"patronymic"`
 }
 
-type chatDTO struct {
-	UUID        string         `json:"UUID"`
-	ProjectUUID string         `json:"projectUUID"`
-	History     chatHistoryDTO `json:"history"`
-	ChatType    string         `json:"type"`
-	Users       []userDTO      `json:"users"`
-}
+//type chatDTO struct {
+//	UUID        string         `json:"UUID"`
+//	ProjectUUID string         `json:"projectUUID"`
+//	History     chatHistoryDTO `json:"history"`
+//	ChatType    string         `json:"type"`
+//	Users       []userDTO      `json:"users"`
+//}

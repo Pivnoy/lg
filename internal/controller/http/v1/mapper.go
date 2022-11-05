@@ -1,6 +1,9 @@
 package v1
 
-import "lg/internal/entity"
+import (
+	"github.com/google/uuid"
+	"lg/internal/entity"
+)
 
 func projectToDTO(project entity.Project) projectDTO {
 	return projectDTO{
@@ -37,10 +40,15 @@ func messageToDTO(message entity.Message, usDto userDTO) messageDTO {
 }
 
 func chatItemToDTO(chatItem entity.ChatItem, msg entity.Message, us userDTO) chatItemDTO {
+	prj := chatItem.ProjectUUID.String()
+	if chatItem.ProjectUUID == uuid.Nil {
+		prj = ""
+	}
 	return chatItemDTO{
 		ChatName:    chatItem.ChatName,
 		ChatUUID:    chatItem.ChatUUID.String(),
 		LastMessage: messageToDTO(msg, us),
+		ProjectUUID: prj,
 		ImageURL:    "",
 	}
 }
