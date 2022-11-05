@@ -170,3 +170,65 @@ insert into lineup(team_uuid, role_uuid, profile_uuid, project_uuid) VALUES
     ('48c27232-f192-46cb-a76d-a7087c5ff084', 'b45bf4e7-8a3f-4afc-9ee9-be47d97de1e0', '753a2846-a6ef-4970-9693-41d66a55210f', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'ffb2f566-ba66-43c4-a2de-01773c7c3ef3', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'fa044ee2-cebd-484d-9697-9f8b25646188'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'e0e33f90-cff4-4b33-889e-2c08bcec1296', '47e94c22-933d-4029-9752-dad3cd53a85b', 'fa044ee2-cebd-484d-9697-9f8b25646188');
+
+
+create or replace function check_fk_profile(user_uuid_check uuid,
+                                            country_uuid_check uuid,
+                                            city_uuid_check uuid,
+                                            citizenship_uuid_check uuid,
+                                            university_uuid_check uuid,
+                                            eduspeciality_uuid_check uuid,
+                                            employment_uuid_check uuid,
+                                            achievement_uuid_check uuid,
+                                            team_uuid_check uuid,
+                                            specialization_uuid_check uuid,
+                                            company_uuid_check uuid)
+    returns text as $$
+begin
+    if not exists (select * from "user" where uuid = user_uuid_check)
+    then
+        return 'user uuid';
+    end if;
+    if not exists (select * from country where uuid = country_uuid_check)
+    then
+        return 'country uuid';
+    end if;
+    if not exists (select * from city where uuid = city_uuid_check)
+    then
+        return 'city uuid';
+    end if;
+    if not exists(select * from citizenship where uuid = citizenship_uuid_check)
+    then
+        return 'citizenship uuid';
+    end if;
+    if not exists(select * from university where uuid = university_uuid_check)
+    then
+        return 'university uuid';
+    end if;
+    if not exists(select * from eduspeciality where uuid = eduspeciality_uuid_check)
+    then
+        return 'eduspeciality uuid';
+    end if;
+    if not exists(select * from employment where uuid = employment_uuid_check)
+    then
+        return 'employment uuid';
+    end if;
+    if not exists(select * from achievement where uuid = achievement_uuid_check)
+    then
+        return 'achievement uuid';
+    end if;
+    if not exists(select * from team where uuid = team_uuid_check)
+    then
+        return 'team uuid';
+    end if;
+    if not exists(select * from specialization where uuid = specialization_uuid_check)
+    then
+        return 'specialization uuid';
+    end if;
+    if not exists(select * from company where uuid = company_uuid_check)
+    then
+        return 'company uuid';
+    end if;
+    return 'ok';
+end;
+$$ language 'plpgsql';
