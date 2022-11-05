@@ -30,7 +30,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.registerRequest"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerRequest"
                         }
                     }
                 ],
@@ -38,13 +38,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.registerResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -61,13 +61,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.categoryListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.categoryListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -84,13 +84,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.citizenshipListResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.citizenshipListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -107,13 +107,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.countryListResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.countryListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -130,13 +130,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.eduspecialityListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.eduspecialityListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -176,13 +176,95 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.projectListResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.projectListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create project",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "CreateProject",
+                "parameters": [
+                    {
+                        "description": "enter info project",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.responseUUID"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/project/{uuid}": {
+            "get": {
+                "description": "Get project by UUID",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "GetProjectByUUID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Enter id book",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -422,6 +504,14 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_controller_http_v1.responseUUID": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_controller_http_v1.specializationDTO": {
             "type": "object",
             "properties": {
@@ -648,6 +738,14 @@ const docTemplate = `{
             }
         },
         "lg_internal_controller_http_v1.registerResponse": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.responseUUID": {
             "type": "object",
             "properties": {
                 "uuid": {

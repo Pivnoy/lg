@@ -119,6 +119,11 @@ definitions:
       uuid:
         type: string
     type: object
+  internal_controller_http_v1.responseUUID:
+    properties:
+      uuid:
+        type: string
+    type: object
   internal_controller_http_v1.specializationDTO:
     properties:
       name:
@@ -268,6 +273,11 @@ definitions:
       uuid:
         type: string
     type: object
+  lg_internal_controller_http_v1.responseUUID:
+    properties:
+      uuid:
+        type: string
+    type: object
   lg_internal_controller_http_v1.specializationDTO:
     properties:
       name:
@@ -314,16 +324,16 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/internal_controller_http_v1.registerRequest'
+          $ref: '#/definitions/lg_internal_controller_http_v1.registerRequest'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.registerResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.registerResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: registration
       tags:
       - Posts
@@ -334,11 +344,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.categoryListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.categoryListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetAllCategory
       tags:
       - Categories
@@ -349,11 +359,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.citizenshipListResponse'
+            $ref: '#/definitions/internal_controller_http_v1.citizenshipListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
       summary: GetAllCitizenships
       tags:
       - Citizenships
@@ -364,11 +374,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.countryListResponse'
+            $ref: '#/definitions/internal_controller_http_v1.countryListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
       summary: GetAllCountries
       tags:
       - Countries
@@ -379,11 +389,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.eduspecialityListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.eduspecialityListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetAllEduspecialities
       tags:
       - Eduspecialities
@@ -409,12 +419,66 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.projectListResponse'
+            $ref: '#/definitions/internal_controller_http_v1.projectListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
       summary: GetAllProjects
+      tags:
+      - Projects
+    post:
+      description: Create project
+      parameters:
+      - description: enter info project
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.projectDTO'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.responseUUID'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+      summary: CreateProject
+      tags:
+      - Projects
+  /api/v1/project/{uuid}:
+    get:
+      description: Get project by UUID
+      parameters:
+      - description: Enter id book
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.projectDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+      summary: GetProjectByUUID
       tags:
       - Projects
   /api/v1/specialization:
