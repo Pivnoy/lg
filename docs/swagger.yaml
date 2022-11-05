@@ -1,0 +1,66 @@
+basePath: /
+definitions:
+  internal_controller_http_v1.errResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  internal_controller_http_v1.registerRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  internal_controller_http_v1.registerResponse:
+    properties:
+      uuid:
+        type: string
+    type: object
+  lg_internal_controller_http_v1.errResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  lg_internal_controller_http_v1.registerRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  lg_internal_controller_http_v1.registerResponse:
+    properties:
+      uuid:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: Хакатон "Лига Цифровой Трансформации"
+  title: Платформа для продвижения иновационных идей
+  version: "1.0"
+paths:
+  /api/v1:
+    post:
+      description: Create new user
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.registerRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.registerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+      summary: registration
+      tags:
+      - Posts
+swagger: "2.0"

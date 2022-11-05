@@ -2,6 +2,8 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"lg/internal/usecase"
 )
 
@@ -21,6 +23,8 @@ func NewRouter(handler *gin.Engine,
 	mg usecase.MessageContract,
 ) {
 	h := handler.Group("/api/v1")
+
+	handler.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	{
 		newProjectRouter(h, p)
 		newRegisterRoutes(h, s)

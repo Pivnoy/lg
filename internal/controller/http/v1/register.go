@@ -25,6 +25,14 @@ type registerResponse struct {
 	UUID string `json:"uuid"`
 }
 
+// Register godoc
+// @Summary registration
+// @Tags Posts
+// @Description Create new user
+// @Param 		request body registerRequest true "query params"
+// @Success     200 {object} registerResponse
+// @Failure     400 {object} errResponse
+// @Router      /api/v1 [post]
 func (s *registerContract) register(c *gin.Context) {
 	var request registerRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
