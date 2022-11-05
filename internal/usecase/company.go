@@ -18,7 +18,7 @@ func NewCompanyUseCase(repo CompanyRp) *CompanyUseCase {
 }
 
 func (c *CompanyUseCase) CreateCompany(ctx context.Context, company entity.Company) (uuid.UUID, error) {
-	return c.CreateCompany(ctx, company)
+	return c.repo.CreateCompany(ctx, company)
 }
 
 func (c *CompanyUseCase) CheckCompanyExistenceByInn(ctx context.Context, inn string) (bool, error) {
