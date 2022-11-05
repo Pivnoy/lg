@@ -60,6 +60,7 @@ type (
 	MessageRp interface {
 		StoreMessage(context.Context, entity.Message) error
 		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+		UpdateMessageStatus(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	ChatRp interface {
@@ -72,6 +73,7 @@ type (
 	MessageContract interface {
 		StoreMessage(context.Context, entity.Message) error
 		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+		UpdateMessageStatus(ctx context.Context, user uuid.UUID, chat uuid.UUID) error
 	}
 
 	ChatContract interface {

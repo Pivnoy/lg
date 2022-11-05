@@ -23,3 +23,7 @@ func (m *MessageUseCase) StoreMessage(ctx context.Context, message entity.Messag
 func (m *MessageUseCase) GetLastMessageByChat(ctx context.Context, chat uuid.UUID) (entity.Message, error) {
 	return m.repo.GetLastMessageByChat(ctx, chat)
 }
+
+func (m *MessageUseCase) UpdateMessageStatus(ctx context.Context, user uuid.UUID, chat uuid.UUID) error {
+	return m.repo.UpdateMessageStatus(ctx, user, chat)
+}
