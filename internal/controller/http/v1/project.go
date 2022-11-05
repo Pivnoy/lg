@@ -165,6 +165,7 @@ func (pr *projectRoutes) deleteProjectByUUID(c *gin.Context) {
 type acceptOrRejectRequest struct {
 	AuthorUUID string `json:"authorUUID"`
 	ChatUUID   string `json:"chatUUID"`
+	Decision   string `json:"decision"`
 }
 
 func (pr *projectRoutes) acceptOrRejectToProject(c *gin.Context) {
@@ -203,13 +204,20 @@ func (pr *projectRoutes) acceptOrRejectToProject(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	err = pr.m.StoreMessage(c.Request.Context(), entity.Message{
+	msg := entity.Message{
 		AuthorUUID:   creatorUUID,
 		Type:         "text",
-		Content:      "Жду в комнате, сосочка :))))",
 		CreationDate: time.Now(),
 		ChatUUID:     chatUUID,
-	})
+	}
+	if accept.Decision == "accept" {
+		msg.Content = "Жду в комнате, сосочка :))))"
+	} else if accept.Decision == "reject" {
+		msg.Content = "Бро, сори, санечка не снимает :((("
+	} else {
+		errorResponse(c, http.StatusInternalServerError, "cannot get decision from creator")
+	}
+	err = pr.m.StoreMessage(c.Request.Context(), msg)
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
