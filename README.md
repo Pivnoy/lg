@@ -2,4 +2,4 @@
 
 ## Даталогическая модель
 
-![img.png](docs/dr.png)
+![img.png](doc/dr.png)

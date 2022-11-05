@@ -11,8 +11,10 @@ insert into "user"(uuid, email, password) values
     'roma@grek.chechnya', 'ya_ne_chachAAA228
  */
 
+/*
 insert into administrator(user_uuid, email, firstname, lastname, patronymic) values
     ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'admin@admin.com', 'Evgeniy', 'Compiler', 'GPUvich');
+ */
 
 insert into country(uuid, "name", code) values
     ('e2680202-79ed-4aee-9c07-d51eda5cd08c', 'Российская Федерация', 'ru'),
@@ -113,7 +115,23 @@ insert into achievement(uuid, "text") values
 • Законтейнеризировал приложение с помощью Docker и написал скрипт для развертывания docker-compose.'),
                                           ('5a4861f8-3434-4e7b-b67f-975f96dd9dca', '• Спроектировал систему команд, разработал язык программирования, похожий по синтаксису на Assembler.
 • Написал транслятор для языка программирования в свою систему команд.
-• Разработал эмулятор процессора для запуска кода.');
+• Разработал эмулятор процессора для запуска кода.'),
+                                          ('1abacbc3-db9e-4aa6-a9b0-0a92aa12decc', '[Round 1: Соня Мармеладова]
+Ларин – чушка ебаная
+Антихайп
+Гена...
+Ты попросил биты помедленней 140 bpm
+Теперь трясешься пиздос, но Питер - мой Вифлеем
+Ебаный ты бомж, тебе здесь пиздец
+Лишь взобравшись на мой хер, ты покоришь Эверест
+Накидаю в кабинет, тут ты не задинамишь пост
+Ты ловишь прямой в кадык, когда задираешь нос, Гена!
+Да хоть нажрись котяхов
+Ты не Гена Фараонов, ты Денис Косяков
+Юморист на микро - вывел быдло на "бу-га-га"
+Хочешь выдать нам панчлайн? Уже было на МДК
+Ебаный лошок, и вся карьера как пример
+Ты настолько несмешной - у тебя пиздил КВН');
 
 insert into employment(uuid, "name", "value") values
     ('348eeb1d-e0a5-48bb-bbd0-008b42863416', 'По найму', 'employed'),
@@ -140,7 +158,8 @@ insert into profile(user_uuid, firstname, lastname, patronymic, country_uuid, ci
                     graduation_year, employment_uuid, experience, achievement_uuid, team_uuid, specialization_uuid, company_uuid, creation_date) VALUES
     ('47e94c22-933d-4029-9752-dad3cd53a85b', 'Алексей', 'Куценко', 'Викторович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', '441c4ff7-de3a-471a-bfce-748fc4551993', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79876543210', 'pochta-dlya-svyazi@mail.ru', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '348eeb1d-e0a5-48bb-bbd0-008b42863416', 2, 'acd177f5-0a74-42bf-9f2f-41ea6f6fb90f', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '01ee4013-6ada-409d-be4f-b7179cdc090a', '2022-11-02 01:05:30'),
     ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'Григорий', 'Валевин', 'Александрович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', 'ba3bddcb-4d76-45e7-9699-93d523b5736d', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'other', '+79995552288', 'jopa@gmail.com', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '7526d255-8211-4fdc-8965-35f071018ca9', 2024, '62e033e6-24e7-403f-b954-f03bed1a0fd9', 0, 'be1db4bd-4511-49fd-b8a7-2def8d5afdc2', '27401b51-05df-404d-952a-4d36940d6812', '254543a3-c17e-4cf6-b033-702a12c8c188', '6b97fb4d-2e16-425b-8a3e-50ab4bb666f5', '2022-09-28 12:22:30'),
-    ('753a2846-a6ef-4970-9693-41d66a55210f', 'Роман', 'Логинов', null, 'd99c9ba2-5c51-41ff-8095-ccdc8d24ee71', 'c9951e29-0bc0-45a5-8daf-e48070370f54', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79212281488', 'roma@grek.chechnya', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '3736959d-e352-4e95-8b5e-72dfa16fbc08', 1, '5a4861f8-3434-4e7b-b67f-975f96dd9dca', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '34ae926c-2ca4-4b6a-88cd-495066984876', '2020-08-13 20:37:15');
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'Роман', 'Логинов', null, 'd99c9ba2-5c51-41ff-8095-ccdc8d24ee71', 'c9951e29-0bc0-45a5-8daf-e48070370f54', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79212281488', 'roma@grek.chechnya', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '3736959d-e352-4e95-8b5e-72dfa16fbc08', 1, '5a4861f8-3434-4e7b-b67f-975f96dd9dca', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '34ae926c-2ca4-4b6a-88cd-495066984876', '2020-08-13 20:37:15'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'Евгений', 'Макарьев', 'Юрьевич', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', '441c4ff7-de3a-471a-bfce-748fc4551993', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79582281488', 'admin@admin.com', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '348eeb1d-e0a5-48bb-bbd0-008b42863416', 10, '1abacbc3-db9e-4aa6-a9b0-0a92aa12decc', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', 'e474bd33-e7df-4450-ae17-35b3fa71e1a0', '2002-01-02 10:00:00');
 
 insert into profile_skill(profile_uuid, skill_uuid) values
     ('47e94c22-933d-4029-9752-dad3cd53a85b', '6286f604-231b-40c2-91f2-4cfff2534f61'),
@@ -163,10 +182,43 @@ insert into category(uuid, "name") values
 
 insert into project(uuid, "name", description, category_uuid, project_link, presentation_link, creator_uuid, is_visible, creation_date) VALUES
     ('e153b3a7-ca0c-4fc7-b500-efaef1bd73cd', 'Закрытие академов', 'Планируем жесточайше ботать чтобы закрыть все академы и долги', '13dadff0-98f4-438b-a803-65b3c7e4d833', 'https://docs.google.com/document/d/1yTMA8CKSxGP3-H_PPTIxDdm_TnUx87uTLiyKCIYPtik/edit', 'https://miro.com/app/board/uXjVPahvELM=/', '47e94c22-933d-4029-9752-dad3cd53a85b', 'visible', '2022-11-03 04:05:30'),
-    ('fa044ee2-cebd-484d-9697-9f8b25646188', 'Попить пива', 'Предлагаю всем смачно попить пыва на выходных на ветеранах', '45e07768-da80-4681-a01a-80654e40059b', 'https://ru.wikipedia.org/wiki/%D0%9F%D0%B8%D0%B2%D0%BE', 'https://pptcloud.ru/obzh/mify-o-pive', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'visible', '2022-10-10 10:50:15');
+    ('fa044ee2-cebd-484d-9697-9f8b25646188', 'Попить пива', 'Предлагаю всем смачно попить пыва на выходных на ветеранах', '45e07768-da80-4681-a01a-80654e40059b', 'https://ru.wikipedia.org/wiki/%D0%9F%D0%B8%D0%B2%D0%BE', 'https://pptcloud.ru/obzh/mify-o-pive', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'visible', '2022-10-10 10:50:15'),
+    ('b988d772-f58e-410a-bc5f-e0ed5013c9bd', 'ЛИДЕРЫ ЦИФРОВОЙ ТРАНСФОРМАЦИИ', 'Ежегодный конкурс на соискание премий Мэра Москвы по созданию цифровых сервисов и продуктов для города', '13dadff0-98f4-438b-a803-65b3c7e4d833', 'https://leaders2022.innoagency.ru/?utm_source=invite&utm_medium=aim&utm_campaign=leaders2022_team', 'https://img2.reactor.cc/pics/post/full/it-%D1%85%D0%B0%D0%BA%D0%B0%D1%82%D0%BE%D0%BD-%D0%BF%D0%B5%D1%81%D0%BE%D1%87%D0%BD%D0%B8%D1%86%D0%B0-6175205.jpeg', '6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'visible', '2022-10-10 10:32:15');
+
 
 insert into lineup(team_uuid, role_uuid, profile_uuid, project_uuid) VALUES
     ('48c27232-f192-46cb-a76d-a7087c5ff084', '2bf83093-55fd-470d-bae4-ba85785f2dbb', '47e94c22-933d-4029-9752-dad3cd53a85b', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
     ('48c27232-f192-46cb-a76d-a7087c5ff084', 'b45bf4e7-8a3f-4afc-9ee9-be47d97de1e0', '753a2846-a6ef-4970-9693-41d66a55210f', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'ffb2f566-ba66-43c4-a2de-01773c7c3ef3', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'fa044ee2-cebd-484d-9697-9f8b25646188'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'e0e33f90-cff4-4b33-889e-2c08bcec1296', '47e94c22-933d-4029-9752-dad3cd53a85b', 'fa044ee2-cebd-484d-9697-9f8b25646188');
+
+insert into chat(uuid, "name", project_uuid) values
+    ('3f3ddd57-bf21-4f2a-9c3c-4163caa705ce', 'buba - закрытие академов', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
+    ('5b1fa731-3604-4aec-9246-520713a69f0c', 'пиво в пятницу 04.11', 'fa044ee2-cebd-484d-9697-9f8b25646188'),
+    ('15cc1ffb-4c58-44d6-91eb-a8c09e099cfb', 'hackaton', 'b988d772-f58e-410a-bc5f-e0ed5013c9bd');
+
+insert into message(author_uuid, "content", creation_date, chat_uuid) VALUES
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'прив как дела', '2022-11-03 19:00:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'какать хочется пиздец', '2022-11-03 19:01:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'я люблю красить кнопки а еще фронтить', '2022-11-03 19:02:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'санечка, брат, есть туалетка? моя кончилась, 3 рулона за 2 пары пиздосссс', '2022-11-03 19:02:35', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'я купил себе чарон и теперь сижу его парю', '2022-11-03 19:03:00', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'женечек мой брат как дела снюсик будеш', '2022-11-03 20:10:00', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'брат сильно тебе бабаха шлепандухнула', '2022-11-03 20:15:00', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'пацаны надо жестко заботать хакатон', '2022-11-05 20:10:10', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'поддерживаю. спать сегодня не будем?', '2022-11-05 20:10:30', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', 'рома, брат, запасись туалеткой на ближайшие дни', '2022-11-05 20:11:00', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'принято, брат, как фугас от бабахи в попку', '2022-11-05 20:11:20', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'гришу пофронтить зовем? надо молодого подботать красить кнопки', '2022-11-05 20:12:05', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'здарова пацаны! спасибо что позвали, с меня кофе!', '2022-11-05 20:15:00', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb');
+
+insert into chat_member(user_uuid, chat_uuid) VALUES
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', '3f3ddd57-bf21-4f2a-9c3c-4163caa705ce'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', '5b1fa731-3604-4aec-9246-520713a69f0c'),
+    ('6e07758f-bb73-49ed-a9d7-0ac4e32064f5', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', '15cc1ffb-4c58-44d6-91eb-a8c09e099cfb');

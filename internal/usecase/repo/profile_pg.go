@@ -125,8 +125,8 @@ func (p *ProfileRepo) GetProfileByUser(ctx context.Context, user uuid.UUID) (ent
 
 	var profile entity.Profile
 	for rows.Next() {
-		//&profile.ID,
 		err = rows.Scan(
+			&profile.ID,
 			&profile.UserUUID,
 			&profile.Firstname,
 			&profile.Lastname,
@@ -145,7 +145,8 @@ func (p *ProfileRepo) GetProfileByUser(ctx context.Context, user uuid.UUID) (ent
 			&profile.AchievementUUID,
 			&profile.TeamUUID,
 			&profile.SpecializationUUID,
-			&profile.CompanyUUID)
+			&profile.CompanyUUID,
+			&profile.CreationDate)
 		if err != nil {
 			return entity.Profile{}, fmt.Errorf("cannot parse profile: %v", err)
 		}

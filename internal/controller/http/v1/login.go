@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"lg/internal/entity"
 	"lg/internal/usecase"
@@ -42,6 +43,7 @@ func (l *loginRoutes) login(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+	fmt.Println(us)
 	err = l.j.CompareUserPassword(c.Request.Context(), entity.User{
 		Email:    lReq.Email,
 		Password: lReq.Password,
@@ -50,7 +52,7 @@ func (l *loginRoutes) login(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, "Cannot find user in db or cmp psswd")
 		return
 	}
-	token, err := l.j.GenerateToken(us.Email)
+	token, err := l.j.GenerateToken(us.UUID.String())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -65,6 +67,6 @@ func (l *loginRoutes) login(c *gin.Context) {
 		UUID:       prf.UserUUID.String(),
 		FirstName:  prf.Firstname,
 		LastName:   prf.Lastname,
-		Patronymic: prf.Patronymic,
+		Patronymic: prf.Patronymic.String,
 	})
 }

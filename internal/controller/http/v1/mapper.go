@@ -32,6 +32,28 @@ func projectToEntity(dto projectDTO) entity.Project {
 	}
 }
 
+func messageToDTO(message entity.Message, usDto userDTO) messageDTO {
+	return messageDTO{
+		Content: message.Content,
+		Sender:  usDto,
+		Date:    message.CreationDate.String(),
+	}
+}
+
+func chatItemToDTO(chatItem entity.ChatItem, msg entity.Message, us userDTO) chatItemDTO {
+	prj := chatItem.ProjectUUID.String()
+	if chatItem.ProjectUUID == uuid.Nil {
+		prj = ""
+	}
+	return chatItemDTO{
+		ChatName:    chatItem.ChatName,
+		ChatUUID:    chatItem.ChatUUID.String(),
+		LastMessage: messageToDTO(msg, us),
+		ProjectUUID: prj,
+		ImageURL:    "",
+	}
+}
+
 func countryToDTO(country entity.Country) countryDTO {
 	return countryDTO{
 		UUID: country.UUID.String(),
@@ -194,5 +216,13 @@ func profileToDTO(profile entity.Profile) profileResponseDTO {
 		Firstname:  profile.Firstname,
 		Lastname:   profile.Lastname,
 		Patronymic: profile.Patronymic,
+    }
+    }
+func userToDTO(profile entity.Profile) userDTO {
+	return userDTO{
+		UUID:       profile.UserUUID.String(),
+		FirstName:  profile.Firstname,
+		LastName:   profile.Lastname,
+		Patronymic: profile.Patronymic.String,
 	}
 }

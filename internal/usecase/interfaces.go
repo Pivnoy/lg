@@ -9,13 +9,17 @@ import (
 type (
 	UserRp interface {
 		GetUserByEmail(context.Context, string) (entity.User, error)
+		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
+		ChangePassword(context.Context, entity.User) error
 	}
 
 	UserContract interface {
 		GetUser(context.Context, string) (entity.User, error)
+		GetUserByUUID(context.Context, uuid.UUID) (entity.User, error)
 		StoreUser(context.Context, entity.User) error
 		CheckUserExistence(context.Context, string) (bool, error)
+		ChangePassword(context.Context, string, string) error
 	}
 
 	JwtContract interface {
@@ -54,13 +58,26 @@ type (
 	}
 
 	MessageRp interface {
-		StoreMessage(context.Context, entity.Message) (uuid.UUID, error)
+		StoreMessage(context.Context, entity.Message) error
+		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
 	}
 
 	ChatRp interface {
-		CreateChat(context.Context)
-		AddMessageByChat(context.Context, uuid.UUID, entity.Message) error
-		GetCharHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		CreateChat(context.Context, entity.Chat) error
+		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		AddUserIntoChat(context.Context, uuid.UUID, uuid.UUID) error
+		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.Chat, error)
+	}
+
+	MessageContract interface {
+		StoreMessage(context.Context, entity.Message) error
+		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+	}
+
+	ChatContract interface {
+		CreateChat(context.Context, string, []uuid.UUID) error
+		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
+		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
 	}
 
 	ProfileRp interface {

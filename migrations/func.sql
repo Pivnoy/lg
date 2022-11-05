@@ -1,11 +1,3 @@
-/*
- на PLpgSQL
-приходят внешние ключи из таблицы profile
-надо в этой функции проверить, что эти сущности существуют
-if все ключи есть, возвращаю строку ok
-если чего-то нет, то вовзращаю название сущности, которой нет
- */
-
 create or replace function check_fk_profile(user_uuid_check uuid,
                                             country_uuid_check uuid,
                                             city_uuid_check uuid,
@@ -17,6 +9,7 @@ create or replace function check_fk_profile(user_uuid_check uuid,
                                             team_uuid_check uuid,
                                             specialization_uuid_check uuid,
                                             company_uuid_check uuid)
+
     returns text as $$
 begin
     if not exists (select * from "user" where uuid = user_uuid_check)

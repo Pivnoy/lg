@@ -29,11 +29,11 @@ func (j *JwtUseCase) CompareUserPassword(ctx context.Context, us entity.User) er
 	return bcrypt.CompareHashAndPassword([]byte(userFromDb.Password), []byte(us.Password))
 }
 
-func (j *JwtUseCase) GenerateToken(email string) (string, error) {
+func (j *JwtUseCase) GenerateToken(uuid string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(120 * time.Minute).Unix(),
-		Subject:   email,
+		Subject:   uuid,
 	})
 	tokenString, err := token.SignedString([]byte(j.secret))
 	if err != nil {
