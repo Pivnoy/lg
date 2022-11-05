@@ -65,10 +65,14 @@ type (
 
 	ProfileRp interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+		CreateProfile(context.Context, entity.Profile) (entity.Profile, error)
+		CheckFkProfile(ctx context.Context, profile entity.Profile) (string, error)
 	}
 
 	ProfileContract interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+		CreateProfile(context.Context, entity.Profile, string, string) (entity.Profile, error)
+		CheckFkProfile(ctx context.Context, profile entity.Profile) (bool, string, error)
 	}
 
 	CountryRp interface {
@@ -137,10 +141,12 @@ type (
 
 	CompanyRp interface {
 		GetCompanyByInn(context.Context, string) (entity.Company, error)
+		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
 	}
 
 	CompanyContract interface {
 		CheckCompanyExistenceByInn(context.Context, string) (bool, error)
 		GetCompanyByInn(context.Context, string) (entity.Company, error)
+		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
 	}
 )

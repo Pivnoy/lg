@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -16,6 +17,24 @@ var _ usecase.CompanyRp = (*CompanyRepo)(nil)
 
 func NewCompanyRepo(pg *postgres.Postgres) *CompanyRepo {
 	return &CompanyRepo{pg}
+}
+
+func (c *CompanyRepo) CreateCompany(ctx context.Context, company entity.Company) (uuid.UUID, error) {
+	query := `INSERT INTO company (name, inn) VALUES ($1, $2) RETURNING uuid`
+
+	rows, err := c.Pool.Query(ctx, query, company.Name, company.Inn)
+	if err != nil {
+		return uuid.Nil, fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var companyKey uuid.UUID
+	for rows.Next() {
+		err = rows.Scan(&companyKey)
+		if err != nil {
+			return uuid.Nil, fmt.Errorf("error in parsing uuid of company: %w", err)
+		}
+	}
+	return companyKey, nil
 }
 
 func (c *CompanyRepo) GetCompanyByInn(ctx context.Context, inn string) (entity.Company, error) {

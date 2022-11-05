@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -14,6 +15,10 @@ var _ CompanyContract = (*CompanyUseCase)(nil)
 
 func NewCompanyUseCase(repo CompanyRp) *CompanyUseCase {
 	return &CompanyUseCase{repo: repo}
+}
+
+func (c *CompanyUseCase) CreateCompany(ctx context.Context, company entity.Company) (uuid.UUID, error) {
+	return c.CreateCompany(ctx, company)
 }
 
 func (c *CompanyUseCase) CheckCompanyExistenceByInn(ctx context.Context, inn string) (bool, error) {

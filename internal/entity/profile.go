@@ -23,5 +23,4 @@ type Profile struct {
 	TeamUUID           uuid.UUID `json:"team_uuid"`
 	SpecializationUUID uuid.UUID `json:"specialization_uuid"`
 	CompanyUUID        uuid.UUID `json:"company_uuid"`
-	UUID               uuid.UUID `json:"uuid"`
 }
