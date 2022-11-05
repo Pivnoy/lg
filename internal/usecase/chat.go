@@ -51,6 +51,7 @@ func (c *ChatUseCase) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]
 		chatItems = append(chatItems, entity.ChatItem{
 			ChatName:    chats[j].Name,
 			ChatUUID:    chats[j].UUID,
+			ProjectUUID: chats[j].ProjectUUID,
 			LastMessage: lastMessages[j],
 		})
 	}

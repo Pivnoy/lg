@@ -60,8 +60,9 @@ func Run(cfg *config.Config) {
 		eduspecialityUseCase,
 		employmentUseCase,
 		specializationUseCase,
-		universityUseCase)
-    
+		universityUseCase,
+		messageUseCase)
+
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)
 	signal.Notify(interruption, os.Interrupt, syscall.SIGTERM)

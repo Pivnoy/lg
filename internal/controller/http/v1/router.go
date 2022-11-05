@@ -2,6 +2,8 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"lg/internal/usecase"
 )
 
@@ -18,14 +20,17 @@ func NewRouter(handler *gin.Engine,
 	ep usecase.EmploymentContract,
 	sp usecase.SpecializationContract,
 	un usecase.UniversityContract,
+	mg usecase.MessageContract,
 ) {
 	h := handler.Group("/api/v1")
+
+	handler.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	{
 		newProjectRouter(h, p)
 		newRegisterRoutes(h, s)
 		newLoginRoutes(h, j, u, pr)
 		newLogoutRouter(h)
-		newChatRoutes(h, c, j)
+		newChatRoutes(h, c, j, pr, mg)
 		newCountryRoute(h, cc)
 		newCitizenshipRoutes(h, ct)
 		newEduspecialitiesRoutes(h, ed)
@@ -33,5 +38,6 @@ func NewRouter(handler *gin.Engine,
 		newSpecializationsRoutes(h, sp)
 		newUniversitiesRoutes(h, un)
 		newChangeRoutes(h, j, u)
+		newMessageRoutes(h, j, mg)
 	}
 }
