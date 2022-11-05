@@ -38,6 +38,6 @@ func NewRouter(handler *gin.Engine,
 		newSpecializationsRoutes(h, sp)
 		newUniversitiesRoutes(h, un)
 		newChangeRoutes(h, j, u)
-		newMessageRoutes(h, j, mg)
+		newMessageRoutes(h, j, mg, c)
 	}
 }

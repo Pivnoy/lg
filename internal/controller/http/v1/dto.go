@@ -2,6 +2,7 @@ package v1
 
 type messageDTO struct {
 	Content string  `json:"content"`
+	Type    string  `json:"type"`
 	Sender  userDTO `json:"sender"` //AuthorUUID
 	Date    string  `json:"date"`   //createdAt
 }

@@ -181,6 +181,7 @@ create table if not exists chat (
 create table if not exists message (
     id serial primary key,
     author_uuid uuid not null references "user"(uuid),
+    msg_type  text not null,
     "content" text not null,
     creation_date timestamp not null,
     chat_uuid uuid not null references chat(uuid)

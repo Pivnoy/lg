@@ -20,9 +20,9 @@ func NewMessageRepo(pg *postgres.Postgres) *MessageRepo {
 }
 
 func (m *MessageRepo) StoreMessage(ctx context.Context, message entity.Message) error {
-	query := `INSERT INTO message (author_uuid, content, creation_date, chat_uuid) VALUES ($1, $2, $3, $4)`
+	query := `INSERT INTO message (author_uuid, msg_type, content, creation_date, chat_uuid) VALUES ($1, $2, $3, $4, $5)`
 
-	rows, err := m.Pool.Query(ctx, query, message.AuthorUUID, message.Content, message.CreationDate, message.ChatUUID)
+	rows, err := m.Pool.Query(ctx, query, message.AuthorUUID, message.Type, message.Content, message.CreationDate, message.ChatUUID)
 	if err != nil {
 		return fmt.Errorf("cannot insert value into message: %v", err)
 	}
@@ -42,6 +42,7 @@ func (m *MessageRepo) GetLastMessageByChat(ctx context.Context, chat uuid.UUID) 
 	for rows.Next() {
 		err = rows.Scan(&msg.ID,
 			&msg.AuthorUUID,
+			&msg.Type,
 			&msg.Content,
 			&msg.CreationDate,
 			&msg.ChatUUID)
