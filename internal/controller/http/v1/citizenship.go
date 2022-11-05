@@ -25,6 +25,12 @@ func newCitizenshipRoutes(handler *gin.RouterGroup, c usecase.CitizenshipContrac
 	handler.GET("/citizenship", cr.getAllCitizenships)
 }
 
+// @Summary GetAllCitizenships
+// @Tags Citizenships
+// @Description Get all citizenships
+// @Success 200 {object} citizenshipListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/citizenship [get]
 func (cr *citizenshipRoutes) getAllCitizenships(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

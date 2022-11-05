@@ -26,6 +26,12 @@ func newEmploymentsRoutes(handler *gin.RouterGroup, c usecase.EmploymentContract
 	handler.GET("/employment", cr.getAllEmployments)
 }
 
+// @Summary GetAllEmployments
+// @Tags Employments
+// @Description Get all employments
+// @Success 200 {object} employmentListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/employment [get]
 func (cr *employmentRoutes) getAllEmployments(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

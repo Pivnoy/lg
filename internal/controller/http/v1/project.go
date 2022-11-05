@@ -39,7 +39,12 @@ func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j use
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
-// TODO сделать пагинацию
+// @Summary GetAllProjects
+// @Tags Projects
+// @Description Get all projects
+// @Success 200 {object} projectListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/project [get]
 func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

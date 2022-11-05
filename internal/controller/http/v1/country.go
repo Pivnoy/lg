@@ -26,6 +26,12 @@ func newCountryRoute(handler *gin.RouterGroup, c usecase.CountryContract, j usec
 	handler.GET("/country", cr.getAllCountries)
 }
 
+// @Summary GetAllCountries
+// @Tags Countries
+// @Description Get all countries
+// @Success 200 {object} countryListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/country [get]
 func (cr *countryRoutes) getAllCountries(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

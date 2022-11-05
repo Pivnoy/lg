@@ -25,6 +25,12 @@ func newCategoryRoutes(handler *gin.RouterGroup, cu usecase.CategoryContract, j 
 	handler.GET("/category", cr.getAllCategory)
 }
 
+// @Summary GetAllCategory
+// @Tags Categories
+// @Description Get all categories
+// @Success 200 {object} categoryListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/category [get]
 func (cr *categoryRoutes) getAllCategory(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

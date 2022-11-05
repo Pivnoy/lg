@@ -26,6 +26,12 @@ func newEduspecialitiesRoutes(handler *gin.RouterGroup, c usecase.EduspecialityC
 	handler.GET("/eduspeciality", cr.getAllEduspecialities)
 }
 
+// @Summary GetAllEduspecialities
+// @Tags Eduspecialities
+// @Description Get all eduspecialities
+// @Success 200 {object} eduspecialityListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/eduspeciality [get]
 func (cr *eduspecialityRoutes) getAllEduspecialities(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

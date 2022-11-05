@@ -25,6 +25,13 @@ func newSpecializationsRoutes(handler *gin.RouterGroup, c usecase.Specialization
 	cr := &specializationRoutes{c: c, j: j}
 	handler.GET("/specialization", cr.getAllSpecializations)
 }
+
+// @Summary GetAllSpecializations
+// @Tags Specializations
+// @Description Get all specializations
+// @Success 200 {object} specializationListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/specialization [get]
 func (cr *specializationRoutes) getAllSpecializations(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

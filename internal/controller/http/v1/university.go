@@ -25,6 +25,12 @@ func newUniversitiesRoutes(handler *gin.RouterGroup, c usecase.UniversityContrac
 	handler.GET("/university", cr.getAllUniversities)
 }
 
+// @Summary GetAllUniversities
+// @Tags Universities
+// @Description Get all universities
+// @Success 200 {object} universityListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/university [get]
 func (cr *universityRoutes) getAllUniversities(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {
