@@ -26,7 +26,7 @@ func NewRouter(handler *gin.Engine,
 		newRegisterRoutes(h, s)
 		newLoginRoutes(h, j, u, pr)
 		newLogoutRouter(h)
-		newChatRoutes(h, c, j)
+		newChatRoutes(h, c, j, pr, mg)
 		newCountryRoute(h, cc)
 		newCitizenshipRoutes(h, ct)
 		newEduspecialitiesRoutes(h, ed)

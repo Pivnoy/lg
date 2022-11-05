@@ -28,21 +28,21 @@ func projectToEntity(dto projectDTO) entity.Project {
 	}
 }
 
-func messageToDTO(message entity.Message) messageDTO {
+func messageToDTO(message entity.Message, usDto userDTO) messageDTO {
 	return messageDTO{
 		Content: message.Content,
-		Sender:  message.AuthorUUID.String(),
+		Sender:  usDto,
 		Date:    message.CreationDate.String(),
 	}
 }
 
-func chatItemToDTO(chatItem entity.ChatItem) chatItemDTO {
+func chatItemToDTO(chatItem entity.ChatItem, msg entity.Message, us userDTO) chatItemDTO {
 	return chatItemDTO{
 		ChatName:    chatItem.ChatName,
 		ChatUUID:    chatItem.ChatUUID.String(),
-		LastMessage: messageToDTO(chatItem.LastMessage),
+		LastMessage: messageToDTO(msg, us),
 		ImageURL:    "",
-  }
+	}
 }
 
 func countryToDTO(country entity.Country) countryDTO {
@@ -88,5 +88,14 @@ func specializationToDTO(specialization entity.Specialization) specializationDTO
 		UUID:  specialization.UUID.String(),
 		Name:  specialization.Name,
 		Value: specialization.Value,
+	}
+}
+
+func userToDTO(profile entity.Profile) userDTO {
+	return userDTO{
+		UUID:       profile.UserUUID.String(),
+		FirstName:  profile.Firstname,
+		LastName:   profile.Lastname,
+		Patronymic: profile.Patronymic.String,
 	}
 }
