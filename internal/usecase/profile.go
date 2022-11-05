@@ -14,9 +14,10 @@ type ProfileUseCase struct {
 
 var _ ProfileContract = (*ProfileUseCase)(nil)
 
-func NewProfileUseCase(repo ProfileRp) *ProfileUseCase {
+func NewProfileUseCase(repo ProfileRp, cp CompanyContract) *ProfileUseCase {
 	return &ProfileUseCase{
 		repo: repo,
+		cp:   cp,
 	}
 }
 

@@ -19,7 +19,7 @@ type categoryListResponse struct {
 	Categories []categoryDTO `json:"categories"`
 }
 
-func NewCategoryRoutes(handler *gin.RouterGroup, cu usecase.CategoryContract) {
+func newCategoryRoutes(handler *gin.RouterGroup, cu usecase.CategoryContract) {
 	cr := &categoryRoutes{cu: cu}
 	handler.GET("/category", cr.getAllCategory)
 }

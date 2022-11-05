@@ -40,7 +40,7 @@ type profileResponseDTO struct {
 	Patronymic string `json:"patronymic"`
 }
 
-func NewProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract) {
+func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract) {
 	pr := &profileRoutes{ps: ps}
 	handler.POST("/profile", pr.createProfile)
 }

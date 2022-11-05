@@ -20,7 +20,7 @@ type citiListResponse struct {
 	Cities []cityDTO `json:"cities"`
 }
 
-func NewCityRoutes(handler *gin.RouterGroup, c usecase.CityContract) {
+func newCityRoutes(handler *gin.RouterGroup, c usecase.CityContract) {
 	cr := &cityRoutes{c: c}
 	handler.GET("/cities/:uuid", cr.getCityByCountryUUID)
 }

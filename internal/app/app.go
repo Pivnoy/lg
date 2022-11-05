@@ -27,7 +27,6 @@ func Run(cfg *config.Config) {
 	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
-	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg))
 	countryUseCase := usecase.NewCountryUseCase(repo.NewCountryRepo(pg))
 	citizenshipUseCase := usecase.NewCitizenshipUseCase(repo.NewCitizenshipRepo(pg))
 	eduspecialityUseCase := usecase.NewEduspecialityUseCase(repo.NewEduspecialityRepo(pg))
@@ -38,6 +37,7 @@ func Run(cfg *config.Config) {
 	categoryUseCase := usecase.NewCategoryUseCase(repo.NewCategoryRepo(pg))
 	companyUseCase := usecase.NewCompanyUseCase(repo.NewCompanyRepo(pg))
 	handler := gin.New()
+	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg), companyUseCase)
 
 	handler.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},

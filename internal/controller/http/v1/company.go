@@ -18,7 +18,7 @@ type resInnDTO struct {
 	Result bool `json:"result"`
 }
 
-func NewCompanyRoutes(handler *gin.RouterGroup, cs usecase.CompanyContract) {
+func newCompanyRoutes(handler *gin.RouterGroup, cs usecase.CompanyContract) {
 	cr := &companyRoutes{cs: cs}
 	handler.POST("/company/inn", cr.checkInn)
 }
