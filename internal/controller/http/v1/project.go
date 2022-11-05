@@ -71,7 +71,7 @@ func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 // @Summary GetProjectByUUID
 // @Tags Projects
 // @Description Get project by UUID
-// @Param uuid path string true "Enter id book"
+// @Param uuid path string true "Enter uuid project"
 // @Success 200 {object} projectDTO
 // @Failure 400 {object} errResponse
 // @Failure 404 {object} errResponse
@@ -133,6 +133,15 @@ func (pr *projectRoutes) createProject(c *gin.Context) {
 	c.JSON(http.StatusCreated, responseUUID{UUID: projectKey})
 }
 
+// @Summary DeleteProject
+// @Tags Projects
+// @Description Delete project
+// @Param uuid path string true "Enter uuid project"
+// @Success 204 {object} nil
+// @Failure 400 {object} errResponse
+// @Failure 404 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/project [delete]
 func (pr *projectRoutes) deleteProjectByUUID(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

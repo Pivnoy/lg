@@ -14,6 +14,13 @@ definitions:
           $ref: '#/definitions/internal_controller_http_v1.categoryDTO'
         type: array
     type: object
+  internal_controller_http_v1.citiListResponse:
+    properties:
+      cities:
+        items:
+          $ref: '#/definitions/internal_controller_http_v1.cityDTO'
+        type: array
+    type: object
   internal_controller_http_v1.citizenshipDTO:
     properties:
       name:
@@ -27,6 +34,13 @@ definitions:
         items:
           $ref: '#/definitions/internal_controller_http_v1.citizenshipDTO'
         type: array
+    type: object
+  internal_controller_http_v1.cityDTO:
+    properties:
+      name:
+        type: string
+      uuid:
+        type: string
     type: object
   internal_controller_http_v1.countryDTO:
     properties:
@@ -81,6 +95,60 @@ definitions:
       error:
         type: string
     type: object
+  internal_controller_http_v1.profileRequestDTO:
+    properties:
+      achievementUuid:
+        type: string
+      citizenshipUuid:
+        type: string
+      cityUuid:
+        type: string
+      companyInn:
+        type: string
+      companyName:
+        type: string
+      countryUuid:
+        type: string
+      eduspecialityUuid:
+        type: string
+      email:
+        type: string
+      employmentUuid:
+        type: string
+      experience:
+        type: integer
+      firstname:
+        type: string
+      gender:
+        type: string
+      graduationYear:
+        type: integer
+      lastname:
+        type: string
+      patronymic:
+        type: string
+      phone:
+        type: string
+      specializationUuid:
+        type: string
+      teamUuid:
+        type: string
+      universityUuid:
+        type: string
+      userUuid:
+        type: string
+    type: object
+  internal_controller_http_v1.profileResponseDTO:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      patronymic:
+        type: string
+      uuid:
+        type: string
+    type: object
   internal_controller_http_v1.projectDTO:
     properties:
       category_uuid:
@@ -118,6 +186,16 @@ definitions:
     properties:
       uuid:
         type: string
+    type: object
+  internal_controller_http_v1.reqInnDTO:
+    properties:
+      inn:
+        type: string
+    type: object
+  internal_controller_http_v1.resInnDTO:
+    properties:
+      result:
+        type: boolean
     type: object
   internal_controller_http_v1.responseUUID:
     properties:
@@ -168,6 +246,13 @@ definitions:
           $ref: '#/definitions/lg_internal_controller_http_v1.categoryDTO'
         type: array
     type: object
+  lg_internal_controller_http_v1.citiListResponse:
+    properties:
+      cities:
+        items:
+          $ref: '#/definitions/lg_internal_controller_http_v1.cityDTO'
+        type: array
+    type: object
   lg_internal_controller_http_v1.citizenshipDTO:
     properties:
       name:
@@ -181,6 +266,13 @@ definitions:
         items:
           $ref: '#/definitions/lg_internal_controller_http_v1.citizenshipDTO'
         type: array
+    type: object
+  lg_internal_controller_http_v1.cityDTO:
+    properties:
+      name:
+        type: string
+      uuid:
+        type: string
     type: object
   lg_internal_controller_http_v1.countryDTO:
     properties:
@@ -235,6 +327,60 @@ definitions:
       error:
         type: string
     type: object
+  lg_internal_controller_http_v1.profileRequestDTO:
+    properties:
+      achievementUuid:
+        type: string
+      citizenshipUuid:
+        type: string
+      cityUuid:
+        type: string
+      companyInn:
+        type: string
+      companyName:
+        type: string
+      countryUuid:
+        type: string
+      eduspecialityUuid:
+        type: string
+      email:
+        type: string
+      employmentUuid:
+        type: string
+      experience:
+        type: integer
+      firstname:
+        type: string
+      gender:
+        type: string
+      graduationYear:
+        type: integer
+      lastname:
+        type: string
+      patronymic:
+        type: string
+      phone:
+        type: string
+      specializationUuid:
+        type: string
+      teamUuid:
+        type: string
+      universityUuid:
+        type: string
+      userUuid:
+        type: string
+    type: object
+  lg_internal_controller_http_v1.profileResponseDTO:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      patronymic:
+        type: string
+      uuid:
+        type: string
+    type: object
   lg_internal_controller_http_v1.projectDTO:
     properties:
       category_uuid:
@@ -272,6 +418,16 @@ definitions:
     properties:
       uuid:
         type: string
+    type: object
+  lg_internal_controller_http_v1.reqInnDTO:
+    properties:
+      inn:
+        type: string
+    type: object
+  lg_internal_controller_http_v1.resInnDTO:
+    properties:
+      result:
+        type: boolean
     type: object
   lg_internal_controller_http_v1.responseUUID:
     properties:
@@ -324,16 +480,16 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/lg_internal_controller_http_v1.registerRequest'
+          $ref: '#/definitions/internal_controller_http_v1.registerRequest'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.registerResponse'
+            $ref: '#/definitions/internal_controller_http_v1.registerResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
       summary: registration
       tags:
       - Posts
@@ -344,14 +500,39 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/lg_internal_controller_http_v1.categoryListResponse'
+            $ref: '#/definitions/internal_controller_http_v1.categoryListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+      summary: GetAllCategory
+      tags:
+      - Categories
+  /api/v1/cities/{uuid}:
+    get:
+      description: Get cities by country
+      parameters:
+      - description: Enter uuid country
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.citiListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
-      summary: GetAllCategory
+      summary: GetCityByCountry
       tags:
-      - Categories
+      - Cities
   /api/v1/citizenship:
     get:
       description: Get all citizenships
@@ -359,14 +540,40 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.citizenshipListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.citizenshipListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+      summary: GetAllCitizenships
+      tags:
+      - Citizenships
+  /api/v1/company/inn/:
+    post:
+      description: Check company by inn
+      parameters:
+      - description: enter company inn
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller_http_v1.reqInnDTO'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.resInnDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_controller_http_v1.errResponse'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/internal_controller_http_v1.errResponse'
-      summary: GetAllCitizenships
+      summary: CheckCompanyByInn
       tags:
-      - Citizenships
+      - Company
   /api/v1/country:
     get:
       description: Get all countries
@@ -404,26 +611,78 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.employmentListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.employmentListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetAllEmployments
       tags:
       - Employments
+  /api/v1/profile:
+    post:
+      description: Create profile
+      parameters:
+      - description: enter info project
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/lg_internal_controller_http_v1.profileRequestDTO'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.profileResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+      summary: CreateProfile
+      tags:
+      - Profile
   /api/v1/project:
+    delete:
+      description: Delete project
+      parameters:
+      - description: Enter uuid project
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
+      summary: DeleteProject
+      tags:
+      - Projects
     get:
       description: Get all projects
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.projectListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.projectListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetAllProjects
       tags:
       - Projects
@@ -435,20 +694,20 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_controller_http_v1.projectDTO'
+          $ref: '#/definitions/lg_internal_controller_http_v1.projectDTO'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.responseUUID'
+            $ref: '#/definitions/lg_internal_controller_http_v1.responseUUID'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: CreateProject
       tags:
       - Projects
@@ -456,7 +715,7 @@ paths:
     get:
       description: Get project by UUID
       parameters:
-      - description: Enter id book
+      - description: Enter uuid project
         in: path
         name: uuid
         required: true
@@ -465,19 +724,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.projectDTO'
+            $ref: '#/definitions/lg_internal_controller_http_v1.projectDTO'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetProjectByUUID
       tags:
       - Projects
@@ -503,11 +762,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.universityListResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.universityListResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_controller_http_v1.errResponse'
+            $ref: '#/definitions/lg_internal_controller_http_v1.errResponse'
       summary: GetAllUniversities
       tags:
       - Universities
