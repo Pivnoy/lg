@@ -56,7 +56,7 @@ func (pr *profileRoutes) createProfile(c *gin.Context) {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	newProject, err := pr.ps.CreateProfile(c.Request.Context(), profileEntity)
+	newProject, err := pr.ps.CreateProfile(c.Request.Context(), profileEntity, req.CompanyName, req.CompanyInn)
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
