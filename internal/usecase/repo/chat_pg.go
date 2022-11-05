@@ -55,6 +55,7 @@ func (c *ChatRepo) GetChatHistory(ctx context.Context, chat uuid.UUID) ([]entity
 		var message entity.Message
 		err = rows.Scan(&message.ID,
 			&message.AuthorUUID,
+			&message.Type,
 			&message.Content,
 			&message.CreationDate,
 			&message.ChatUUID)

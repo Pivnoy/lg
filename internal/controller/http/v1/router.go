@@ -45,6 +45,6 @@ func NewRouter(handler *gin.Engine,
 		newCompanyRoutes(h, cs, j)
 		newProfileRoutes(h, pr, j)
 		newChangeRoutes(h, j, u)
-		newMessageRoutes(h, j, mg)
+		newMessageRoutes(h, j, mg, c)
 	}
 }

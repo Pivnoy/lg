@@ -36,6 +36,7 @@ func projectToEntity(dto projectDTO) entity.Project {
 func messageToDTO(message entity.Message, usDto userDTO) messageDTO {
 	return messageDTO{
 		Content: message.Content,
+		Type:    message.Type,
 		Sender:  usDto,
 		Date:    message.CreationDate.String(),
 	}

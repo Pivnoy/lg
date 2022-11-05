@@ -75,7 +75,7 @@ type (
 	}
 
 	ChatContract interface {
-		CreateChat(context.Context, string, []uuid.UUID) error
+		CreateChat(context.Context, string, []uuid.UUID) (uuid.UUID, error)
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
 		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
 	}
