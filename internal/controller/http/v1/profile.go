@@ -8,6 +8,7 @@ import (
 
 type profileRoutes struct {
 	ps usecase.ProfileContract
+	j  usecase.JwtContract
 }
 
 type profileRequestDTO struct {
@@ -40,12 +41,22 @@ type profileResponseDTO struct {
 	Patronymic string `json:"patronymic"`
 }
 
-func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract) {
-	pr := &profileRoutes{ps: ps}
+func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract, j usecase.JwtContract) {
+	pr := &profileRoutes{ps: ps, j: j}
 	handler.POST("/profile", pr.createProfile)
 }
 
 func (pr *profileRoutes) createProfile(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	req := new(profileRequestDTO)
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())

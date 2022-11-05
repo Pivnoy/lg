@@ -8,6 +8,7 @@ import (
 
 type companyRoutes struct {
 	cs usecase.CompanyContract
+	j  usecase.JwtContract
 }
 
 type reqInnDTO struct {
@@ -18,12 +19,22 @@ type resInnDTO struct {
 	Result bool `json:"result"`
 }
 
-func newCompanyRoutes(handler *gin.RouterGroup, cs usecase.CompanyContract) {
-	cr := &companyRoutes{cs: cs}
+func newCompanyRoutes(handler *gin.RouterGroup, cs usecase.CompanyContract, j usecase.JwtContract) {
+	cr := &companyRoutes{cs: cs, j: j}
 	handler.POST("/company/inn", cr.checkInn)
 }
 
 func (cr *companyRoutes) checkInn(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	req := new(reqInnDTO)
 	if err := c.ShouldBindJSON(&req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())

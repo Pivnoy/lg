@@ -23,7 +23,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.registerRequest"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerRequest"
                         }
                     }
                 ],
@@ -31,11 +31,277 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.registerResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category": {
+            "get": {
+                "description": "Get all categories",
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "GetAllCategory",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.categoryListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/citizenship": {
+            "get": {
+                "description": "Get all citizenships",
+                "tags": [
+                    "Citizenships"
+                ],
+                "summary": "GetAllCitizenships",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.citizenshipListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/country": {
+            "get": {
+                "description": "Get all countries",
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "GetAllCountries",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.countryListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/eduspeciality": {
+            "get": {
+                "description": "Get all eduspecialities",
+                "tags": [
+                    "Eduspecialities"
+                ],
+                "summary": "GetAllEduspecialities",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.eduspecialityListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/employment": {
+            "get": {
+                "description": "Get all employments",
+                "tags": [
+                    "Employments"
+                ],
+                "summary": "GetAllEmployments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.employmentListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/project": {
+            "get": {
+                "description": "Get all projects",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "GetAllProjects",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.projectListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create project",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "CreateProject",
+                "parameters": [
+                    {
+                        "description": "enter info project",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.responseUUID"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/project/{uuid}": {
+            "get": {
+                "description": "Get project by UUID",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "GetProjectByUUID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Enter id book",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/specialization": {
+            "get": {
+                "description": "Get all specializations",
+                "tags": [
+                    "Specializations"
+                ],
+                "summary": "GetAllSpecializations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.specializationListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/university": {
+            "get": {
+                "description": "Get all universities",
+                "tags": [
+                    "Universities"
+                ],
+                "summary": "GetAllUniversities",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.universityListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
@@ -45,11 +311,170 @@
         }
     },
     "definitions": {
+        "internal_controller_http_v1.categoryDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.categoryListResponse": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.categoryDTO"
+                    }
+                }
+            }
+        },
+        "internal_controller_http_v1.citizenshipDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.citizenshipListResponse": {
+            "type": "object",
+            "properties": {
+                "citizenships": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.citizenshipDTO"
+                    }
+                }
+            }
+        },
+        "internal_controller_http_v1.countryDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.countryListResponse": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.countryDTO"
+                    }
+                }
+            }
+        },
+        "internal_controller_http_v1.eduspecialityDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.eduspecialityListResponse": {
+            "type": "object",
+            "properties": {
+                "eduspecialities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.eduspecialityDTO"
+                    }
+                }
+            }
+        },
+        "internal_controller_http_v1.employmentDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.employmentListResponse": {
+            "type": "object",
+            "properties": {
+                "employments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.employmentDTO"
+                    }
+                }
+            }
+        },
         "internal_controller_http_v1.errResponse": {
             "type": "object",
             "properties": {
                 "error": {
                     "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.projectDTO": {
+            "type": "object",
+            "properties": {
+                "category_uuid": {
+                    "type": "string"
+                },
+                "creator_uuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "is_visible": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "presentation_link": {
+                    "type": "string"
+                },
+                "project_link": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.projectListResponse": {
+            "type": "object",
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                    }
                 }
             }
         },
@@ -72,11 +497,225 @@
                 }
             }
         },
+        "internal_controller_http_v1.responseUUID": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.specializationDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.specializationListResponse": {
+            "type": "object",
+            "properties": {
+                "specializations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.specializationDTO"
+                    }
+                }
+            }
+        },
+        "internal_controller_http_v1.universityDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.universityListResponse": {
+            "type": "object",
+            "properties": {
+                "universities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.universityDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.categoryDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.categoryListResponse": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.categoryDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.citizenshipDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.citizenshipListResponse": {
+            "type": "object",
+            "properties": {
+                "citizenships": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.citizenshipDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.countryDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.countryListResponse": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.countryDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.eduspecialityDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.eduspecialityListResponse": {
+            "type": "object",
+            "properties": {
+                "eduspecialities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.eduspecialityDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.employmentDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.employmentListResponse": {
+            "type": "object",
+            "properties": {
+                "employments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.employmentDTO"
+                    }
+                }
+            }
+        },
         "lg_internal_controller_http_v1.errResponse": {
             "type": "object",
             "properties": {
                 "error": {
                     "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.projectDTO": {
+            "type": "object",
+            "properties": {
+                "category_uuid": {
+                    "type": "string"
+                },
+                "creator_uuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "is_visible": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "presentation_link": {
+                    "type": "string"
+                },
+                "project_link": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.projectListResponse": {
+            "type": "object",
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.projectDTO"
+                    }
                 }
             }
         },
@@ -96,6 +735,61 @@
             "properties": {
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.responseUUID": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.specializationDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.specializationListResponse": {
+            "type": "object",
+            "properties": {
+                "specializations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.specializationDTO"
+                    }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.universityDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.universityListResponse": {
+            "type": "object",
+            "properties": {
+                "universities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.universityDTO"
+                    }
                 }
             }
         }

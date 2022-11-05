@@ -8,6 +8,7 @@ import (
 
 type eduspecialityRoutes struct {
 	c usecase.EduspecialityContract
+	j usecase.JwtContract
 }
 
 type eduspecialityDTO struct {
@@ -20,12 +21,28 @@ type eduspecialityListResponse struct {
 	Eduspecialities []eduspecialityDTO `json:"eduspecialities"`
 }
 
-func newEduspecialitiesRoutes(handler *gin.RouterGroup, c usecase.EduspecialityContract) {
-	cr := &eduspecialityRoutes{c: c}
+func newEduspecialitiesRoutes(handler *gin.RouterGroup, c usecase.EduspecialityContract, j usecase.JwtContract) {
+	cr := &eduspecialityRoutes{c: c, j: j}
 	handler.GET("/eduspeciality", cr.getAllEduspecialities)
 }
 
+// @Summary GetAllEduspecialities
+// @Tags Eduspecialities
+// @Description Get all eduspecialities
+// @Success 200 {object} eduspecialityListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/eduspeciality [get]
 func (cr *eduspecialityRoutes) getAllEduspecialities(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	eduspecialityList, err := cr.c.GetAllEduspecialities(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())

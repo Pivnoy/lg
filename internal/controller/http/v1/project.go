@@ -9,6 +9,7 @@ import (
 
 type projectRoutes struct {
 	p usecase.ProjectContract
+	j usecase.JwtContract
 }
 
 type projectListResponse struct {
@@ -30,16 +31,31 @@ type projectDTO struct {
 	IsVisible        string    `json:"is_visible"`
 }
 
-func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
-	pr := &projectRoutes{p: p}
+func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract) {
+	pr := &projectRoutes{p: p, j: j}
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
 	handler.POST("/project", pr.createProject)
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
-// TODO сделать пагинацию
+// @Summary GetAllProjects
+// @Tags Projects
+// @Description Get all projects
+// @Success 200 {object} projectListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/project [get]
 func (pr *projectRoutes) getAllProjects(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	projectList, err := pr.p.GetAllProjects(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
@@ -52,7 +68,26 @@ func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 	c.JSON(http.StatusOK, projectListResponse{responseList})
 }
 
+// @Summary GetProjectByUUID
+// @Tags Projects
+// @Description Get project by UUID
+// @Param uuid path string true "Enter id book"
+// @Success 200 {object} projectDTO
+// @Failure 400 {object} errResponse
+// @Failure 404 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/project/{uuid} [get]
 func (pr *projectRoutes) getProjectByUUID(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	projectKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
@@ -66,7 +101,25 @@ func (pr *projectRoutes) getProjectByUUID(c *gin.Context) {
 	c.JSON(http.StatusOK, projectToDTO(project))
 }
 
+// @Summary CreateProject
+// @Tags Projects
+// @Description Create project
+// @Param input body projectDTO true "enter info project"
+// @Success 201 {object} responseUUID
+// @Failure 400 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/project [post]
 func (pr *projectRoutes) createProject(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	req := new(projectDTO)
 	if err := c.ShouldBindJSON(req); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
@@ -81,6 +134,16 @@ func (pr *projectRoutes) createProject(c *gin.Context) {
 }
 
 func (pr *projectRoutes) deleteProjectByUUID(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	projectKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())

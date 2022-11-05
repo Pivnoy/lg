@@ -8,6 +8,7 @@ import (
 
 type specializationRoutes struct {
 	c usecase.SpecializationContract
+	j usecase.JwtContract
 }
 
 type specializationDTO struct {
@@ -20,11 +21,28 @@ type specializationListResponse struct {
 	Specializations []specializationDTO `json:"specializations"`
 }
 
-func newSpecializationsRoutes(handler *gin.RouterGroup, c usecase.SpecializationContract) {
-	cr := &specializationRoutes{c: c}
+func newSpecializationsRoutes(handler *gin.RouterGroup, c usecase.SpecializationContract, j usecase.JwtContract) {
+	cr := &specializationRoutes{c: c, j: j}
 	handler.GET("/specialization", cr.getAllSpecializations)
 }
+
+// @Summary GetAllSpecializations
+// @Tags Specializations
+// @Description Get all specializations
+// @Success 200 {object} specializationListResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/specialization [get]
 func (cr *specializationRoutes) getAllSpecializations(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	specializationList, err := cr.c.GetAllSpecializations(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
