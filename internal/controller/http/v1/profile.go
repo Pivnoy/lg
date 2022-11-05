@@ -46,6 +46,14 @@ func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract, j us
 	handler.POST("/profile", pr.createProfile)
 }
 
+// @Summary CreateProfile
+// @Tags Profile
+// @Description Create profile
+// @Param input body profileRequestDTO true "enter info project"
+// @Success 201 {object} profileResponseDTO
+// @Failure 400 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/profile [post]
 func (pr *profileRoutes) createProfile(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

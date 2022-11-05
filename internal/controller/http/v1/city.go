@@ -26,6 +26,14 @@ func newCityRoutes(handler *gin.RouterGroup, c usecase.CityContract, j usecase.J
 	handler.GET("/cities/:uuid", cr.getCityByCountryUUID)
 }
 
+// @Summary GetCityByCountry
+// @Tags Cities
+// @Description Get cities by country
+// @Param uuid path string true "Enter uuid country"
+// @Success 200 {object} citiListResponse
+// @Failure 400 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/cities/{uuid} [get]
 func (cr *cityRoutes) getCityByCountryUUID(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

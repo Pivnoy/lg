@@ -30,7 +30,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerRequest"
+                            "$ref": "#/definitions/internal_controller_http_v1.registerRequest"
                         }
                     }
                 ],
@@ -38,13 +38,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.registerResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.registerResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -61,7 +61,45 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/lg_internal_controller_http_v1.categoryListResponse"
+                            "$ref": "#/definitions/internal_controller_http_v1.categoryListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cities/{uuid}": {
+            "get": {
+                "description": "Get cities by country",
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "GetCityByCountry",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Enter uuid country",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.citiListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     },
                     "500": {
@@ -84,7 +122,47 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.citizenshipListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.citizenshipListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/company/inn/": {
+            "post": {
+                "description": "Check company by inn",
+                "tags": [
+                    "Company"
+                ],
+                "summary": "CheckCompanyByInn",
+                "parameters": [
+                    {
+                        "description": "enter company inn",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.reqInnDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.resInnDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
                         }
                     },
                     "500": {
@@ -153,13 +231,53 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.employmentListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.employmentListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/profile": {
+            "post": {
+                "description": "Create profile",
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "CreateProfile",
+                "parameters": [
+                    {
+                        "description": "enter info project",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.profileRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.profileResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -176,13 +294,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.projectListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.projectListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -200,7 +318,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.projectDTO"
                         }
                     }
                 ],
@@ -208,19 +326,58 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.responseUUID"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.responseUUID"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete project",
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "DeleteProject",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Enter uuid project",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -236,7 +393,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Enter id book",
+                        "description": "Enter uuid project",
                         "name": "uuid",
                         "in": "path",
                         "required": true
@@ -246,25 +403,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.projectDTO"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.projectDTO"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -304,13 +461,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.universityListResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.universityListResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_controller_http_v1.errResponse"
+                            "$ref": "#/definitions/lg_internal_controller_http_v1.errResponse"
                         }
                     }
                 }
@@ -340,6 +497,17 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_controller_http_v1.citiListResponse": {
+            "type": "object",
+            "properties": {
+                "cities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_controller_http_v1.cityDTO"
+                    }
+                }
+            }
+        },
         "internal_controller_http_v1.citizenshipDTO": {
             "type": "object",
             "properties": {
@@ -359,6 +527,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/internal_controller_http_v1.citizenshipDTO"
                     }
+                }
+            }
+        },
+        "internal_controller_http_v1.cityDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
@@ -445,6 +624,88 @@ const docTemplate = `{
                 }
             }
         },
+        "internal_controller_http_v1.profileRequestDTO": {
+            "type": "object",
+            "properties": {
+                "achievementUuid": {
+                    "type": "string"
+                },
+                "citizenshipUuid": {
+                    "type": "string"
+                },
+                "cityUuid": {
+                    "type": "string"
+                },
+                "companyInn": {
+                    "type": "string"
+                },
+                "companyName": {
+                    "type": "string"
+                },
+                "countryUuid": {
+                    "type": "string"
+                },
+                "eduspecialityUuid": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "employmentUuid": {
+                    "type": "string"
+                },
+                "experience": {
+                    "type": "integer"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "graduationYear": {
+                    "type": "integer"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "specializationUuid": {
+                    "type": "string"
+                },
+                "teamUuid": {
+                    "type": "string"
+                },
+                "universityUuid": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.profileResponseDTO": {
+            "type": "object",
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_controller_http_v1.projectDTO": {
             "type": "object",
             "properties": {
@@ -501,6 +762,22 @@ const docTemplate = `{
             "properties": {
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.reqInnDTO": {
+            "type": "object",
+            "properties": {
+                "inn": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controller_http_v1.resInnDTO": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "type": "boolean"
                 }
             }
         },
@@ -581,6 +858,17 @@ const docTemplate = `{
                 }
             }
         },
+        "lg_internal_controller_http_v1.citiListResponse": {
+            "type": "object",
+            "properties": {
+                "cities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/lg_internal_controller_http_v1.cityDTO"
+                    }
+                }
+            }
+        },
         "lg_internal_controller_http_v1.citizenshipDTO": {
             "type": "object",
             "properties": {
@@ -600,6 +888,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/lg_internal_controller_http_v1.citizenshipDTO"
                     }
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.cityDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
@@ -686,6 +985,88 @@ const docTemplate = `{
                 }
             }
         },
+        "lg_internal_controller_http_v1.profileRequestDTO": {
+            "type": "object",
+            "properties": {
+                "achievementUuid": {
+                    "type": "string"
+                },
+                "citizenshipUuid": {
+                    "type": "string"
+                },
+                "cityUuid": {
+                    "type": "string"
+                },
+                "companyInn": {
+                    "type": "string"
+                },
+                "companyName": {
+                    "type": "string"
+                },
+                "countryUuid": {
+                    "type": "string"
+                },
+                "eduspecialityUuid": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "employmentUuid": {
+                    "type": "string"
+                },
+                "experience": {
+                    "type": "integer"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "graduationYear": {
+                    "type": "integer"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "specializationUuid": {
+                    "type": "string"
+                },
+                "teamUuid": {
+                    "type": "string"
+                },
+                "universityUuid": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.profileResponseDTO": {
+            "type": "object",
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "lg_internal_controller_http_v1.projectDTO": {
             "type": "object",
             "properties": {
@@ -742,6 +1123,22 @@ const docTemplate = `{
             "properties": {
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.reqInnDTO": {
+            "type": "object",
+            "properties": {
+                "inn": {
+                    "type": "string"
+                }
+            }
+        },
+        "lg_internal_controller_http_v1.resInnDTO": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "type": "boolean"
                 }
             }
         },

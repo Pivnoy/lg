@@ -24,6 +24,14 @@ func newCompanyRoutes(handler *gin.RouterGroup, cs usecase.CompanyContract, j us
 	handler.POST("/company/inn", cr.checkInn)
 }
 
+// @Summary CheckCompanyByInn
+// @Tags Company
+// @Description Check company by inn
+// @Param input body reqInnDTO true "enter company inn"
+// @Success 200 {object} resInnDTO
+// @Failure 400 {object} errResponse
+// @Failure 500 {object} errResponse
+// @Router /api/v1/company/inn/ [post]
 func (cr *companyRoutes) checkInn(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {
