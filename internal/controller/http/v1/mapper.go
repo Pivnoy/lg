@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"lg/internal/entity"
 )
@@ -99,6 +100,124 @@ func specializationToDTO(specialization entity.Specialization) specializationDTO
 	}
 }
 
+func cityToDTO(city entity.City) cityDTO {
+	return cityDTO{
+		UUID: city.UUID.String(),
+		Name: city.Name,
+	}
+}
+
+func categoryToDTO(category entity.Category) categoryDTO {
+	return categoryDTO{
+		UUID: category.UUID.String(),
+		Name: category.Name,
+	}
+}
+
+func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
+	var (
+		universityUUID    uuid.UUID
+		eduspecialityUUID uuid.UUID
+		teamUUID          uuid.UUID
+
+		err error
+	)
+
+	if dto.UniversityUUID == "" {
+		universityUUID = uuid.Nil
+	} else {
+		universityUUID, err = uuid.Parse(dto.UniversityUUID)
+		if err != nil {
+			return entity.Profile{}, fmt.Errorf("error parsing university uuid: %w", err)
+		}
+	}
+
+	if dto.EduspecialityUUID == "" {
+		eduspecialityUUID = uuid.Nil
+	} else {
+		eduspecialityUUID, err = uuid.Parse(dto.EduspecialityUUID)
+		if err != nil {
+			return entity.Profile{}, fmt.Errorf("error parsing eduspeciality uuid: %w", err)
+		}
+	}
+
+	if dto.TeamUUID == "" {
+		teamUUID = uuid.Nil
+	} else {
+		teamUUID, err = uuid.Parse(dto.TeamUUID)
+		if err != nil {
+			return entity.Profile{}, fmt.Errorf("error parsing team uuid: %w", err)
+		}
+	}
+
+	if dto.TeamUUID == "" {
+		teamUUID = uuid.Nil
+	} else {
+		teamUUID, err = uuid.Parse(dto.TeamUUID)
+		if err != nil {
+			return entity.Profile{}, fmt.Errorf("error parsing team uuid: %w", err)
+		}
+	}
+
+	userUUID, err := uuid.Parse(dto.UserUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing user uuid: %w", err)
+	}
+	countryUUID, err := uuid.Parse(dto.CountryUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing country uuid: %w", err)
+	}
+	cityUUID, err := uuid.Parse(dto.CityUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing city uuid: %w", err)
+	}
+	citizenshipUUID, err := uuid.Parse(dto.CitizenshipUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing citizenship uuid: %w", err)
+	}
+	employmentUUID, err := uuid.Parse(dto.EmploymentUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing employment uuid: %w", err)
+	}
+	achievementUUID, err := uuid.Parse(dto.AchievementUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing achievement uuid: %w", err)
+	}
+
+	specializationUUID, err := uuid.Parse(dto.SpecializationUUID)
+	if err != nil {
+		return entity.Profile{}, fmt.Errorf("error parsing specialization uuid: %w", err)
+	}
+	return entity.Profile{
+		UserUUID:           userUUID,
+		Firstname:          dto.Firstname,
+		Lastname:           dto.Lastname,
+		Patronymic:         dto.Patronymic,
+		CountryUUID:        countryUUID,
+		CityUUID:           cityUUID,
+		CitizenshipUUID:    citizenshipUUID,
+		Gender:             dto.Gender,
+		Phone:              dto.Phone,
+		Email:              dto.Email,
+		UniversityUUID:     universityUUID,
+		EduspecialityUUID:  eduspecialityUUID,
+		GraduationYear:     dto.GraduationYear,
+		EmploymentUUID:     employmentUUID,
+		Experience:         dto.Experience,
+		AchievementUUID:    achievementUUID,
+		TeamUUID:           teamUUID,
+		SpecializationUUID: specializationUUID,
+	}, nil
+}
+
+func profileToDTO(profile entity.Profile) profileResponseDTO {
+	return profileResponseDTO{
+		UUID:       profile.UserUUID.String(),
+		Firstname:  profile.Firstname,
+		Lastname:   profile.Lastname,
+		Patronymic: profile.Patronymic,
+    }
+    }
 func userToDTO(profile entity.Profile) userDTO {
 	return userDTO{
 		UUID:       profile.UserUUID.String(),

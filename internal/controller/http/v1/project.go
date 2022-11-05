@@ -38,6 +38,7 @@ func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract) {
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 }
 
+// TODO сделать пагинацию
 func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 	projectList, err := pr.p.GetAllProjects(c.Request.Context())
 	if err != nil {

@@ -82,10 +82,14 @@ type (
 
 	ProfileRp interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+		CreateProfile(context.Context, entity.Profile) (entity.Profile, error)
+		CheckFkProfile(ctx context.Context, profile entity.Profile) (string, error)
 	}
 
 	ProfileContract interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
+		CreateProfile(context.Context, entity.Profile, string, string) (entity.Profile, error)
+		CheckFkProfile(ctx context.Context, profile entity.Profile) (bool, string, error)
 	}
 
 	CountryRp interface {
@@ -134,5 +138,32 @@ type (
 
 	SpecializationContract interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+	}
+
+	CityRp interface {
+		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+	}
+
+	CityContract interface {
+		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+	}
+
+	CategoryRp interface {
+		GetAllCategory(context.Context) ([]entity.Category, error)
+	}
+
+	CategoryContract interface {
+		GetAllCategory(context.Context) ([]entity.Category, error)
+	}
+
+	CompanyRp interface {
+		GetCompanyByInn(context.Context, string) (entity.Company, error)
+		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
+	}
+
+	CompanyContract interface {
+		CheckCompanyExistenceByInn(context.Context, string) (bool, error)
+		GetCompanyByInn(context.Context, string) (entity.Company, error)
+		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
 	}
 )

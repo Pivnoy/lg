@@ -36,8 +36,11 @@ func Run(cfg *config.Config) {
 	employmentUseCase := usecase.NewEmploymentUseCase(repo.NewEmploymentRepo(pg))
 	specializationUseCase := usecase.NewSpecializationUseCase(repo.NewSpecializationRepo(pg))
 	universityUseCase := usecase.NewUniversityUseCase(repo.NewUniversityRepo(pg))
-
+	cityUseCase := usecase.NewCityUseCase(repo.NewCityRepo(pg))
+	categoryUseCase := usecase.NewCategoryUseCase(repo.NewCategoryRepo(pg))
+	companyUseCase := usecase.NewCompanyUseCase(repo.NewCompanyRepo(pg))
 	handler := gin.New()
+	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg), companyUseCase)
 
 	handler.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -61,6 +64,9 @@ func Run(cfg *config.Config) {
 		employmentUseCase,
 		specializationUseCase,
 		universityUseCase,
+		cityUseCase,
+		categoryUseCase,
+		companyUseCase)
 		messageUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
