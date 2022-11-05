@@ -135,12 +135,12 @@ insert into university(uuid, "name", city_uuid) values
     ('c1095894-ffe2-4441-a8d8-d8cd158731c5', 'СПбПМУ', '441c4ff7-de3a-471a-bfce-748fc4551993'),
     ('aad32909-3263-4d29-94a9-9d2724a1d0a1', 'СГМУ', '2d9576ed-8293-47ab-9fb2-43c1dad82880');
 
--- insert into profile(user_uuid, firstname, lastname, patronymic, country_uuid, city_uuid,
---                     citizenship_uuid, gender, phone, email, university_uuid, eduspeciality_uuid,
---                     graduation_year, employment_uuid, experience, achievement_uuid, team_uuid, specialization_uuid, company_uuid, creation_date) VALUES
---     ('47e94c22-933d-4029-9752-dad3cd53a85b', 'Алексей', 'Куценко', 'Викторович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', '441c4ff7-de3a-471a-bfce-748fc4551993', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79876543210', 'pochta-dlya-svyazi@mail.ru', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '348eeb1d-e0a5-48bb-bbd0-008b42863416', 2, 'acd177f5-0a74-42bf-9f2f-41ea6f6fb90f', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '01ee4013-6ada-409d-be4f-b7179cdc090a', '2022-11-02 01:05:30'),
---     ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'Григорий', 'Валевин', 'Александрович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', 'ba3bddcb-4d76-45e7-9699-93d523b5736d', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'other', '+79995552288', 'jopa@gmail.com', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '7526d255-8211-4fdc-8965-35f071018ca9', 2024, '62e033e6-24e7-403f-b954-f03bed1a0fd9', 0, 'be1db4bd-4511-49fd-b8a7-2def8d5afdc2', '27401b51-05df-404d-952a-4d36940d6812', '254543a3-c17e-4cf6-b033-702a12c8c188', '6b97fb4d-2e16-425b-8a3e-50ab4bb666f5', '2022-09-28 12:22:30'),
---     ('753a2846-a6ef-4970-9693-41d66a55210f', 'Роман', 'Логинов', null, 'd99c9ba2-5c51-41ff-8095-ccdc8d24ee71', 'c9951e29-0bc0-45a5-8daf-e48070370f54', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79212281488', 'roma@grek.chechnya', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '3736959d-e352-4e95-8b5e-72dfa16fbc08', 1, '5a4861f8-3434-4e7b-b67f-975f96dd9dca', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '34ae926c-2ca4-4b6a-88cd-495066984876', '2020-08-13 20:37:15');
+insert into profile(user_uuid, firstname, lastname, patronymic, country_uuid, city_uuid,
+                    citizenship_uuid, gender, phone, email, university_uuid, eduspeciality_uuid,
+                    graduation_year, employment_uuid, experience, achievement_uuid, team_uuid, specialization_uuid, company_uuid, creation_date) VALUES
+    ('47e94c22-933d-4029-9752-dad3cd53a85b', 'Алексей', 'Куценко', 'Викторович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', '441c4ff7-de3a-471a-bfce-748fc4551993', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79876543210', 'pochta-dlya-svyazi@mail.ru', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '348eeb1d-e0a5-48bb-bbd0-008b42863416', 2, 'acd177f5-0a74-42bf-9f2f-41ea6f6fb90f', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '01ee4013-6ada-409d-be4f-b7179cdc090a', '2022-11-02 01:05:30'),
+    ('88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'Григорий', 'Валевин', 'Александрович', 'e2680202-79ed-4aee-9c07-d51eda5cd08c', 'ba3bddcb-4d76-45e7-9699-93d523b5736d', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'other', '+79995552288', 'jopa@gmail.com', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '7526d255-8211-4fdc-8965-35f071018ca9', 2024, '62e033e6-24e7-403f-b954-f03bed1a0fd9', 0, 'be1db4bd-4511-49fd-b8a7-2def8d5afdc2', '27401b51-05df-404d-952a-4d36940d6812', '254543a3-c17e-4cf6-b033-702a12c8c188', '6b97fb4d-2e16-425b-8a3e-50ab4bb666f5', '2022-09-28 12:22:30'),
+    ('753a2846-a6ef-4970-9693-41d66a55210f', 'Роман', 'Логинов', null, 'd99c9ba2-5c51-41ff-8095-ccdc8d24ee71', 'c9951e29-0bc0-45a5-8daf-e48070370f54', '8e0dff70-ae44-49e4-9b29-107fd08c9fe6', 'male', '+79212281488', 'roma@grek.chechnya', 'b35963d2-4fd4-49da-b959-6afa31497c4a', '94f0a874-92f5-4ebc-9b77-2dbcd2f6b5e9', 2023, '3736959d-e352-4e95-8b5e-72dfa16fbc08', 1, '5a4861f8-3434-4e7b-b67f-975f96dd9dca', '48c27232-f192-46cb-a76d-a7087c5ff084', '348fb263-966c-4aad-822c-004013db095f', '34ae926c-2ca4-4b6a-88cd-495066984876', '2020-08-13 20:37:15');
 
 insert into profile_skill(profile_uuid, skill_uuid) values
     ('47e94c22-933d-4029-9752-dad3cd53a85b', '6286f604-231b-40c2-91f2-4cfff2534f61'),
@@ -170,61 +170,3 @@ insert into lineup(team_uuid, role_uuid, profile_uuid, project_uuid) VALUES
     ('48c27232-f192-46cb-a76d-a7087c5ff084', 'b45bf4e7-8a3f-4afc-9ee9-be47d97de1e0', '753a2846-a6ef-4970-9693-41d66a55210f', 'e153b3a7-ca0c-4fc7-b500-efaef1bd73cd'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'ffb2f566-ba66-43c4-a2de-01773c7c3ef3', '88ec4f5a-1989-4016-8684-8a9dd89d1d73', 'fa044ee2-cebd-484d-9697-9f8b25646188'),
     ('27401b51-05df-404d-952a-4d36940d6812', 'e0e33f90-cff4-4b33-889e-2c08bcec1296', '47e94c22-933d-4029-9752-dad3cd53a85b', 'fa044ee2-cebd-484d-9697-9f8b25646188');
-
-
-create or replace function check_fk_profile(user_uuid_check uuid,
-                                            country_uuid_check uuid,
-                                            city_uuid_check uuid,
-                                            citizenship_uuid_check uuid,
-                                            university_uuid_check uuid,
-                                            eduspeciality_uuid_check uuid,
-                                            employment_uuid_check uuid,
-                                            achievement_uuid_check uuid,
-                                            team_uuid_check uuid,
-                                            specialization_uuid_check uuid,
-                                            company_uuid_check uuid)
-    returns text as $$
-begin
-    if not exists (select * from "user" where uuid = user_uuid_check)
-    then
-        return 'user uuid';
-    end if;
-    if not exists (select * from country where uuid = country_uuid_check)
-    then
-        return 'country uuid';
-    end if;
-    if not exists (select * from city where uuid = city_uuid_check)
-    then
-        return 'city uuid';
-    end if;
-    if not exists(select * from citizenship where uuid = citizenship_uuid_check)
-    then
-        return 'citizenship uuid';
-    end if;
-    if university_uuid_check != uuid_nil() and not exists(select * from university where uuid = university_uuid_check)
-    then
-        return 'university uuid';   -- null
-    end if;
-    if eduspeciality_uuid_check != uuid_nil() and not exists(select * from eduspeciality where uuid = eduspeciality_uuid_check)
-    then
-        return 'eduspeciality uuid'; -- null
-    end if;
-    if not exists(select * from employment where uuid = employment_uuid_check)
-    then
-        return 'employment uuid';
-    end if;
-    if not exists(select * from achievement where uuid = achievement_uuid_check)
-    then
-        return 'achievement uuid';
-    end if;
-    if team_uuid_check != uuid_nil() and not exists(select * from team where uuid = team_uuid_check)
-    then
-        return 'team uuid';     -- null
-    end if;
-    if not exists(select * from specialization where uuid = specialization_uuid_check)
-    then
-        return 'specialization uuid';
-    end if;
-    return 'ok';
-end
-$$ language 'plpgsql';
