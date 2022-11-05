@@ -6,7 +6,7 @@ import (
 
 type Config struct {
 	AppPort     string `env:"APP_PORT" envDefault:"9000"`
-	PostgresUrl string `env:"POSTGRES_URL" envDefault:"postgresql://postgres:postgres@psql:5432/postgres"`
+	PostgresUrl string `env:"POSTGRES_URL" envDefault:"postgresql://postgres:postgres@localhost:5432/postgres"`
 	SecretKey   string `env:"SECRET_KEY" envDefault:"SOME_SECRET_KEY"`
 	LogLevel    string `env:"LOG_LEVEL" envDefault:"debug"`
 }

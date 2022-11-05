@@ -8,6 +8,7 @@ import (
 
 type employmentRoutes struct {
 	c usecase.EmploymentContract
+	j usecase.JwtContract
 }
 
 type employmentDTO struct {
@@ -20,12 +21,22 @@ type employmentListResponse struct {
 	Employments []employmentDTO `json:"employments"`
 }
 
-func newEmploymentsRoutes(handler *gin.RouterGroup, c usecase.EmploymentContract) {
-	cr := &employmentRoutes{c: c}
+func newEmploymentsRoutes(handler *gin.RouterGroup, c usecase.EmploymentContract, j usecase.JwtContract) {
+	cr := &employmentRoutes{c: c, j: j}
 	handler.GET("/employment", cr.getAllEmployments)
 }
 
 func (cr *employmentRoutes) getAllEmployments(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	employmentList, err := cr.c.GetAllEmployments(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())

@@ -9,6 +9,7 @@ import (
 
 type cityRoutes struct {
 	c usecase.CityContract
+	j usecase.JwtContract
 }
 
 type cityDTO struct {
@@ -20,12 +21,22 @@ type citiListResponse struct {
 	Cities []cityDTO `json:"cities"`
 }
 
-func newCityRoutes(handler *gin.RouterGroup, c usecase.CityContract) {
-	cr := &cityRoutes{c: c}
+func newCityRoutes(handler *gin.RouterGroup, c usecase.CityContract, j usecase.JwtContract) {
+	cr := &cityRoutes{c: c, j: j}
 	handler.GET("/cities/:uuid", cr.getCityByCountryUUID)
 }
 
 func (cr *cityRoutes) getCityByCountryUUID(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	countryKey, err := uuid.Parse(c.Param("uuid"))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())

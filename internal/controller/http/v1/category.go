@@ -8,6 +8,7 @@ import (
 
 type categoryRoutes struct {
 	cu usecase.CategoryContract
+	j  usecase.JwtContract
 }
 
 type categoryDTO struct {
@@ -19,12 +20,22 @@ type categoryListResponse struct {
 	Categories []categoryDTO `json:"categories"`
 }
 
-func newCategoryRoutes(handler *gin.RouterGroup, cu usecase.CategoryContract) {
-	cr := &categoryRoutes{cu: cu}
+func newCategoryRoutes(handler *gin.RouterGroup, cu usecase.CategoryContract, j usecase.JwtContract) {
+	cr := &categoryRoutes{cu: cu, j: j}
 	handler.GET("/category", cr.getAllCategory)
 }
 
 func (cr *categoryRoutes) getAllCategory(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = cr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 	categoryList, err := cr.cu.GetAllCategory(c.Request.Context())
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
