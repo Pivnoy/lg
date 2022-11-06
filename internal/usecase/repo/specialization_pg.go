@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -16,6 +17,29 @@ var _ usecase.SpecializationRp = (*SpecializationRepo)(nil)
 
 func NewSpecializationRepo(pg *postgres.Postgres) *SpecializationRepo {
 	return &SpecializationRepo{pg}
+}
+
+func (c *SpecializationRepo) GetSpecializationByUUID(ctx context.Context, specializationKey uuid.UUID) (entity.Specialization, error) {
+	query := `SELECT * FROM specialization where uuid=$1`
+
+	rows, err := c.Pool.Query(ctx, query, specializationKey)
+	if err != nil {
+		return entity.Specialization{}, fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	project := entity.Specialization{}
+	for rows.Next() {
+		err = rows.Scan(
+			&project.ID,
+			&project.UUID,
+			&project.Name,
+			&project.Value,
+		)
+		if err != nil {
+			return entity.Specialization{}, fmt.Errorf("error in parsing specialization: %w", err)
+		}
+	}
+	return project, nil
 }
 
 func (c *SpecializationRepo) GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error) {

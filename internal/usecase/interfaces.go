@@ -151,10 +151,12 @@ type (
 
 	SpecializationRp interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+		GetSpecializationByUUID(context.Context, uuid.UUID) (entity.Specialization, error)
 	}
 
 	SpecializationContract interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+		GetSpecializationByUUID(context.Context, uuid.UUID) (entity.Specialization, error)
 	}
 
 	CityRp interface {
@@ -198,5 +200,13 @@ type (
 
 	TeamContract interface {
 		CreateTeam(context.Context, entity.Team) (uuid.UUID, error)
+	}
+
+	RoleRp interface {
+		GetAllRoles(context.Context) ([]entity.Role, error)
+	}
+
+	RoleContract interface {
+		GetAllRoles(context.Context) ([]entity.Role, error)
 	}
 )
