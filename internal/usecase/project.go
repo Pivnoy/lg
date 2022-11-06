@@ -21,8 +21,8 @@ func NewProjectUseCase(repo ProjectRp, l LineupContract) *ProjectUseCase {
 	}
 }
 
-func (p *ProjectUseCase) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
-	return p.repo.GetAllProjects(ctx)
+func (p *ProjectUseCase) GetAllProjects(ctx context.Context, page, limit uint) ([]entity.Project, error) {
+	return p.repo.GetAllProjects(ctx, page, limit)
 }
 
 func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.UUID) (entity.Project, error) {

@@ -20,10 +20,13 @@ func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
 	return &ProjectRepo{pg}
 }
 
-func (p *ProjectRepo) GetAllProjects(ctx context.Context) ([]entity.Project, error) {
-	query := `SELECT * FROM project`
+func (p *ProjectRepo) GetAllProjects(ctx context.Context, page, limit uint) ([]entity.Project, error) {
 
-	rows, err := p.Pool.Query(ctx, query)
+	offset := (page - 1) * limit
+
+	query := `SELECT * FROM project order by id offset $1 limit $2`
+
+	rows, err := p.Pool.Query(ctx, query, offset, limit)
 	if err != nil {
 		return nil, fmt.Errorf("cannot execute query: %w", err)
 	}

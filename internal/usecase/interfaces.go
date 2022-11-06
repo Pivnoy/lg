@@ -33,14 +33,14 @@ type (
 	}
 
 	ProjectRp interface {
-		GetAllProjects(context.Context) ([]entity.Project, error)
+		GetAllProjects(context.Context, uint, uint) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 	}
 
 	ProjectContract interface {
-		GetAllProjects(context.Context) ([]entity.Project, error)
+		GetAllProjects(context.Context, uint, uint) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error

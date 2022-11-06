@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"lg/internal/usecase"
 	"net/http"
+	"strconv"
 )
 
 type projectRoutes struct {
@@ -56,7 +57,32 @@ func (pr *projectRoutes) getAllProjects(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	projectList, err := pr.p.GetAllProjects(c.Request.Context())
+	//var pageStr, limitStr string
+	pageStr := c.Query("page")
+	if pageStr == "" {
+		errorResponse(c, http.StatusBadRequest, "page value couldn't be empty")
+		return
+	}
+	limitStr := c.Query("limit")
+	if limitStr == "" {
+		errorResponse(c, http.StatusInternalServerError, "limit value couldn't be empty")
+		return
+	}
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	if (page < 1) || (limit < 1) {
+		errorResponse(c, http.StatusBadRequest, "invalid value param or limit")
+		return
+	}
+	projectList, err := pr.p.GetAllProjects(c.Request.Context(), uint(page), uint(limit))
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
