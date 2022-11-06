@@ -19,6 +19,26 @@ func NewProjectUseCase(repo ProjectRp, l LineupContract, t TeamContract) *Projec
 	return &ProjectUseCase{repo: repo, l: l, t: t}
 }
 
+func (p *ProjectUseCase) ChangeVisibility(ctx context.Context, projectKey uuid.UUID) error {
+	visibility, err := p.GetVisibilityByProject(ctx, projectKey)
+	if err != nil {
+		return err
+	}
+	switch visibility {
+	case "visible":
+		visibility = "invisible"
+	case "invisible":
+		visibility = "visible"
+	default:
+		return fmt.Errorf("invalid visiblity")
+	}
+	return p.repo.ChangeVisibility(ctx, projectKey, visibility)
+}
+
+func (p *ProjectUseCase) GetVisibilityByProject(ctx context.Context, projectKey uuid.UUID) (string, error) {
+	return p.repo.GetVisibilityByProject(ctx, projectKey)
+}
+
 func (p *ProjectUseCase) GetAllProjects(ctx context.Context, page, limit uint) ([]entity.Project, error) {
 	return p.repo.GetAllProjects(ctx, page, limit)
 }

@@ -60,6 +60,30 @@ func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j use
 	handler.POST("/project", pr.createProject)
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
 	handler.POST("/ebaloPsa", pr.acceptOrRejectToProject)
+	handler.PUT("/change-visibility/:uuid", pr.changeVisibility)
+}
+
+func (pr *projectRoutes) changeVisibility(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	projectKey, err := uuid.Parse(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	err = pr.p.ChangeVisibility(c.Request.Context(), projectKey)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 }
 
 // @Summary GetAllProjects

@@ -20,6 +20,35 @@ func NewProjectRepo(pg *postgres.Postgres) *ProjectRepo {
 	return &ProjectRepo{pg}
 }
 
+func (p *ProjectRepo) ChangeVisibility(ctx context.Context, projectKey uuid.UUID, visibility string) error {
+	query := `UPDATE project SET is_visible=$1 WHERE uuid=$2`
+
+	rows, err := p.Pool.Query(ctx, query, visibility, projectKey)
+	if err != nil {
+		return fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	return nil
+}
+
+func (p *ProjectRepo) GetVisibilityByProject(ctx context.Context, projectKey uuid.UUID) (string, error) {
+	query := `SELECT is_visible FROM project where uuid=$1`
+
+	rows, err := p.Pool.Query(ctx, query, projectKey)
+	if err != nil {
+		return "", fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var visibility string
+	for rows.Next() {
+		err = rows.Scan(&visibility)
+		if err != nil {
+			return "", fmt.Errorf("error in parsing project: %w", err)
+		}
+	}
+	return visibility, nil
+}
+
 func (p *ProjectRepo) GetAllProjects(ctx context.Context, page, limit uint) ([]entity.Project, error) {
 
 	offset := (page - 1) * limit

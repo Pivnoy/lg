@@ -37,6 +37,8 @@ type (
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
+		ChangeVisibility(context.Context, uuid.UUID, string) error
+		GetVisibilityByProject(context.Context, uuid.UUID) (string, error)
 	}
 
 	ProjectContract interface {
@@ -45,6 +47,8 @@ type (
 		CreateProject(context.Context, entity.Project, []uuid.UUID) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 		CheckProjectExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
+		ChangeVisibility(context.Context, uuid.UUID) error
+		GetVisibilityByProject(context.Context, uuid.UUID) (string, error)
 	}
 
 	LineupRp interface {
