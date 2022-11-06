@@ -28,7 +28,7 @@ func check(val uuid.UUID) any {
 }
 
 func (p *ProfileRepo) CheckFkProfile(ctx context.Context, profile entity.Profile) (string, error) {
-	query := `SELECT check_fk_profile($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+	query := `SELECT check_fk_profile($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 	rows, err := p.Pool.Query(
 		ctx,
@@ -40,10 +40,8 @@ func (p *ProfileRepo) CheckFkProfile(ctx context.Context, profile entity.Profile
 		profile.UniversityUUID,
 		profile.EduspecialityUUID,
 		profile.EmploymentUUID,
-		profile.AchievementUUID,
 		profile.TeamUUID,
-		profile.SpecializationUUID,
-		profile.CompanyUUID)
+		profile.SpecializationUUID)
 	if err != nil {
 		return "", fmt.Errorf("cannot execute check fk profile function, query: %v", err)
 	}
@@ -81,10 +79,6 @@ func (p *ProfileRepo) CreateProfile(ctx context.Context, profile entity.Profile)
                      company_uuid,
                      creation_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`
 	newDate := time.Now()
-	//new_uni := check(profile.UniversityUUID)
-	//new_edu := check(profile.EduspecialityUUID)
-	//new_team := check(profile.TeamUUID)
-	//new_com := check(profile.CompanyUUID)
 	rows, err := p.Pool.Query(ctx,
 		query,
 		profile.UserUUID,

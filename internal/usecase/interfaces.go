@@ -33,14 +33,14 @@ type (
 	}
 
 	ProjectRp interface {
-		GetAllProjects(context.Context) ([]entity.Project, error)
+		GetAllProjects(context.Context, uint, uint) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 	}
 
 	ProjectContract interface {
-		GetAllProjects(context.Context) ([]entity.Project, error)
+		GetAllProjects(context.Context, uint, uint) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
@@ -171,5 +171,13 @@ type (
 		CheckCompanyExistenceByInn(context.Context, string) (bool, error)
 		GetCompanyByInn(context.Context, string) (entity.Company, error)
 		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
+	}
+
+	AchievementRp interface {
+		CreateAchievement(context.Context, string) (uuid.UUID, error)
+	}
+
+	AchievementContract interface {
+		CreateAchievement(context.Context, string) (uuid.UUID, error)
 	}
 )

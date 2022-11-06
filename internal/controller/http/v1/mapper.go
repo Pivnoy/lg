@@ -116,6 +116,7 @@ func categoryToDTO(category entity.Category) categoryDTO {
 	}
 }
 
+// TODO тут изменить логику обработки ачивмента
 func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 	var (
 		universityUUID    uuid.UUID
