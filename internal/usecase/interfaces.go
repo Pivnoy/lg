@@ -141,10 +141,12 @@ type (
 
 	EduspecialityRp interface {
 		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+		GetEduspecialityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EduspecialityContract interface {
 		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+		GetEduspecialityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EmploymentRp interface {

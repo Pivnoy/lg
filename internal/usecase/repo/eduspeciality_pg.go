@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -42,4 +43,24 @@ func (c *EduspecialityRepo) GetAllEduspecialities(ctx context.Context) ([]entity
 		eduspecialityList = append(eduspecialityList, eduspeciality)
 	}
 	return eduspecialityList, nil
+}
+
+func (c *EduspecialityRepo) GetEduspecialityNameByUUID(ctx context.Context, eduspecialityKey uuid.UUID) (string, error) {
+	query := `SELECT name FROM eduspeciality WHERE uuid=$1`
+
+	rows, err := c.Pool.Query(ctx, query, eduspecialityKey)
+	if err != nil {
+		return "", fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var name string
+	for rows.Next() {
+		err = rows.Scan(
+			&name,
+		)
+		if err != nil {
+			return "", fmt.Errorf("error in parsing category: %w", err)
+		}
+	}
+	return name, nil
 }
