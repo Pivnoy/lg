@@ -24,6 +24,8 @@ func NewRouter(handler *gin.Engine,
 	ccc usecase.CategoryContract,
 	cs usecase.CompanyContract,
 	mg usecase.MessageContract,
+	ln usecase.LineupContract,
+	ru usecase.RoleContract,
 ) {
 	h := handler.Group("/api/v1")
 
@@ -46,5 +48,7 @@ func NewRouter(handler *gin.Engine,
 		newProfileRoutes(h, pr, j)
 		newChangeRoutes(h, j, u)
 		newMessageRoutes(h, j, mg, c)
+		newLineupRoutes(h, ln, j)
+		newRoleRoutes(h, ru, j, sp)
 	}
 }

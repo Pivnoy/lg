@@ -42,6 +42,7 @@ func Run(cfg *config.Config) {
 	handler := gin.New()
 	achievementUseCase := usecase.NewAchievementUseCase(repo.NewAchievementRepo(pg))
 	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg), companyUseCase, achievementUseCase)
+	roleUseCase := usecase.NewRoleUseCase(repo.NewRoleRepo(pg))
 
 	handler.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -68,7 +69,9 @@ func Run(cfg *config.Config) {
 		cityUseCase,
 		categoryUseCase,
 		companyUseCase,
-		messageUseCase)
+		messageUseCase,
+		lineUpUseCase,
+		roleUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)

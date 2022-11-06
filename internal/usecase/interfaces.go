@@ -37,6 +37,8 @@ type (
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
 		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
+		ChangeVisibility(context.Context, uuid.UUID, string) error
+		GetVisibilityByProject(context.Context, uuid.UUID) (string, error)
 	}
 
 	ProjectContract interface {
@@ -45,18 +47,22 @@ type (
 		CreateProject(context.Context, entity.Project, []uuid.UUID) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 		CheckProjectExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
+		ChangeVisibility(context.Context, uuid.UUID) error
+		GetVisibilityByProject(context.Context, uuid.UUID) (string, error)
 	}
 
 	LineupRp interface {
 		GetLineupByProjectUUID(context.Context, uuid.UUID) (entity.Lineup, error)
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
 		CreateLineup(context.Context, entity.Lineup) error
+		UpdateLineup(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	LineupContract interface {
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
 		CheckLineupExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
 		CreateLineup(context.Context, entity.Lineup) error
+		UpdateLineup(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	MessageRp interface {
@@ -145,10 +151,12 @@ type (
 
 	SpecializationRp interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+		GetSpecializationByUUID(context.Context, uuid.UUID) (entity.Specialization, error)
 	}
 
 	SpecializationContract interface {
 		GetAllSpecializations(ctx context.Context) ([]entity.Specialization, error)
+		GetSpecializationByUUID(context.Context, uuid.UUID) (entity.Specialization, error)
 	}
 
 	CityRp interface {
@@ -192,5 +200,13 @@ type (
 
 	TeamContract interface {
 		CreateTeam(context.Context, entity.Team) (uuid.UUID, error)
+	}
+
+	RoleRp interface {
+		GetAllRoles(context.Context) ([]entity.Role, error)
+	}
+
+	RoleContract interface {
+		GetAllRoles(context.Context) ([]entity.Role, error)
 	}
 )
