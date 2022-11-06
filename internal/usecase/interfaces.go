@@ -111,10 +111,12 @@ type (
 
 	CountryRp interface {
 		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+		GetCountryNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CountryContract interface {
 		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+		GetCountryNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CitizenshipRp interface {

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -17,4 +18,8 @@ func NewCountryUseCase(repo CountryRp) *CountryUseCase {
 
 func (c *CountryUseCase) GetAllCountries(ctx context.Context) ([]entity.Country, error) {
 	return c.repo.GetAllCountries(ctx)
+}
+
+func (c *CountryUseCase) GetCountryNameByUUID(ctx context.Context, countryKey uuid.UUID) (string, error) {
+	return c.repo.GetCountryNameByUUID(ctx, countryKey)
 }
