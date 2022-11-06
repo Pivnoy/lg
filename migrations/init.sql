@@ -139,7 +139,7 @@ create table if not exists profile (
 create table if not exists profile_skill (
     id serial primary key,
     uuid uuid unique default uuid_generate_v4(),
-    profile_uuid uuid not null references "user"(uuid),
+    profile_uuid uuid not null references profile(user_uuid),
     skill_uuid uuid not null references skill(uuid)
 );
 
