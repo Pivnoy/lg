@@ -68,7 +68,8 @@ func Run(cfg *config.Config) {
 		cityUseCase,
 		categoryUseCase,
 		companyUseCase,
-		messageUseCase)
+		messageUseCase,
+		lineUpUseCase)
 
 	serv := httpserver.New(handler, httpserver.Port(cfg.AppPort))
 	interruption := make(chan os.Signal, 1)

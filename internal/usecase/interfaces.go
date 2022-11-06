@@ -51,12 +51,14 @@ type (
 		GetLineupByProjectUUID(context.Context, uuid.UUID) (entity.Lineup, error)
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
 		CreateLineup(context.Context, entity.Lineup) error
+		UpdateLineup(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	LineupContract interface {
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
 		CheckLineupExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
 		CreateLineup(context.Context, entity.Lineup) error
+		UpdateLineup(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	MessageRp interface {

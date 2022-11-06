@@ -17,6 +17,10 @@ func NewLineupUseCase(r LineupRp) *LineupUseCase {
 
 var _ LineupContract = (*LineupUseCase)(nil)
 
+func (l *LineupUseCase) UpdateLineup(ctx context.Context, lineupKey uuid.UUID, profileKey uuid.UUID) error {
+	return l.repo.UpdateLineup(ctx, lineupKey, profileKey)
+}
+
 func (l *LineupUseCase) CreateLineup(ctx context.Context, lineup entity.Lineup) error {
 	return l.repo.CreateLineup(ctx, lineup)
 }
