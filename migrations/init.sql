@@ -174,7 +174,7 @@ create table if not exists lineup (
 create table if not exists chat (
     id serial primary key,
     uuid uuid unique default uuid_generate_v4(),
-    "name" varchar(60) not null,
+    "name" varchar(60),
     project_uuid uuid references project(uuid)
 );
 
