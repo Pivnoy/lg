@@ -121,10 +121,12 @@ type (
 
 	CitizenshipRp interface {
 		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+		GetCitizenshipNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CitizenshipContract interface {
 		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+		GetCitizenshipNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	UniversityRp interface {

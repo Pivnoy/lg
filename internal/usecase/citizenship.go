@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -17,4 +18,8 @@ func NewCitizenshipUseCase(repo CitizenshipRp) *CitizenshipUseCase {
 
 func (c *CitizenshipUseCase) GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error) {
 	return c.repo.GetAllCitizenships(ctx)
+}
+
+func (c *CitizenshipUseCase) GetCitizenshipNameByUUID(ctx context.Context, citizenshipKey uuid.UUID) (string, error) {
+	return c.repo.GetCitizenshipNameByUUID(ctx, citizenshipKey)
 }
