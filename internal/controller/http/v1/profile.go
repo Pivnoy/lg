@@ -13,26 +13,26 @@ type profileRoutes struct {
 }
 
 type profileRequestDTO struct {
-	UserUUID           string `json:"userUuid"`
-	Firstname          string `json:"firstname"`
-	Lastname           string `json:"lastname"`
-	Patronymic         string `json:"patronymic"`
-	CountryUUID        string `json:"countryUuid"`
-	CityUUID           string `json:"cityUuid"`
-	CitizenshipUUID    string `json:"citizenshipUuid"`
-	Gender             string `json:"gender"`
-	Phone              string `json:"phone"`
-	Email              string `json:"email"`
-	UniversityUUID     string `json:"universityUuid"`
-	EduspecialityUUID  string `json:"eduspecialityUuid"`
-	GraduationYear     uint   `json:"graduationYear"`
-	EmploymentUUID     string `json:"employmentUuid"`
-	Experience         uint   `json:"experience"`
-	AchievementUUID    string `json:"achievementUuid"`
-	TeamUUID           string `json:"teamUuid"`
-	SpecializationUUID string `json:"specializationUuid"`
-	CompanyInn         string `json:"companyInn"`
-	CompanyName        string `json:"companyName"`
+	UserUUID           string `json:"userUuid"`           // string -> uuid.UUID
+	Firstname          string `json:"firstname"`          // simple string
+	Lastname           string `json:"lastname"`           // simple string
+	Patronymic         string `json:"patronymic"`         // simple string
+	CountryUUID        string `json:"countryUuid"`        // string -> uuid.UUID
+	CityUUID           string `json:"cityUuid"`           // string -> uuid.UUID
+	CitizenshipUUID    string `json:"citizenshipUuid"`    // string -> uuid.UUID
+	Gender             string `json:"gender"`             // simple string
+	Phone              string `json:"phone"`              // simple string
+	Email              string `json:"email"`              // simple string
+	UniversityUUID     string `json:"universityUuid"`     // string ""-> uuid.UUID (null)
+	EduspecialityUUID  string `json:"eduspecialityUuid"`  // string ""-> uuid.UUID (null)
+	GraduationYear     string `json:"graduationYear"`     // string -> int
+	EmploymentUUID     string `json:"employmentUuid"`     // string -> uuid.UUID
+	Experience         string `json:"experience"`         // string -> int
+	AchievementUUID    string `json:"achievement"`        // text -> create achivment and add uuid
+	SpecializationUUID string `json:"specializationUuid"` // string -> uuid.UUID
+	CompanyInn         string `json:"companyInn"`         //
+	CompanyName        string `json:"companyName"`        // все также
+	// skills: - массив строк
 }
 
 //type profileResponseDTO struct {
@@ -48,9 +48,10 @@ type profileResponseDTO struct {
 func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract, j usecase.JwtContract) {
 	pr := &profileRoutes{ps: ps, j: j}
 	handler.POST("/profile", pr.createProfile)
-	handler.GET("/profile/:uuid", pr.getProdileByUser)
+	handler.GET("/profile/:uuid", pr.getProfileByUser)
 }
 
+// FIXME swagger
 // @Summary CreateProfile
 // @Tags Profile
 // @Description Create profile
@@ -80,7 +81,7 @@ func (pr *profileRoutes) createProfile(c *gin.Context) {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	newProject, err := pr.ps.CreateProfile(c.Request.Context(), profileEntity, req.CompanyName, req.CompanyInn)
+	newProject, err := pr.ps.CreateProfile(c.Request.Context(), profileEntity, req.CompanyName, req.CompanyInn, req.AchievementUUID)
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -90,7 +91,7 @@ func (pr *profileRoutes) createProfile(c *gin.Context) {
 }
 
 // TODO доделать профиль, как пахан фиксанет базу
-func (pr *profileRoutes) getProdileByUser(c *gin.Context) {
+func (pr *profileRoutes) getProfileByUser(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())

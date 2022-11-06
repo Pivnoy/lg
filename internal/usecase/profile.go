@@ -10,22 +10,20 @@ import (
 type ProfileUseCase struct {
 	repo ProfileRp
 	cp   CompanyContract
+	ac   AchievementContract
 }
 
 var _ ProfileContract = (*ProfileUseCase)(nil)
 
-func NewProfileUseCase(repo ProfileRp, cp CompanyContract) *ProfileUseCase {
-	return &ProfileUseCase{
-		repo: repo,
-		cp:   cp,
-	}
+func NewProfileUseCase(repo ProfileRp, cp CompanyContract, ac AchievementContract) *ProfileUseCase {
+	return &ProfileUseCase{repo: repo, cp: cp, ac: ac}
 }
 
 func (p *ProfileUseCase) GetProfileByUser(ctx context.Context, uuid uuid.UUID) (entity.Profile, error) {
 	return p.repo.GetProfileByUser(ctx, uuid)
 }
 
-func (p *ProfileUseCase) CreateProfile(ctx context.Context, profile entity.Profile, companyName, companyInn string) (entity.Profile, error) {
+func (p *ProfileUseCase) CreateProfile(ctx context.Context, profile entity.Profile, companyName, companyInn, achievement string) (entity.Profile, error) {
 	checkFlag, msg, err := p.CheckFkProfile(ctx, profile)
 	switch {
 	case err != nil:
@@ -42,6 +40,12 @@ func (p *ProfileUseCase) CreateProfile(ctx context.Context, profile entity.Profi
 		}
 		profile.CompanyUUID = companyKey
 	}
+	// создангие ачивмента
+	achievementKey, err := p.ac.CreateAchievement(ctx, achievement)
+	if err != nil {
+		return entity.Profile{}, err
+	}
+	profile.AchievementUUID = achievementKey
 	return p.repo.CreateProfile(ctx, profile)
 }
 

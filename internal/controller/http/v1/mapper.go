@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"lg/internal/entity"
+	"strconv"
 )
 
-func projectToDTO(project entity.Project) projectDTO {
-	return projectDTO{
+func projectToDTO(project entity.Project) projectResponseDTO {
+	return projectResponseDTO{
 		UUID:             project.UUID,
 		Name:             project.Name,
 		Description:      project.Description,
@@ -20,17 +21,26 @@ func projectToDTO(project entity.Project) projectDTO {
 	}
 }
 
-func projectToEntity(dto projectDTO) entity.Project {
+func projectToEntity(dto projectRequestDTO) (entity.Project, []uuid.UUID, error) {
+
+	listUUID := make([]uuid.UUID, len(dto.Slots))
+	for i, v := range dto.Slots {
+		newUUID, err := uuid.Parse(v.RoleUUID)
+		if err != nil {
+			return entity.Project{}, nil, err
+		}
+		listUUID[i] = newUUID
+	}
+
 	return entity.Project{
-		UUID:             dto.UUID,
 		Name:             dto.Name,
 		Description:      dto.Description,
-		CategoryUUID:     dto.CategoryUUID,
 		ProjectLink:      dto.ProjectLink,
 		PresentationLink: dto.PresentationLink,
 		CreatorUUID:      dto.CreatorUUID,
+		CategoryUUID:     dto.CategoryUUID,
 		IsVisible:        dto.IsVisible,
-	}
+	}, listUUID, nil
 }
 
 func messageToDTO(message entity.Message, usDto userDTO) messageDTO {
@@ -144,24 +154,6 @@ func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 		}
 	}
 
-	if dto.TeamUUID == "" {
-		teamUUID = uuid.Nil
-	} else {
-		teamUUID, err = uuid.Parse(dto.TeamUUID)
-		if err != nil {
-			return entity.Profile{}, fmt.Errorf("error parsing team uuid: %w", err)
-		}
-	}
-
-	if dto.TeamUUID == "" {
-		teamUUID = uuid.Nil
-	} else {
-		teamUUID, err = uuid.Parse(dto.TeamUUID)
-		if err != nil {
-			return entity.Profile{}, fmt.Errorf("error parsing team uuid: %w", err)
-		}
-	}
-
 	userUUID, err := uuid.Parse(dto.UserUUID)
 	if err != nil {
 		return entity.Profile{}, fmt.Errorf("error parsing user uuid: %w", err)
@@ -182,10 +174,10 @@ func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 	if err != nil {
 		return entity.Profile{}, fmt.Errorf("error parsing employment uuid: %w", err)
 	}
-	achievementUUID, err := uuid.Parse(dto.AchievementUUID)
-	if err != nil {
-		return entity.Profile{}, fmt.Errorf("error parsing achievement uuid: %w", err)
-	}
+	//achievementUUID, err := uuid.Parse(dto.AchievementUUID)
+	//if err != nil {
+	//	return entity.Profile{}, fmt.Errorf("error parsing achievement uuid: %w", err)
+	//}
 
 	specializationUUID, err := uuid.Parse(dto.SpecializationUUID)
 	if err != nil {
@@ -197,6 +189,15 @@ func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 		newPatr.Valid = true
 	} else {
 		newPatr.Valid = false
+	}
+
+	newGradYear, err := strconv.Atoi(dto.GraduationYear)
+	if err != nil {
+		return entity.Profile{}, err
+	}
+	newExp, err := strconv.Atoi(dto.Experience)
+	if err != nil {
+		return entity.Profile{}, err
 	}
 	return entity.Profile{
 		UserUUID:           userUUID,
@@ -211,10 +212,10 @@ func profileToEntity(dto profileRequestDTO) (entity.Profile, error) {
 		Email:              dto.Email,
 		UniversityUUID:     universityUUID,
 		EduspecialityUUID:  eduspecialityUUID,
-		GraduationYear:     dto.GraduationYear,
+		GraduationYear:     uint(newGradYear),
 		EmploymentUUID:     employmentUUID,
-		Experience:         dto.Experience,
-		AchievementUUID:    achievementUUID,
+		Experience:         uint(newExp),
+		AchievementUUID:    uuid.Nil,
 		TeamUUID:           teamUUID,
 		SpecializationUUID: specializationUUID,
 	}, nil

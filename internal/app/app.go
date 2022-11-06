@@ -23,7 +23,8 @@ func Run(cfg *config.Config) {
 		log.Fatal("Error in creating postgres instance")
 	}
 	lineUpUseCase := usecase.NewLineupUseCase(repo.NewLineupRepo(pg))
-	projectUseCase := usecase.NewProjectUseCase(repo.NewProjectRepo(pg), lineUpUseCase)
+	teamUseCase := usecase.NewTeamUseCase(repo.NewTeamRepo(pg))
+	projectUseCase := usecase.NewProjectUseCase(repo.NewProjectRepo(pg), lineUpUseCase, teamUseCase)
 	userUseCase := usecase.NewUserUseCase(repo.NewUserRepo(pg))
 	signInUseCase := usecase.NewSignInUseCase(userUseCase)
 	jwtUseCase := usecase.NewJwtUseCase(userUseCase, cfg.SecretKey)
@@ -39,7 +40,8 @@ func Run(cfg *config.Config) {
 	categoryUseCase := usecase.NewCategoryUseCase(repo.NewCategoryRepo(pg))
 	companyUseCase := usecase.NewCompanyUseCase(repo.NewCompanyRepo(pg))
 	handler := gin.New()
-	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg), companyUseCase)
+	achievementUseCase := usecase.NewAchievementUseCase(repo.NewAchievementRepo(pg))
+	profileUseCase := usecase.NewProfileUseCase(repo.NewProfileRepo(pg), companyUseCase, achievementUseCase)
 
 	handler.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
