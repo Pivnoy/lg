@@ -52,6 +52,23 @@ type projectResponseDTO struct {
 	IsVisible        string    `json:"is_visible"`
 }
 
+// geeettt dtttooo forrr project
+
+type slotResponseDTO struct {
+	CategoryName string `json:"category"`
+}
+
+type projectResponseDTOGet struct {
+	UUID             uuid.UUID             `json:"uuid"`
+	Name             string                `json:"name"`
+	Description      string                `json:"description"`
+	ProjectLink      string                `json:"projectLink"`
+	PresentationLink string                `json:"presentationLink"`
+	Creator          profileResponseDTOGet `json:"creator"`
+	Date             string                `json:"date"`
+	Slots            []slotResponseDTO     `json:"slots"`
+}
+
 func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract, m usecase.MessageContract, ch usecase.ChatContract) {
 	pr := &projectRoutes{p: p, j: j, m: m, ch: ch}
 
