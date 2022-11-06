@@ -43,3 +43,23 @@ func (c *CityRepo) GetCitiesByCountryUUID(ctx context.Context, countryKey uuid.U
 	}
 	return citiesList, nil
 }
+
+func (c *CityRepo) GetCityNameByUUID(ctx context.Context, cityKey uuid.UUID) (string, error) {
+	query := `SELECT name FROM city WHERE uuid=$1`
+
+	rows, err := c.Pool.Query(ctx, query, cityKey)
+	if err != nil {
+		return "", fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var name string
+	for rows.Next() {
+		err = rows.Scan(
+			&name,
+		)
+		if err != nil {
+			return "", fmt.Errorf("error in parsing category: %w", err)
+		}
+	}
+	return name, nil
+}

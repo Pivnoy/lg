@@ -163,10 +163,12 @@ type (
 
 	CityRp interface {
 		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+		GetCityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CityContract interface {
 		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+		GetCityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CategoryRp interface {
