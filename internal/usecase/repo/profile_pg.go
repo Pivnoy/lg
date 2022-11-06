@@ -28,7 +28,7 @@ func check(val uuid.UUID) any {
 }
 
 func (p *ProfileRepo) CheckFkProfile(ctx context.Context, profile entity.Profile) (string, error) {
-	query := `SELECT check_fk_profile($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+	query := `SELECT check_fk_profile($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 	rows, err := p.Pool.Query(
 		ctx,
@@ -40,10 +40,8 @@ func (p *ProfileRepo) CheckFkProfile(ctx context.Context, profile entity.Profile
 		profile.UniversityUUID,
 		profile.EduspecialityUUID,
 		profile.EmploymentUUID,
-		profile.AchievementUUID,
 		profile.TeamUUID,
-		profile.SpecializationUUID,
-		profile.CompanyUUID)
+		profile.SpecializationUUID)
 	if err != nil {
 		return "", fmt.Errorf("cannot execute check fk profile function, query: %v", err)
 	}

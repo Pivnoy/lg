@@ -5,10 +5,8 @@ create or replace function check_fk_profile(user_uuid_check uuid,
                                             university_uuid_check uuid,
                                             eduspeciality_uuid_check uuid,
                                             employment_uuid_check uuid,
-                                            achievement_uuid_check uuid,
                                             team_uuid_check uuid,
-                                            specialization_uuid_check uuid,
-                                            company_uuid_check uuid)
+                                            specialization_uuid_check uuid)
 
     returns text as $$
 begin
@@ -39,10 +37,6 @@ begin
     if not exists(select * from employment where uuid = employment_uuid_check)
     then
         return 'employment uuid';
-    end if;
-    if not exists(select * from achievement where uuid = achievement_uuid_check)
-    then
-        return 'achievement uuid';
     end if;
     if team_uuid_check != uuid_nil() and not exists(select * from team where uuid = team_uuid_check)
     then
