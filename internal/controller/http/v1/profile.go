@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"lg/internal/usecase"
 	"net/http"
 )
@@ -34,6 +35,9 @@ type profileRequestDTO struct {
 	CompanyName        string `json:"companyName"`
 }
 
+//type profileResponseDTO struct {
+//}
+
 type profileResponseDTO struct {
 	UUID       string `json:"uuid"`
 	Firstname  string `json:"firstname"`
@@ -44,6 +48,7 @@ type profileResponseDTO struct {
 func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract, j usecase.JwtContract) {
 	pr := &profileRoutes{ps: ps, j: j}
 	handler.POST("/profile", pr.createProfile)
+	handler.GET("/profile/:uuid", pr.getProdileByUser)
 }
 
 // @Summary CreateProfile
@@ -82,4 +87,29 @@ func (pr *profileRoutes) createProfile(c *gin.Context) {
 	}
 	response := profileToDTO(newProject)
 	c.JSON(http.StatusCreated, response)
+}
+
+// TODO доделать профиль, как пахан фиксанет базу
+func (pr *profileRoutes) getProdileByUser(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	userKey, err := uuid.Parse(c.Param("uuid"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	_, err = pr.ps.GetProfileByUser(c.Request.Context(), userKey)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 }
