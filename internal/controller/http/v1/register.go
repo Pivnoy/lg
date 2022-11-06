@@ -8,10 +8,11 @@ import (
 
 type registerContract struct {
 	s usecase.RegisterContract
+	j usecase.JwtContract
 }
 
-func newRegisterRoutes(handler *gin.RouterGroup, si usecase.RegisterContract) {
-	s := registerContract{s: si}
+func newRegisterRoutes(handler *gin.RouterGroup, si usecase.RegisterContract, j usecase.JwtContract) {
+	s := registerContract{s: si, j: j}
 
 	handler.POST("/register", s.register)
 }
@@ -44,5 +45,11 @@ func (s *registerContract) register(c *gin.Context) {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
+	token, err := s.j.GenerateToken(ud.String())
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.SetCookie("access", token, 120*60, "/", "", false, true)
 	c.JSON(http.StatusOK, registerResponse{ud.String()})
 }
