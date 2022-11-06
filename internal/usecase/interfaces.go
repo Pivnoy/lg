@@ -166,4 +166,12 @@ type (
 		GetCompanyByInn(context.Context, string) (entity.Company, error)
 		CreateCompany(context.Context, entity.Company) (uuid.UUID, error)
 	}
+
+	AchievementRp interface {
+		CreateAchievement(context.Context, string) (uuid.UUID, error)
+	}
+
+	AchievementContract interface {
+		CreateAchievement(context.Context, string) (uuid.UUID, error)
+	}
 )
