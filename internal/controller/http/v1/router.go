@@ -29,7 +29,7 @@ func NewRouter(handler *gin.Engine,
 
 	handler.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	{
-		newProjectRouter(h, p, j, mg)
+		newProjectRouter(h, p, j, mg, c)
 		newRegisterRoutes(h, s)
 		newLoginRoutes(h, j, u, pr)
 		newLogoutRouter(h)

@@ -66,6 +66,13 @@ func (c *ChatUseCase) DeleteUserFromChat(ctx context.Context, chat uuid.UUID, us
 	return c.repo.DeleteUserFromChat(ctx, chat, user)
 }
 
+func (c *ChatUseCase) AddUserIntoChat(ctx context.Context, user uuid.UUID, chat uuid.UUID) error {
+	return c.repo.AddUserIntoChat(ctx, user, chat)
+}
 func (c *ChatUseCase) GetCreatorByChat(ctx context.Context, chat uuid.UUID) (uuid.UUID, error) {
 	return c.repo.GetCreatorByChat(ctx, chat)
+}
+
+func (c *ChatUseCase) GetChatByCreator(ctx context.Context, creator uuid.UUID) (uuid.UUID, error) {
+	return c.repo.GetChatByCreator(ctx, creator)
 }

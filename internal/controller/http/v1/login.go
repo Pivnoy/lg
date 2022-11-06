@@ -27,7 +27,7 @@ type loginRequest struct {
 
 type loginResponse struct {
 	UUID       string `json:"uuid"`
-	FirstName  string `json:"firstName"`
+	Firstname  string `json:"firstname"`
 	LastName   string `json:"lastName"`
 	Patronymic string `json:"patronymic"`
 }
@@ -65,7 +65,7 @@ func (l *loginRoutes) login(c *gin.Context) {
 	c.SetCookie("access", token, 120*60, "/", "", false, true)
 	c.JSON(http.StatusOK, loginResponse{
 		UUID:       prf.UserUUID.String(),
-		FirstName:  prf.Firstname,
+		Firstname:  prf.Firstname,
 		LastName:   prf.Lastname,
 		Patronymic: prf.Patronymic.String,
 	})

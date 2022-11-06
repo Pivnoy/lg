@@ -121,3 +121,21 @@ func (c *ChatRepo) GetCreatorByChat(ctx context.Context, chat uuid.UUID) (uuid.U
 	}
 	return ud, nil
 }
+
+func (c *ChatRepo) GetChatByCreator(ctx context.Context, creator uuid.UUID) (uuid.UUID, error) {
+	query := `select chat.uuid from chat inner join project p on chat.project_uuid = p.uuid where p.creator_uuid = $1`
+
+	rows, err := c.Pool.Query(ctx, query, creator)
+	if err != nil {
+		return uuid.Nil, fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	var ud uuid.UUID
+	for rows.Next() {
+		err = rows.Scan(&ud)
+		if err != nil {
+			return uuid.Nil, fmt.Errorf("cannot parse uuid")
+		}
+	}
+	return ud, nil
+}

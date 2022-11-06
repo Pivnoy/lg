@@ -11,9 +11,10 @@ import (
 )
 
 type projectRoutes struct {
-	p usecase.ProjectContract
-	j usecase.JwtContract
-	m usecase.MessageContract
+	p  usecase.ProjectContract
+	j  usecase.JwtContract
+	m  usecase.MessageContract
+	ch usecase.ChatContract
 }
 
 type projectListResponse struct {
@@ -35,8 +36,8 @@ type projectDTO struct {
 	IsVisible        string    `json:"is_visible"`
 }
 
-func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract, m usecase.MessageContract) {
-	pr := &projectRoutes{p: p, j: j, m: m}
+func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract, m usecase.MessageContract, ch usecase.ChatContract) {
+	pr := &projectRoutes{p: p, j: j, m: m, ch: ch}
 
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
@@ -256,6 +257,18 @@ func (pr *projectRoutes) acceptOrRejectToProject(c *gin.Context) {
 	if err != nil {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
+	}
+	if accept.Decision == "accept" {
+		projectChatUUID, err := pr.ch.GetChatByCreator(c.Request.Context(), creatorUUID)
+		if err != nil {
+			errorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+		err = pr.ch.AddUserIntoChat(c.Request.Context(), authorUUID, projectChatUUID)
+		if err != nil {
+			errorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
 	}
 	c.JSON(http.StatusOK, nil)
 }
