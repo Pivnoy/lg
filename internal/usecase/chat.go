@@ -61,3 +61,11 @@ func (c *ChatUseCase) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]
 func (c *ChatUseCase) GetChatHistory(ctx context.Context, chat uuid.UUID) ([]entity.Message, error) {
 	return c.repo.GetChatHistory(ctx, chat)
 }
+
+func (c *ChatUseCase) DeleteUserFromChat(ctx context.Context, chat uuid.UUID, user uuid.UUID) error {
+	return c.repo.DeleteUserFromChat(ctx, chat, user)
+}
+
+func (c *ChatUseCase) GetCreatorByChat(ctx context.Context, chat uuid.UUID) (uuid.UUID, error) {
+	return c.repo.GetCreatorByChat(ctx, chat)
+}

@@ -68,6 +68,8 @@ type (
 		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
 		AddUserIntoChat(context.Context, uuid.UUID, uuid.UUID) error
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.Chat, error)
+		DeleteUserFromChat(context.Context, uuid.UUID, uuid.UUID) error
+		GetCreatorByChat(context.Context, uuid.UUID) (uuid.UUID, error)
 	}
 
 	MessageContract interface {
@@ -80,6 +82,8 @@ type (
 		CreateChat(context.Context, string, []uuid.UUID) (uuid.UUID, error)
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
 		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		DeleteUserFromChat(ctx context.Context, chat uuid.UUID, user uuid.UUID) error
+		GetCreatorByChat(context.Context, uuid.UUID) (uuid.UUID, error)
 	}
 
 	ProfileRp interface {

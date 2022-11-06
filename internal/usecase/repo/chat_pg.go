@@ -92,3 +92,32 @@ func (c *ChatRepo) GetAllChatsByUser(ctx context.Context, user uuid.UUID) ([]ent
 	}
 	return chats, nil
 }
+
+func (c *ChatRepo) DeleteUserFromChat(ctx context.Context, chat uuid.UUID, user uuid.UUID) error {
+	query := `DELETE FROM chat_member WHERE chat_uuid = $1 AND user_uuid = $2`
+
+	rows, err := c.Pool.Query(ctx, query, chat, user)
+	if err != nil {
+		return fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	return nil
+}
+
+func (c *ChatRepo) GetCreatorByChat(ctx context.Context, chat uuid.UUID) (uuid.UUID, error) {
+	query := `select p.creator_uuid from chat inner join project p on chat.project_uuid = p.uuid where chat.uuid = $1`
+
+	rows, err := c.Pool.Query(ctx, query, chat)
+	if err != nil {
+		return uuid.Nil, fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	var ud uuid.UUID
+	for rows.Next() {
+		err = rows.Scan(&ud)
+		if err != nil {
+			return uuid.Nil, fmt.Errorf("cannot parse uuid")
+		}
+	}
+	return ud, nil
+}
