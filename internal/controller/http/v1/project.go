@@ -3,13 +3,16 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"lg/internal/entity"
 	"lg/internal/usecase"
 	"net/http"
+	"time"
 )
 
 type projectRoutes struct {
 	p usecase.ProjectContract
 	j usecase.JwtContract
+	m usecase.MessageContract
 }
 
 type projectListResponse struct {
@@ -31,12 +34,14 @@ type projectDTO struct {
 	IsVisible        string    `json:"is_visible"`
 }
 
-func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract) {
-	pr := &projectRoutes{p: p, j: j}
+func newProjectRouter(handler *gin.RouterGroup, p usecase.ProjectContract, j usecase.JwtContract, m usecase.MessageContract) {
+	pr := &projectRoutes{p: p, j: j, m: m}
+
 	handler.GET("/project", pr.getAllProjects)
 	handler.GET("/project/:uuid", pr.getProjectByUUID)
 	handler.POST("/project", pr.createProject)
 	handler.DELETE("/project/:uuid", pr.deleteProjectByUUID)
+	handler.POST("/ebaloPsa", pr.acceptOrRejectToProject)
 }
 
 // @Summary GetAllProjects
@@ -164,4 +169,67 @@ func (pr *projectRoutes) deleteProjectByUUID(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusNoContent, nil)
+}
+
+type acceptOrRejectRequest struct {
+	AuthorUUID string `json:"authorUUID"`
+	ChatUUID   string `json:"chatUUID"`
+	Decision   string `json:"decision"`
+}
+
+func (pr *projectRoutes) acceptOrRejectToProject(c *gin.Context) {
+	access, err := c.Cookie("access")
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	tokenUUID, err := pr.j.CheckToken(access)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	creatorUUID, err := uuid.Parse(tokenUUID)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	var accept acceptOrRejectRequest
+	if err := c.ShouldBindJSON(&accept); err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	authorUUID, err := uuid.Parse(accept.AuthorUUID)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	chatUUID, err := uuid.Parse(accept.ChatUUID)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	err = pr.m.UpdateMessageStatus(c.Request.Context(), authorUUID, chatUUID)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	msg := entity.Message{
+		AuthorUUID:   creatorUUID,
+		Type:         "text",
+		CreationDate: time.Now(),
+		ChatUUID:     chatUUID,
+	}
+	if accept.Decision == "accept" {
+		msg.Content = "Жду в комнате, сосочка :))))"
+	} else if accept.Decision == "reject" {
+		msg.Content = "Бро, сори, санечка не снимает :((("
+	} else {
+		errorResponse(c, http.StatusInternalServerError, "cannot get decision from creator")
+	}
+	err = pr.m.StoreMessage(c.Request.Context(), msg)
+	if err != nil {
+		errorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, nil)
 }

@@ -60,6 +60,7 @@ type (
 	MessageRp interface {
 		StoreMessage(context.Context, entity.Message) error
 		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+		UpdateMessageStatus(context.Context, uuid.UUID, uuid.UUID) error
 	}
 
 	ChatRp interface {
@@ -67,17 +68,22 @@ type (
 		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
 		AddUserIntoChat(context.Context, uuid.UUID, uuid.UUID) error
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.Chat, error)
+		DeleteUserFromChat(context.Context, uuid.UUID, uuid.UUID) error
+		GetCreatorByChat(context.Context, uuid.UUID) (uuid.UUID, error)
 	}
 
 	MessageContract interface {
 		StoreMessage(context.Context, entity.Message) error
 		GetLastMessageByChat(context.Context, uuid.UUID) (entity.Message, error)
+		UpdateMessageStatus(ctx context.Context, user uuid.UUID, chat uuid.UUID) error
 	}
 
 	ChatContract interface {
 		CreateChat(context.Context, string, []uuid.UUID) (uuid.UUID, error)
 		GetAllChatsByUser(context.Context, uuid.UUID) ([]entity.ChatItem, error)
 		GetChatHistory(context.Context, uuid.UUID) ([]entity.Message, error)
+		DeleteUserFromChat(ctx context.Context, chat uuid.UUID, user uuid.UUID) error
+		GetCreatorByChat(context.Context, uuid.UUID) (uuid.UUID, error)
 	}
 
 	ProfileRp interface {

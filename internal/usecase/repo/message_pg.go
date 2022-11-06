@@ -52,3 +52,14 @@ func (m *MessageRepo) GetLastMessageByChat(ctx context.Context, chat uuid.UUID) 
 	}
 	return msg, nil
 }
+
+func (m *MessageRepo) UpdateMessageStatus(ctx context.Context, user uuid.UUID, chat uuid.UUID) error {
+	query := `UPDATE message SET msg_type = 'text' WHERE author_uuid = $1 and chat_uuid = $2`
+
+	rows, err := m.Pool.Query(ctx, query, user, chat)
+	if err != nil {
+		return fmt.Errorf("cannot execute query: %v", err)
+	}
+	defer rows.Close()
+	return nil
+}
