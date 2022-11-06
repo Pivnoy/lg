@@ -10,15 +10,13 @@ import (
 type ProjectUseCase struct {
 	repo ProjectRp
 	l    LineupContract
+	t    TeamContract
 }
 
 var _ ProjectContract = (*ProjectUseCase)(nil)
 
-func NewProjectUseCase(repo ProjectRp, l LineupContract) *ProjectUseCase {
-	return &ProjectUseCase{
-		repo: repo,
-		l:    l,
-	}
+func NewProjectUseCase(repo ProjectRp, l LineupContract, t TeamContract) *ProjectUseCase {
+	return &ProjectUseCase{repo: repo, l: l, t: t}
 }
 
 func (p *ProjectUseCase) GetAllProjects(ctx context.Context, page, limit uint) ([]entity.Project, error) {
@@ -33,8 +31,34 @@ func (p *ProjectUseCase) GetProjectByUUID(ctx context.Context, projectKey uuid.U
 	return project, err
 }
 
-func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project) (uuid.UUID, error) {
-	return p.repo.CreateProject(ctx, project)
+func (p *ProjectUseCase) CreateProject(ctx context.Context, project entity.Project, roleKeys []uuid.UUID) (uuid.UUID, error) {
+	// создание проекта
+	projectKey, err := p.repo.CreateProject(ctx, project)
+	if err != nil {
+		return projectKey, err
+	}
+	// создание команды
+	teamKey, err := p.t.CreateTeam(ctx, entity.Team{
+		UUID:  projectKey,
+		Name:  project.Name,
+		Value: project.Name,
+	})
+	if err != nil {
+		return uuid.Nil, err
+	}
+	// создание лайнапов
+	for _, v := range roleKeys {
+		err = p.l.CreateLineup(ctx, entity.Lineup{
+			TeamUUID:    teamKey,
+			RoleUUID:    v,
+			ProfileUUID: uuid.Nil,
+			ProjectUUID: projectKey,
+		})
+		if err != nil {
+			return uuid.Nil, err
+		}
+	}
+	return projectKey, nil
 }
 
 func (p *ProjectUseCase) DeleteProjectByUUID(ctx context.Context, projectKey uuid.UUID) error {

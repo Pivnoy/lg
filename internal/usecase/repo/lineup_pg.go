@@ -19,6 +19,16 @@ func NewLineupRepo(pg *postgres.Postgres) *LineupRepo {
 
 var _ usecase.LineupRp = (*LineupRepo)(nil)
 
+func (l *LineupRepo) CreateLineup(ctx context.Context, lineup entity.Lineup) error {
+	query := `INSERT INTO lineup (team_uuid, role_uuid, profile_uuid, project_uuid) VALUES ($1, $2, $3, $4)`
+	rows, err := l.Pool.Query(ctx, query, lineup.TeamUUID, lineup.RoleUUID, nil, lineup.ProjectUUID)
+	if err != nil {
+		return fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	return nil
+}
+
 func (l *LineupRepo) GetLineupByProjectUUID(ctx context.Context, projectKey uuid.UUID) (entity.Lineup, error) {
 	query := `SELECT * FROM lineup WHERE project_uuid = $1`
 
