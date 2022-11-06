@@ -21,7 +21,7 @@ type chatHistoryDTO struct {
 
 type userDTO struct {
 	UUID       string `json:"UUID"`
-	FirstName  string `json:"firstName"`
+	Firstname  string `json:"firstname"`
 	LastName   string `json:"lastName"`
 	Patronymic string `json:"patronymic"`
 }

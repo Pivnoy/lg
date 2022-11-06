@@ -230,7 +230,7 @@ func profileToDTO(profile entity.Profile) profileResponseDTO {
 func userToDTO(profile entity.Profile) userDTO {
 	return userDTO{
 		UUID:       profile.UserUUID.String(),
-		FirstName:  profile.Firstname,
+		Firstname:  profile.Firstname,
 		LastName:   profile.Lastname,
 		Patronymic: profile.Patronymic.String,
 	}
