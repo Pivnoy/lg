@@ -94,6 +94,10 @@ func (m *messageRoutes) rollUp(c *gin.Context) {
 		errorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+	if userUUID == creatorUUID {
+		errorResponse(c, http.StatusInternalServerError, "creator cannot be rolled up")
+		return
+	}
 	chatUUID, err := m.ch.CreateChat(c.Request.Context(), "", []uuid.UUID{userUUID, creatorUUID})
 	err = m.mg.StoreMessage(c.Request.Context(), entity.Message{
 		AuthorUUID:   userUUID,
