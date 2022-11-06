@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 )
 
@@ -17,4 +18,8 @@ func NewEduspecialityUseCase(repo EduspecialityRp) *EduspecialityUseCase {
 
 func (c *EduspecialityUseCase) GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error) {
 	return c.repo.GetAllEduspecialities(ctx)
+}
+
+func (c *EduspecialityUseCase) GetEduspecialityNameByUUID(ctx context.Context, eduspecialityKey uuid.UUID) (string, error) {
+	return c.repo.GetEduspecialityNameByUUID(ctx, eduspecialityKey)
 }

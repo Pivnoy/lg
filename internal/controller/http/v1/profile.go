@@ -35,14 +35,36 @@ type profileRequestDTO struct {
 	// skills: - массив строк
 }
 
-//type profileResponseDTO struct {
-//}
-
+// на создание проекта ответ
 type profileResponseDTO struct {
 	UUID       string `json:"uuid"`
 	Firstname  string `json:"firstname"`
 	Lastname   string `json:"lastname"`
 	Patronymic string `json:"patronymic"`
+}
+
+// дтошки для гетов профилей
+type profileResponseDTOGet struct {
+	UUID            uuid.UUID
+	Email           string
+	Phone           string `json:"phone"`
+	Firstname       string
+	Lastname        string
+	Patronymic      string               // -наебка, это ссылка на фото
+	CountryName     string               `json:"country"`
+	CityName        string               `json:"city"`
+	CitizenshipName string               `json:"citizenship"`
+	Role            string               `json:"role"`
+	Specialization  string               `json:"specialization"`
+	Experience      int64                `json:"experience"`
+	Gender          string               `json:"gender"`
+	Education       educationResponseDTO `json:"education"`
+}
+
+type educationResponseDTO struct {
+	University     string `json:"university"`
+	Eduspeciality  string `json:"eduspeciality"`
+	GraduationYear int64  `json:"graduationYear"`
 }
 
 func newProfileRoutes(handler *gin.RouterGroup, ps usecase.ProfileContract, j usecase.JwtContract) {
@@ -90,7 +112,6 @@ func (pr *profileRoutes) createProfile(c *gin.Context) {
 	c.JSON(http.StatusCreated, response)
 }
 
-// TODO доделать профиль, как пахан фиксанет базу
 func (pr *profileRoutes) getProfileByUser(c *gin.Context) {
 	access, err := c.Cookie("access")
 	if err != nil {

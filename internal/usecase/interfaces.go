@@ -111,34 +111,42 @@ type (
 
 	CountryRp interface {
 		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+		GetCountryNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CountryContract interface {
 		GetAllCountries(ctx context.Context) ([]entity.Country, error)
+		GetCountryNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CitizenshipRp interface {
 		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+		GetCitizenshipNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CitizenshipContract interface {
 		GetAllCitizenships(ctx context.Context) ([]entity.Citizenship, error)
+		GetCitizenshipNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	UniversityRp interface {
 		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+		GetNameUniversityByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	UniversityContract interface {
 		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+		GetNameUniversityByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EduspecialityRp interface {
 		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+		GetEduspecialityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EduspecialityContract interface {
 		GetAllEduspecialities(ctx context.Context) ([]entity.Eduspeciality, error)
+		GetEduspecialityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EmploymentRp interface {
@@ -161,10 +169,12 @@ type (
 
 	CityRp interface {
 		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+		GetCityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CityContract interface {
 		GetCitiesByCountryUUID(context.Context, uuid.UUID) ([]entity.City, error)
+		GetCityNameByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	CategoryRp interface {

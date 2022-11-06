@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"lg/internal/entity"
 	"lg/internal/usecase"
 	"lg/pkg/postgres"
@@ -41,4 +42,24 @@ func (c *CitizenshipRepo) GetAllCitizenships(ctx context.Context) ([]entity.Citi
 		citizenshipList = append(citizenshipList, citizenship)
 	}
 	return citizenshipList, nil
+}
+
+func (c *CitizenshipRepo) GetCitizenshipNameByUUID(ctx context.Context, citizenshipKey uuid.UUID) (string, error) {
+	query := `SELECT name FROM citizenship WHERE uuid=$1`
+
+	rows, err := c.Pool.Query(ctx, query, citizenshipKey)
+	if err != nil {
+		return "", fmt.Errorf("cannot execute query: %w", err)
+	}
+	defer rows.Close()
+	var name string
+	for rows.Next() {
+		err = rows.Scan(
+			&name,
+		)
+		if err != nil {
+			return "", fmt.Errorf("error in parsing category: %w", err)
+		}
+	}
+	return name, nil
 }
