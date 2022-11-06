@@ -131,10 +131,12 @@ type (
 
 	UniversityRp interface {
 		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+		GetNameUniversityByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	UniversityContract interface {
 		GetAllUniversities(ctx context.Context) ([]entity.University, error)
+		GetNameUniversityByUUID(context.Context, uuid.UUID) (string, error)
 	}
 
 	EduspecialityRp interface {
