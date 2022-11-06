@@ -42,7 +42,7 @@ type (
 	ProjectContract interface {
 		GetAllProjects(context.Context, uint, uint) ([]entity.Project, error)
 		GetProjectByUUID(context.Context, uuid.UUID) (entity.Project, error)
-		CreateProject(context.Context, entity.Project) (uuid.UUID, error)
+		CreateProject(context.Context, entity.Project, []uuid.UUID) (uuid.UUID, error)
 		DeleteProjectByUUID(context.Context, uuid.UUID) error
 		CheckProjectExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
 	}
@@ -50,11 +50,13 @@ type (
 	LineupRp interface {
 		GetLineupByProjectUUID(context.Context, uuid.UUID) (entity.Lineup, error)
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
+		CreateLineup(context.Context, entity.Lineup) error
 	}
 
 	LineupContract interface {
 		DeleteLineupByProjectUUID(context.Context, uuid.UUID) error
 		CheckLineupExistenceByProjectUUID(context.Context, uuid.UUID) (bool, error)
+		CreateLineup(context.Context, entity.Lineup) error
 	}
 
 	MessageRp interface {
@@ -97,7 +99,7 @@ type (
 
 	ProfileContract interface {
 		GetProfileByUser(context.Context, uuid.UUID) (entity.Profile, error)
-		CreateProfile(context.Context, entity.Profile, string, string) (entity.Profile, error)
+		CreateProfile(context.Context, entity.Profile, string, string, string) (entity.Profile, error)
 		CheckFkProfile(ctx context.Context, profile entity.Profile) (bool, string, error)
 	}
 
@@ -182,5 +184,13 @@ type (
 
 	AchievementContract interface {
 		CreateAchievement(context.Context, string) (uuid.UUID, error)
+	}
+
+	TeamRp interface {
+		CreateTeam(context.Context, entity.Team) (uuid.UUID, error)
+	}
+
+	TeamContract interface {
+		CreateTeam(context.Context, entity.Team) (uuid.UUID, error)
 	}
 )

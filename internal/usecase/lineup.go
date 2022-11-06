@@ -17,6 +17,10 @@ func NewLineupUseCase(r LineupRp) *LineupUseCase {
 
 var _ LineupContract = (*LineupUseCase)(nil)
 
+func (l *LineupUseCase) CreateLineup(ctx context.Context, lineup entity.Lineup) error {
+	return l.repo.CreateLineup(ctx, lineup)
+}
+
 func (l *LineupUseCase) DeleteLineupByProjectUUID(ctx context.Context, projectKey uuid.UUID) error {
 	exist, err := l.CheckLineupExistenceByProjectUUID(ctx, projectKey)
 	switch {
