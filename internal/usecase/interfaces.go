@@ -183,4 +183,12 @@ type (
 	AchievementContract interface {
 		CreateAchievement(context.Context, string) (uuid.UUID, error)
 	}
+
+	AnalyticsRp interface {
+		GetUserUUIDListOfVacsProject(context.Context, uuid.UUID) ([]uuid.UUID, error)
+	}
+
+	AnalyticsContract interface {
+		Get(context.Context, uuid.UUID) ([]entity.Profile, error)
+	}
 )
